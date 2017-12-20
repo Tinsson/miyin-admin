@@ -34,7 +34,7 @@ axios.interceptors.response.use(response => {
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 // axios.defaults.headers.common['token'] = 'Bearer ' + res.token
-// axios.defaults.headers.common['token'] = 'SJK3zSvzciwY6MF3jjCIXTduwg3+vcQqhLQrX6L1KdtAPz8=aCRRGiE1oboQYgRSI+zBsEce9XLWbk4qRGjc6949'
+axios.defaults.headers.common['token'] = 'SJK3zSvzciwY6MF3jjCIXTduwg3+vcQqhLQrX6L1KdtAPz8=aCRRGiE1oboQYgRSI+zBsEce9XLWbk4qRGjc6949'
 
 axios.defaults.timeout = 60000
 
