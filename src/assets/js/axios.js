@@ -40,6 +40,6 @@ axios.defaults.timeout = 60000
 
 axios.defaults.baseURL = process.env.NODE_ENV === 'production'
   ? 'http://apitest.jkxxkj.com/backend'
-  : 'http://apitest.jkxxkj.com/backend'
+  : '/'
 
 export default axios

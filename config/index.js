@@ -10,7 +10,15 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+
+    proxyTable: {
+      '/': {
+               target: process.env.NODE_ENV === 'production'
+                 ? 'http://apitest.jkxxkj.com/backend'
+                 : 'http://apitest.jkxxkj.com/backend',
+               changeOrigin: true,
+           }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
