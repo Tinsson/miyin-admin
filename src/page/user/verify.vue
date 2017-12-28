@@ -1,0 +1,261 @@
+<template>
+  <div id="verify">
+    <title-bar title="真人审核列表" @refresh="refresh"></title-bar>
+    <search-group :searchList="searchList" @search="search"></search-group>
+    <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
+      <div slot="btn">
+        <msg-btn :select="select_arr" :total="pageprops.total"></msg-btn>
+      </div>
+      <Table :columns="columns" :data="myData" border :loading="tableLoading" @on-selection-change="select"></Table>
+    </table-container>
+
+    <Modal v-model="verify_show" title="审核" width="600">
+      <div class="verify-container">
+        <div class="top">
+          <div class="photo background-contain">
+
+          </div>
+          <div class="detail">
+            <div class="line">
+              <div class="label">
+                昵称:
+              </div>
+              <div class="text">
+                lmmmmmm
+              </div>
+            </div>
+            <div class="line">
+              <div class="label">
+                注册时间:
+              </div>
+              <div class="text">
+                2017-11-23 12:30:30
+              </div>
+            </div>
+            <div class="line">
+              <div class="label">
+                绑定手机号:
+              </div>
+              <div class="text">
+                15068610274
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom">
+          <div class="title">
+            审核照片:
+          </div>
+          <div class="pic">
+
+          </div>
+        </div>
+      </div>
+      <div class="verify-footer" slot="footer">
+        <div>
+          <Button size="large" type="warning" long>待定</Button>
+        </div>
+        <div>
+          <Button size="large" type="error" long>不通过</Button>
+        </div>
+        <div>
+          <Button size="large" type="success" long>通过</Button>
+        </div>
+      </div>
+    </Modal>
+  </div>
+</template>
+<script>
+import msgBtn from './components/user-msg-btn.vue'
+export default {
+  name: "verify",
+  data() {
+    return {
+      verify_show: false,
+      columns: [
+        {
+        type: 'selection',
+        width: 60,
+        align: 'center'
+        },{
+          title: '用户ID',
+          key: 'uuid',
+          align: 'center'
+        },{
+          title: '用户账号',
+          key: 'account',
+          align: 'center'
+        }, {
+          title: '用户昵称',
+          key: 'user_name',
+          align: 'center'
+        }, {
+          title: '注册时间',
+          key: 'register_time',
+          align: 'center'
+        }, {
+          title: '绑定手机号',
+          key: 'mobile',
+          align: 'center'
+        }, {
+          title: '授权微信',
+          key: 'wx',
+          align: 'center'
+        }, {
+          title: '认证图',
+          key: 'pic',
+          align: 'center'
+        }, {
+          title: '审核状态',
+          key: 'status',
+          align: 'center'
+        },{
+          title: '操作',
+          key: 'operation',
+          align: 'center',
+          render: (h, params) => {
+            return h('div', [
+              h('Button', {
+                props: {
+                  type: 'text'
+                },
+                on: {
+                  click: () => {
+                    this.verify_show = true
+                  }
+                }
+              }, '审核'),
+              h('Button', {
+                props: {
+                  type: 'text'
+                }
+              }, '删除')
+            ])
+          }
+        }
+      ],
+      myData: [{uuid:1}],
+      tableLoading: false,
+      searchList: [
+        {
+          label: '用户账号',
+          type: 'input',
+          placeholder: '用户ID/账号',
+          model: 'uuid'
+        },{
+          label: '用户昵称',
+          type: 'input',
+          placeholder: '用户昵称',
+          model: 'nickname'
+        },{
+          label: '注册时间',
+          type: 'daterange',
+          placeholder: '请选择时间',
+          model: 'register_time',
+          start_end: ['start_time','end_time']
+        },{
+          label: '审核状态',
+          type: 'select',
+          placeholder: '选择审核状态',
+          model: 'status',
+          options:[{
+            label: '通过',
+            value: '1'
+          },{
+            label: '未通过',
+            value: '0'
+          }]
+        }
+      ],
+      select_arr: [], //选择的用户列表
+      pageprops: { //分页配置
+        showSizer:true,
+        total:0,
+      },
+      fy: { //当前分页属性
+        page: 1,
+        size: 10
+      },
+      searchForm: {} //搜索框属性
+    }
+  },
+  computed: {
+    searchData () {
+      return Object.assign(this.fy,this.searchForm);
+    }
+  },
+  methods: {
+    refresh() {
+      console.log('刷新')
+    },
+    select(selection) {
+      this.select_arr = selection
+    },
+    search(data) {
+      this.searchForm = data;
+      this.getData();
+    },
+    pageChange(page) {
+      this.fy.page = page;
+      this.getData();
+    },
+    pageSizeChange(size) {
+      this.fy.size = size;
+      this.getData();
+    },
+    getData() {
+      console.log(this.searchData)
+    },
+  },
+  components: {
+    msgBtn
+  }
+}
+</script>
+<style lang="scss" scoped>
+.verify-container{
+  .top{
+    padding-bottom:10px;
+    border-bottom:1px solid #ddd;
+    display:flex;
+    align-items: center;
+    padding-left:20px;
+    .photo{
+      width:80px;
+      height:80px;
+      background-color:#000;
+      margin-right:20px;
+    }
+    .detail{
+      font-size:14px;
+      line-height:25px;
+      .line{
+        display:flex;
+        .label{
+          margin-right:15px;
+        }
+      }
+    }
+  }
+  .bottom{
+    .title{
+      font-size:14px;
+      padding-left:20px;
+      margin:10px 0;
+    }
+    .pic{
+      width:400px;
+      height:400px;
+      margin:0 auto;
+      background-color:#000;
+    }
+  }
+}
+.verify-footer{
+  display:flex;
+  justify-content: space-around;
+  >div{
+    width:120px;
+  }
+}
+</style>

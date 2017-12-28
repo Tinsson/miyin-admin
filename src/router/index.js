@@ -11,6 +11,19 @@ import defaultPage from '@/page/default-page' //默认模块
 
 // 用户
 import user from '@/page/user/user' //用户管理
+import anchor from '@/page/user/anchor' //女主播列表
+import verify from '@/page/user/verify' //真人审核列表
+
+//礼物管理
+import gifts from '@/page/gift/gifts' //礼物管理
+
+//资金管理
+import cashApply from '@/page/money/cash-apply' //提现申请
+import cashList from '@/page/money/cash-list'  //提现列表
+import alipay from '@/page/money/alipay' //支付宝充值列表
+
+//配置管理
+import taskNewcomer from '@/page/config/task-newcomer' //新手任务配置
 
 // 内容管理
 import articleClass from '@/page/content/articleClass' //文章分类管理
@@ -42,13 +55,41 @@ const router = new Router({
           name: 'defaultPage',
           component: defaultPage
         }, {
-          path: '/User/users',
+          path: '/user/users',
           name: 'user',
           component: user
+        },{
+          path: '/user/anchor',
+          name: 'anchor',
+          component: anchor
+        },{
+          path: '/user/verify',
+          name: 'verify',
+          component: verify
         }, {
-          path: '/Content/articleClass',
+          path: '/content/article-class',
           name: 'articleClass',
           component: articleClass
+        }, {
+          path: '/gift/gifts',
+          name: 'gifts',
+          component: gifts
+        }, {
+          path: '/money/cash-apply',
+          name: 'cashApply',
+          component: cashApply
+        }, {
+          path: '/money/cash-list',
+          name: 'cashList',
+          component: cashList
+        }, {
+          path: '/money/alipay',
+          name: 'alipay',
+          component: alipay
+        }, {
+          path: '/config/task-newcomer',
+          name: 'taskNewcomer',
+          component: taskNewcomer
         }
       ]
     }

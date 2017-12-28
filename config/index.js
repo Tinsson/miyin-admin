@@ -13,9 +13,8 @@ module.exports = {
 
     proxyTable: {
       '/': {
-               target: process.env.NODE_ENV === 'production'
-                 ? 'http://apitest.jkxxkj.com/backend'
-                 : 'http://apitest.jkxxkj.com/backend',
+               target: 'http://apitest.jkxxkj.com/backend',
+               // target: 'http://localhost:8081',
                changeOrigin: true,
            }
     },

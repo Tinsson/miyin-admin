@@ -2,7 +2,7 @@
 <div id="my-menu">
   <Menu theme="dark" @on-select="goRoute" accordion :active-name="cur_path" :open-names="cur_open">
     <div class="layout-logo-left">
-      <img class="logo" src="../assets/images/logo.png" alt=""> 蒲公英钱包
+      <img class="logo" src="../assets/images/logo.png" alt=""> 秘音后台管理
     </div>
     <div class="user-panel">
       <div class="pull-left">
@@ -27,20 +27,65 @@ export default {
     arr: [{
       id: '1',
       name: '用户',
-      path: '/User',
+      path: '/user',
       children: [{
         id: '2',
         name: '用户管理',
         path: '/users'
+      },{
+        id:'5',
+        name: '女主播列表',
+        path: '/anchor'
+      },{
+        id: '6',
+        name: '真人审核列表',
+        path: '/verify'
       }]
-    }, {
+    },{
+      id: '7',
+      name: '礼物管理',
+      path: '/gift',
+      children: [{
+        id: '8',
+        name: '礼物管理',
+        path: '/gifts'
+      }]
+    },{
+      id: '9',
+      name: '资金管理',
+      path: '/money',
+      children: [{
+        id: '10',
+        name: '提现申请',
+        path: '/cash-apply'
+      },{
+        id: '11',
+        name: '提现列表',
+        path: '/cash-list'
+      },{
+        id: '12',
+        name: '支付宝充值列表',
+        path: '/alipay'
+      }]
+    },{
+      id:'13',
+      name: '配置管理',
+      path: '/config',
+      children: [
+        {
+          id: '14',
+          name: '新手任务',
+          path: '/task-newcomer'
+        }
+      ]
+    },{
       id: '3',
       name: '内容管理',
-      path: '/Content',
+      path: '/content',
       children: [{
         id: '4',
         name: '文章分类管理',
-        path: '/articleClass'
+        path: '/article-class'
       }]
     }]
   }),
@@ -62,8 +107,11 @@ export default {
 <style lang="scss" scoped>
 #my-menu {
     background-color: #373e4f;
-    float: left;
-    min-height: 100vh;
+    position:fixed;
+    top:0;
+    left:0;
+    height: 100vh;
+    overflow: auto;
 }
 
 .layout-logo-left {

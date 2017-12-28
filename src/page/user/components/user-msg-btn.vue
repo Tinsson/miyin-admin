@@ -4,12 +4,13 @@
     <Button type="ghost" @click="duanxin_modal=true">群发短信</Button>
     <Button type="success" @click="zn_modal=true">群发站内信</Button>
     <Button type="error" @click="app_modal=true">APP推送</Button>
+    <Button type="warning" @click="money_modal=true">赠送秘币</Button>
     <Button type="info">导出数据</Button>
     <Modal v-model="duanxin_modal" title="群发短信">
       <div class="duanxin-container">
         <Form ref="duanxin_form" :model="duanxin_form" :rules="duanxin_rule" :label-width="80">
           <FormItem label="发送对象:">
-            共<span style="color:red">20</span>个用户
+            共<span style="color:red">{{duanxin_form.send_type=='勾选的用户'?select.length:total}}</span>个用户
           </FormItem>
           <FormItem label="发送类型:">
             <RadioGroup v-model="duanxin_form.send_type">
@@ -44,7 +45,7 @@
       <div class="duanxin-container">
         <Form ref="zn_form" :model="zn_form" :rules="zn_rule" :label-width="80">
           <FormItem label="发送对象:">
-            共<span style="color:red">20</span>个用户
+            共<span style="color:red">{{zn_form.send_type=='勾选的用户'?select.length:total}}</span>个用户
           </FormItem>
           <FormItem label="发送类型:">
             <RadioGroup v-model="zn_form.send_type">
@@ -76,7 +77,7 @@
       <div class="app-container">
         <Form ref="app_form" :model="app_form" :rules="app_rule" :label-width="80">
           <FormItem label="发送对象:">
-            共<span style="color:red">20</span>个用户
+            共<span style="color:red">{{app_form.send_type=='勾选的用户'?select.length:total}}</span>个用户
           </FormItem>
           <FormItem label="发送类型:">
             <RadioGroup v-model="app_form.send_type">
@@ -113,12 +114,57 @@
         <Button type="primary" @click="zn_submit" :loading="zn_modal_loading">确定</Button>
       </div>
     </Modal>
+
+    <Modal v-model="money_modal" title="赠送秘币">
+      <Form ref="money_form" :model="money_form" :rules="money_rule" :label-width="80">
+        <FormItem label="发送对象:">
+          共<span style="color:red">{{money_form.send_type=='勾选的用户'?select.length:total}}</span>个用户
+        </FormItem>
+        <FormItem label="发送类型:">
+          <RadioGroup v-model="money_form.send_type">
+            <Radio label="勾选的用户"></Radio>
+            <Radio label="全部用户"></Radio>
+          </RadioGroup>
+        </FormItem>
+        <FormItem label="秘币数量:">
+          <Input v-model="app_form.url"></Input>
+        </FormItem>
+      </Form>
+      <div slot="footer">
+        <Button>取消</Button>
+        <Button type="primary" @click="money_submit" :loading="money_modal_loading">确定</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 <script>
 export default {
   name: "userMsgBtn",
+  props: {
+    select: {
+      type: Array
+    },
+    total: {
+      type: [String,Number]
+    }
+  },
   data: () => ({
+    //赠送秘币
+    money_modal: false,
+    money_form: {
+      send_type: '勾选的用户',
+      num: ''
+    },
+    money_modal_loading:false,
+    money_rule: {
+      money: [{
+        required: true,
+        message: '请输入要赠送的秘币数量',
+        trigger: 'blur'
+      }],
+    },
+
+
     // 短信群发
     duanxin_modal: false,
     duanxin_form: {
@@ -201,6 +247,7 @@ export default {
     zn_submit() {
 
     },
+    money_submit() {}
   }
 }
 </script>

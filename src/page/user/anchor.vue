@@ -1,9 +1,10 @@
 <template>
-<div id="user">
+<div id="anchor">
   <title-bar title="用户管理" @refresh="refresh">
 
   </title-bar>
   <search-group :searchList="searchList" @search="search">
+    <Button type="warning" icon="pinpoint" @click="senior_search=true">高级检索</Button>
   </search-group>
   <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
     <div slot="btn">
@@ -13,7 +14,7 @@
   </table-container>
 
   <!-- 高级检索模态框 -->
-  <!-- <Modal v-model="senior_search" title="高级检索" ok-text="开始检索" cancel-text="重置">
+  <Modal v-model="senior_search" title="高级检索" ok-text="开始检索" cancel-text="重置">
     <div class="senior-search-container">
       <div>
         <div class="label">
@@ -61,7 +62,7 @@
         <DatePicker type="daterange" placement="bottom-end" placeholder="Select date" style="width:100%"></DatePicker>
       </div>
     </div>
-  </Modal> -->
+  </Modal>
 
   <user-detail ref="userDetail"></user-detail>
 
@@ -71,7 +72,7 @@
 import msgBtn from './components/user-msg-btn.vue'
 import userDetail from './components/user-detail.vue'
 export default {
-  name: "user",
+  name: "anchor",
   data (){
     return {
       select_arr: [], //选择的用户列表
@@ -91,40 +92,32 @@ export default {
           key: 'uuid',
           align: 'center'
         }, {
-          title: '用户昵称',
-          key: 'nick_name',
-          align: 'center'
-        }, {
-          title: '注册时间',
-          key: 'created_at',
-          align: 'center'
-        }, {
-          title: '绑定手机号',
+          title: '用户账号',
           key: 'mobile',
           align: 'center'
         }, {
+          title: '用户昵称',
+          key: 'user_name',
+          align: 'center'
+        }, {
+          title: '注册时间',
+          key: 'register_time',
+          align: 'center'
+        }, {
+          title: '绑定手机号',
+          key: 'apply_num',
+          align: 'center'
+        }, {
           title: '授权微信',
-          key: 'is_bind_wx',
-          align: 'center',
-          render: (h,params)=>{
-            return h('span',params.row.is_bind_wx==1?'是':'否')
-          }
+          key: 'register_num',
+          align: 'center'
         },{
-          title: '性别',
-          key: 'sex',
-          align: 'center',
-          render: (h,params)=>{
-            let sex;
-            switch(params.row.sex){
-              case 0:sex = '未知';break;
-              case 1:sex = '男';break;
-              case 2:sex = '女';break;
-            }
-            return h('span',sex)
-          }
+          title: '主播等级',
+          key: 'level',
+          align: 'center'
         }, {
           title: '迷币余额',
-          key: 'balance',
+          key: 'love_money',
           align: 'center'
         }, {
           title: '操作',
@@ -143,7 +136,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.$refs.userDetail.show(params.row.uuid)
+                    this.$refs.userDetail.show(params.row.userID)
                   }
                 }
               }, '查看')
@@ -158,18 +151,17 @@ export default {
         label: '用户账号',
         type: 'input',
         placeholder: '用户ID/账号',
-        model: 'username'
+        model: 'uuid'
       }, {
         label: '用户昵称',
         type: 'input',
         placeholder: '用户昵称',
-        model: 'nick_name'
+        model: 'userName'
       }, {
         label: '注册时间',
         type: 'daterange',
         placeholder: '请选择注册时间',
-        model: 'register_time',
-        start_end: ['start_time','end_time']
+        model: 'register_time'
       }],
 
       pageprops: { //分页配置
@@ -180,13 +172,12 @@ export default {
         page: 1,
         size: 10
       },
-      searchForm: {}, //搜索框属性
-      my_search: {type:1} //固定搜索用户
+      searchForm: {} //搜索框属性
     }
   },
   computed: {
     searchData () {
-      return Object.assign(this.fy,this.searchForm,this.my_search);
+      return Object.assign(this.fy,this.searchForm);
     }
   },
   methods: {

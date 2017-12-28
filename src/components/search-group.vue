@@ -18,8 +18,11 @@
           {{item.label}}
         </div>
         <Input :placeholder="item.placeholder" v-model="form[item.model]" v-if="item.type=='input'"></Input>
-        <DatePicker type="date" :placeholder="item.placeholder" v-model="form[item.model]" v-if="item.type=='date'"></DatePicker>
-        <DatePicker type="daterange" :placeholder="item.placeholder" v-model="form[item.model]" v-if="item.type=='daterange'"></DatePicker>
+        <DatePicker type="date" :placeholder="item.placeholder" v-model="form[item.model]" v-if="item.type=='date'" :editable="false"></DatePicker>
+        <DatePicker type="daterange" :placeholder="item.placeholder" v-model="form[item.model]" v-if="item.type=='daterange'" :editable="false"></DatePicker>
+        <Select v-model="form[item.model]" :placeholder="item.placeholder" v-if="item.type=='select'" clearable size="default">
+          <Option v-for="option in item.options" :value="option.value" :key="option.value">{{ option.label }}</Option>
+        </Select>
       </div>
     </div>
   </Card>
@@ -33,14 +36,33 @@ export default {
     form: {}
   }),
   methods: {
+    getTime(date,type){
+      // type:0 起始时间
+      // type:1 终止时间
+      if(!date) {
+        return '';
+      }
+      let time = '';
+      let Y = date.getFullYear();
+      let M = date.getMonth()+1;
+      let D = date.getDate();
+      time = type == 0 ? time + Y + '-' + M + '-' + D + ' ' + '00:00:00' : time + Y + '-' + M + '-' + D + ' ' + '23:59:59'
+      return time;
+    },
     search() {
+      for(let i=0;i<this.searchList.length;i++){
+        if(this.searchList[i].type == 'daterange') {
+          this.$set(this.form,this.searchList[i]['start_end'][0],this.getTime(this.form[this.searchList[i].model][0],0))
+          this.$set(this.form,this.searchList[i]['start_end'][1],this.getTime(this.form[this.searchList[i].model][1],1))
+        }
+      }
       this.$emit('search',this.form)
     },
     reset_search() {
       for(let key in this.form) {
         this.form[key] = ''
       }
-    }
+    },
   },
   mounted() {
     for (let i = 0; i < this.searchList.length; i++) {
