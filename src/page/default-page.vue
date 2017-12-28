@@ -1,6 +1,6 @@
 <template>
   <div id="defaultPage">
-    <h1 @click="show">欢迎使用蒲公英后台管理系统</h1>
+    <h1 @click="show">欢迎使用秘音后台管理系统</h1>
   </div>
 </template>
 <script>
