@@ -137,6 +137,7 @@ export default {
       this.getData();
     },
     pageSizeChange(size) {
+      this.fy.page = 1;
       this.fy.size = size;
       this.getData();
     },

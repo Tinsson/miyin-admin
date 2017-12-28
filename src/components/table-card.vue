@@ -38,9 +38,13 @@ export default {
       this.$emit('change',card.type)
     }
   },
-  mounted() {
-    this.choseIndex = 0;
-    this.$emit('change',this.columns[0].type)
+  watch: {
+    data(cur) {
+      // console.log('出发')
+      this.choseIndex = 0;
+      this.$emit('change',this.columns[0].type)
+    }
+
   }
 }
 </script>

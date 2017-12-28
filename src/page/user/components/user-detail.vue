@@ -4,8 +4,8 @@
       <div class="user-detail-container">
         <div class="left">
           <table-card :columns="cardColumns" :data="cardData" @change="card_change"></table-card>
-          <table-container page :pageprops="pageprops">
-            <Table :columns="$data['columns']" :data="myData" :loading="tableLoading"></Table>
+          <table-container page :pageprops="pageprops" @on-change="pageChange" @on-page-size-change="pageSizeChange">
+            <Table height="300" :columns="$data['columns'+table_type]" :data="myData" :loading="tableLoading"></Table>
           </table-container>
           <Spin size="large" fix v-if="left_loading"></Spin>
         </div>
@@ -18,9 +18,10 @@
                     头像:
                   </div>
                   <div class="content">
-                    <div class="photo" @click="showImg">
+                    <div class="photo background-contain" :style="'background-image:url('+user_info_form.portrait+')'" @click="showImg">
 
                     </div>
+                    <my-upload v-if="edit_user_info" @success="upload_success"></my-upload>
                   </div>
                 </div>
                 <div class="input-group">
@@ -29,10 +30,10 @@
                   </div>
                   <div class="content">
                     <div class="text" v-if="!edit_user_info">
-                      {{user_info_form.nickname}}
+                      {{user_info_form.nick_name}}
                     </div>
                     <div v-else>
-                      <Input v-model="user_info_form.nickname"></Input>
+                      <Input v-model="user_info_form.nick_name"></Input>
                     </div>
                   </div>
                 </div>
@@ -55,12 +56,13 @@
                   </div>
                   <div class="content">
                     <div class="text"  v-if="!edit_user_info">
-                      {{user_info_form.sex=='1'?'男':'女'}}
+                      {{user_sex}}
                     </div>
                     <div v-else>
                       <Select v-model="user_info_form.sex">
-                        <Option value="1">男</Option>
-                        <Option value="2">女</Option>
+                        <Option :value="0">未知</Option>
+                        <Option :value="1">男</Option>
+                        <Option :value="2">女</Option>
                       </Select>
                     </div>
                   </div>
@@ -71,12 +73,12 @@
                   </div>
                   <div class="content">
                     <div class="text"  v-if="!edit_user_info">
-                      {{user_info_form.blacklist=='1'?'是':'否'}}
+                      {{user_info_form.status==1?'否':'是'}}
                     </div>
                     <div v-else>
-                      <Select v-model="user_info_form.blacklist">
-                        <Option value="1">是</Option>
-                        <Option value="2">否</Option>
+                      <Select v-model="user_info_form.status">
+                        <Option :value="1">否</Option>
+                        <Option :value="2">是</Option>
                       </Select>
                     </div>
                   </div>
@@ -87,7 +89,7 @@
                   </div>
                   <div class="content">
                     <div class="text">
-                      {{user_info_form.uuid}}
+                      {{user_detail.uuid}}
                     </div>
                   </div>
                 </div>
@@ -97,7 +99,7 @@
                   </div>
                   <div class="content">
                     <div class="text">
-                      未授权
+                      {{user_detail.is_bind_wx==0?'否':'是'}}
                     </div>
                   </div>
                 </div>
@@ -107,7 +109,7 @@
                   </div>
                   <div class="content">
                     <div class="text">
-                      未认证
+                      {{user_detail.is_cert==0?'否':'是'}}
                     </div>
                   </div>
                 </div>
@@ -117,7 +119,7 @@
                   </div>
                   <div class="content">
                     <div class="text">
-                      2017-11-17 23:20:00
+                      {{user_detail.created_at}}
                     </div>
                   </div>
                 </div>
@@ -127,7 +129,7 @@
                   </div>
                   <div class="content">
                     <div class="text">
-                      已充值
+                      {{user_detail.is_recharge==0?'否':'是'}}
                     </div>
                   </div>
                 </div>
@@ -137,11 +139,11 @@
                   </div>
                   <div class="content">
                     <div class="text">
-                      2017-11-17 23:20:00
+                      {{user_detail.recharge_at}}
                     </div>
                   </div>
                 </div>
-                <div style="margin-top:20px;">
+                <div style="margin-top:20px;text-align:right">
                   <Button @click="edit('user_info')" v-show="!edit_user_info" type="info">编辑</Button>
                   <Button @click="save('user_info')" v-show="edit_user_info" type="success">保存</Button>
                   <Button @click="cancle('user_info')" v-show="edit_user_info" style="margin-left:20px;">取消</Button>
@@ -166,20 +168,20 @@
                     <!-- {{user_data_form.sign}} -->
                   </div>
                   <div class="font-12" v-show="edit_user_data">
-                    <Input v-model="user_data_form.sign" type="textarea" :autosize="{minRows:2}"></Input>
+                    <Input v-model="user_data_form.introduce" type="textarea" :autosize="{minRows:2}"></Input>
                   </div>
                 </div>
                 <div class="data-title" style="margin-top:10px;">
                   他的照片墙:
                 </div>
                 <div class="photo-wall">
-                  <div class="background-contain" v-for="item in 5">
-                    <div class="close">
+                  <div class="background-contain" v-for="(item,index) in user_data_form.user_photos">
+                    <div class="close" @click="del_photos(index)">
                       <Icon type="close-circled" color="#ff0000" size="20" v-show="edit_user_data"></Icon>
                     </div>
                   </div>
                 </div>
-                <div style="margin-top:20px;">
+                <div style="margin-top:20px;text-align:right">
                   <Button @click="edit('user_data')" v-show="!edit_user_data" type="info">编辑</Button>
                   <Button @click="save('user_data')" v-show="edit_user_data" type="success">保存</Button>
                   <Button @click="cancle('user_data')" v-show="edit_user_data" style="margin-left:20px;">取消</Button>
@@ -188,19 +190,26 @@
             </TabPane>
             <TabPane label="他的动态">
               <div class="tab-container">
-                <div class="trends">
-                  <div class="line1">
-                    <span>2017-11-17 12:30:31</span>
-                    <Icon type="close-circled" color="#ff0000" size="20" v-show="edit_user_trends"></Icon>
-                  </div>
-                  <div class="line2">
-                    今天觉得自己萌萌哒，超级帅，你们觉得呢！啦啦啦啦啦啦啦啦啦啦
-                  </div>
-                  <div class="line3">
-                    <div v-for="item in 5"></div>
+                <div style="position:relative;height:550px;overflow:auto;">
+                  <Spin size="large" fix v-if="circles_loading"></Spin>
+                  <div class="trends" v-for="circle in circles">
+                    <div class="line1">
+                      <span>{{circle.created_at}}</span>
+                      <Icon type="close-circled" color="#ff0000" size="20" v-show="edit_user_trends"></Icon>
+                    </div>
+                    <div class="line2">
+                      {{circle.content}}
+                    </div>
+                    <div class="line3">
+                      <div class="background-contain" :style="'background-image:url('+circle.img+')'"></div>
+                    </div>
                   </div>
                 </div>
-                <div style="margin-top:20px;">
+                <div style="display:flex;justify-content:flex-end;margin-top:10px;">
+                  <Page :total="100" size="small"></Page>
+                </div>
+
+                <div style="margin-top:20px;text-align:right">
                   <Button @click="edit('user_trends')" v-show="!edit_user_trends" type="info">编辑</Button>
                   <Button @click="save('user_trends')" v-show="edit_user_trends" type="success">保存</Button>
                   <Button @click="cancle('user_trends')" v-show="edit_user_trends" style="margin-left:20px;">取消</Button>
@@ -208,6 +217,7 @@
               </div>
             </TabPane>
           </Tabs>
+          <Spin size="large" fix v-if="right_loading"></Spin>
         </div>
       </div>
       <div slot="footer">
@@ -220,6 +230,7 @@
   </div>
 </template>
 <script>
+import {copyObj} from '@/utils/common.js'
 export default {
   name: "userDetail",
   data: () => ({
@@ -242,13 +253,89 @@ export default {
             }
           },params.row.price)
         }
+      },{
+        title: '时间',
+        key: 'created_at',
+        align: 'center'
+      },{
+        title: '秘币余额',
+        key: 'balance',
+        align: 'center'
       }
     ],
+    columns1: [
+      {
+        title: '充值金额',
+        align: 'center',
+        key: 'money'
+      },{
+        title: '获得秘币',
+        align: 'center',
+        key: 'price'
+      },{
+        title: '充值时间',
+        align: 'center',
+        key: 'created_at'
+      }
+    ],
+    columns3: [
+      {
+        title: '消费类型',
+        key: 'remark',
+        align: 'center'
+      },{
+        title: '消费金额',
+        key: 'price',
+        align: 'center',
+        render: (h,params)=>{
+          return h('span',params.row.price[0]=='-'?params.row.price.slice(1):params.row.price)
+        }
+      },{
+        title: '消费时间',
+        key: 'created_at',
+        align: 'center'
+      }
+    ],
+    columns5: [
+      {
+        title: '上线时间',
+        key: 'start_time',
+        align: 'center'
+      },{
+        title: '下线时间',
+        key: 'end_time',
+        align: 'center'
+      },{
+        title: '在线时长',
+        key: 'mins',
+        align: 'center'
+      }
+    ],
+    columns7: [
+      {
+        title: '开始时间',
+        key: 'start_time',
+        align:'center'
+      },{
+        title: '结束时间',
+        key: 'end_time',
+        align: 'center'
+      },{
+        title: '偷听时长',
+        key: 'mins',
+        align: 'center'
+      }
+    ],
+
+
     myData: [],
     imgShow: false,
 
-    if_show: true,
+    if_show: false,
     left_loading: false,
+    right_loading: false,
+    circles_loading: false,
+    circles:[],
     cardData:{},
     cardColumns: [
       {
@@ -266,7 +353,6 @@ export default {
         type: '3'
       },{
         title: '在线时长',
-        unit: '分钟',
         key: '',
         type: ''
       },{
@@ -283,22 +369,33 @@ export default {
       total: 0,
       showSizer:true
     },
+    fy: {
+      page: 1,
+      size: 10
+    },
+    circle_fy: {
+      page: 1,
+      size:10
+    },
     tableLoading: false,
 
+    user_detail: {},
 
     edit_user_info: false,
     user_info_form:{
-      nickname: '孙玉杰',
-      mobile: '18768582761',
-      uuid: '123123123123',
-      sex: '1',
-      blacklist: '1'
+      portrait: '',
+      nick_name: '',
+      mobile: '',
+      sex: '',
+      status: '',
+      birthday: ''
     },
     user_info_form_copy:{},
 
     edit_user_data: false,
     user_data_form: {
-      sign: '我是一个大帅比，快来撩我啊'
+      introduce: '',
+      user_photos: []
     },
     user_data_form_copy: {
 
@@ -310,21 +407,51 @@ export default {
   }),
   computed: {
     user_data_sign_html() {
-      return this.user_data_form.sign.replace(/\n/g,'<br>')
-    }
+      return this.user_data_form.introduce.replace(/\n/g,'<br>')
+    },
+    user_sex() {
+      if(this.user_info_form.sex == 1) {
+        return '男'
+      } else if (this.user_info_form.sex == 2){
+        return '女'
+      } else {
+        return '未知'
+      }
+    },
+    edit_form() {
+      let arr = JSON.stringify(this.user_data_form.user_photos);
+      return Object.assign(this.user_info_form,{introduce:this.user_data_form.introduce,user_photos:arr},{uuid:this.uuid})
+    },
   },
   methods: {
+    upload_success(list) {
+      this.user_info_form.portrait = list[0][0];
+    },
+    del_photos(index) {
+      this.user_data_form.user_photos.splice(index,1);
+    },
+    getCircles() {
+      this.axios.get(`get-circles?user_uuid=${this.uuid}&page=${this.circle_fy.page}&size=${this.circle_fy.size}`).then(res=>{
+        if(res){
+          this.circles = res.data.list
+        }
+      })
+    },
     showImg() {
       this.imgShow = true;
     },
     edit(item) {
-      for(let key in this.$data[item+'_form']){
-        this.$set(this.$data[item+'_form_copy'],key,this.$data[item+'_form'][key])
-      }
+      // for(let key in this.$data[item+'_form']){
+      //   this.$set(this.$data[item+'_form_copy'],key,this.$data[item+'_form'][key])
+      // }
+      this.$set(this.$data,item+'_form_copy',copyObj(this.$data[item+'_form']))
       this.$data['edit_'+item] = true;
     },
     save(item){
-      this.$data['edit_'+item] = false;
+      this.axios.post('edit-user-detail',this.edit_form).then(res=>{
+        cnsole.log(res)
+        this.$data['edit_'+item] = false;
+      })
     },
     cancle(item) {
       for(let key in this.$data[item+'_form_copy']){
@@ -333,18 +460,30 @@ export default {
       this.$data['edit_'+item] = false;
     },
     card_change(key) {
-      console.log(key);
-      this.tableLoading = true
       this.table_type = key
-      this.axios.get('user-card-table',{
+      this.tale_get_data();
+    },
+    pageChange(page) {
+      this.fy.page = page;
+      this.tale_get_data();
+    },
+    pageSizeChange(size) {
+      this.fy.page = 1;
+      this.fy.size = size;
+      this.tale_get_data();
+    },
+    tale_get_data() {
+      this.tableLoading = true
+      this.axios.get(`user-card-table?page=${this.fy.page}&size=${this.fy.size}`,{
         params:{
           uuid: this.uuid,
-          type: key
+          type: this.table_type
         }
       }).then(res=>{
         this.tableLoading = false;
         if(res){
-          console.log(res)
+          this.myData = res.data.log_list
+          this.pageprops.total = res.data.total
         }
       })
     },
@@ -358,10 +497,27 @@ export default {
           this.cardData = res.data.user_stats
         }
       })
+      this.right_loading = true;
+      this.axios.get(`user-detail?uuid=${this.uuid}`).then(res=>{
+        this.right_loading = false;
+        if(res){
+          this.user_detail = res.data.user_info;
+          for(let key in this.user_info_form){
+            this.user_info_form[key] = this.user_detail[key];
+          }
+          for(let key in this.user_data_form) {
+            this.user_data_form[key] = this.user_detail[key];
+          }
+          // this.user_info_form.photo =user_detail.portrait;
+          // this.user_info_form.nickname = user_detail.nick_name;
+          // this.user_info_form.mobile = user_detail.mobile;
+          // this.user_info_form.uuid = user_detail.uuid;
+          // this.user_info_form.sex = user_detail.sex+'';
+          // this.user_info_form.blacklist = user_detail.status+'';
+        }
+      })
+      this.getCircles();
     }
-  },
-  mounted() {
-    this.show();
   }
 }
 </script>
@@ -369,10 +525,11 @@ export default {
 .tab-container{
   padding:10px;
   padding-top:0;
+  position:relative;
   .photo{
     width:50px;
     height:50px;
-    background:#000;
+    margin-right:15px;
   }
   .input-group{
     display:flex;
@@ -384,6 +541,9 @@ export default {
       // border:1px solid #ddd;
     }
     .content{
+
+      display:flex;
+      align-items: flex-end;
       .text{
         height:32px;
         line-height: 32px;
@@ -448,7 +608,6 @@ export default {
       >div{
         width:80px;
         height:80px;
-        background-color:#000;
         margin-bottom:10px;
         margin-left:10px;
         position:relative;

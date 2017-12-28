@@ -81,17 +81,13 @@ export default {
           title: '用户ID',
           key: 'uuid',
           align: 'center'
-        },{
-          title: '用户账号',
-          key: 'account',
-          align: 'center'
         }, {
           title: '用户昵称',
-          key: 'user_name',
+          key: 'nick_name',
           align: 'center'
         }, {
           title: '注册时间',
-          key: 'register_time',
+          key: 'created_at',
           align: 'center'
         }, {
           title: '绑定手机号',
@@ -99,16 +95,22 @@ export default {
           align: 'center'
         }, {
           title: '授权微信',
-          key: 'wx',
-          align: 'center'
-        }, {
-          title: '认证图',
-          key: 'pic',
+          key: 'is_bind_wx',
           align: 'center'
         }, {
           title: '审核状态',
-          key: 'status',
-          align: 'center'
+          key: 'is_auth',
+          align: 'center',
+          render: (h,params)=>{
+            let status;
+            switch(params.row.is_auth){
+              case 2: status = '审核中';break;
+              case 3: status = '审核通过';break;
+              case 4: status = '审核不通过';break;
+              case 5: status = '待定';break;
+            }
+            return h('div',status)
+          }
         },{
           title: '操作',
           key: 'operation',
@@ -176,12 +178,15 @@ export default {
         page: 1,
         size: 10
       },
-      searchForm: {} //搜索框属性
+      searchForm: {}, //搜索框属性
+      my_search: {
+        type: 3
+      }
     }
   },
   computed: {
     searchData () {
-      return Object.assign(this.fy,this.searchForm);
+      return Object.assign(this.fy,this.searchForm,this.my_search);
     }
   },
   methods: {
@@ -200,12 +205,25 @@ export default {
       this.getData();
     },
     pageSizeChange(size) {
+      this.fy.page = 1;
       this.fy.size = size;
       this.getData();
     },
     getData() {
-      console.log(this.searchData)
+      this.tableLoading = true
+      this.axios.get(`user-list`,{
+        params: this.searchData
+      }).then(res => {
+        this.tableLoading = false;
+        if(res) {
+          this.myData = res.data.user_ist
+          this.pageprops.total = res.data.total;
+        }
+      })
     },
+  },
+  mounted() {
+    this.getData()
   },
   components: {
     msgBtn

@@ -7,6 +7,12 @@ const urlList = {
   'user-list': '/user/list', //获取用户列表
   'get-user-card': '/user/stats', //获取用户统计数据
   'user-card-table': '/user/stats-log', //获取用户数据详情
+  'user-detail': '/user/detail', //用户个人信息
+  'edit-user-detail': '/user/edit-detail', //修改用户个人信息
+
+
+  //动态
+  'get-circles': '/circles/list',  //获取动态列表
 
   // 礼物管理
 

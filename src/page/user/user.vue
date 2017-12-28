@@ -94,6 +94,20 @@ export default {
           title: '用户昵称',
           key: 'nick_name',
           align: 'center'
+        },{
+          title: '用户来源',
+          key: 'source',
+          align:'center',
+          render: (h,params)=>{
+            let ly;
+            switch(params.row.source) {
+              case 0:ly = '未知';break;
+              case 1:ly = '安卓';break;
+              case 2:ly = 'IOS';break;
+              case 3:ly = '后台';break;
+            }
+            return h('span',ly)
+          }
         }, {
           title: '注册时间',
           key: 'created_at',
@@ -123,7 +137,7 @@ export default {
             return h('span',sex)
           }
         }, {
-          title: '迷币余额',
+          title: '秘币余额',
           key: 'balance',
           align: 'center'
         }, {
@@ -164,7 +178,61 @@ export default {
         type: 'input',
         placeholder: '用户昵称',
         model: 'nick_name'
-      }, {
+      },{
+        label: '用户来源',
+        type: 'select',
+        placeholder: '请选择',
+        options: [{
+          label: '请选择',
+          value: '',
+        },{
+          label: '未知',
+          value: 0
+        },{
+          label: '安卓',
+          value: 1
+        },{
+          label: 'IOS',
+          value: 2
+        },{
+          label: '后台',
+          value: 3
+        }],
+        model: 'source'
+      },{
+        label: '微信授权',
+        type: 'select',
+        placeholder: '请选择',
+        options: [{
+          label: '请选择',
+          value: '',
+        },{
+          label: '是',
+          value: 1
+        },{
+          label: '否',
+          value: 0
+        }],
+        model: 'is_bind_wx'
+      },{
+        label: '性别',
+        type: 'select',
+        placeholder: '请选择',
+        options: [{
+          label: '请选择',
+          value: '',
+        },{
+          label: '未知',
+          value: 0
+        },{
+          label: '男',
+          value: 1
+        },{
+          label: '女',
+          value: 2
+        }],
+        model: 'sex'
+      },{
         label: '注册时间',
         type: 'daterange',
         placeholder: '请选择注册时间',
@@ -205,6 +273,7 @@ export default {
       this.getData();
     },
     pageSizeChange(size) {
+      this.fy.page = 1;
       this.fy.size = size;
       this.getData();
     },
