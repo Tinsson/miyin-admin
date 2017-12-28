@@ -14,7 +14,7 @@ import components from '@/assets/js/components'
 import VueAxios from 'vue-axios'
 import axios from '@/assets/js/axios'
 
-import '@/mockjs'
+// import '@/mockjs'
 
 Vue.use(VueAxios, axios)
 
