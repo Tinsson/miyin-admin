@@ -19,7 +19,7 @@
             </div>
           </FormItem>
           <FormItem label="礼物价格:" prop="price">
-            <InputNumber :min="0.01" :step="1" v-model="gift_form.price"></InputNumber>
+            <InputNumber :min="0.00" :step="1" v-model="gift_form.price"></InputNumber>
           </FormItem>
           <FormItem label="礼物名称:" prop="name">
             <Input v-model="gift_form.name"></Input>
@@ -57,6 +57,13 @@ export default {
         callback();
       }
     }
+    var checkPrice = function (rule,value,callback) {
+      if(value<0.01){
+        callback(new Error('礼物价格不得小于0.01'))
+      }else{
+        callback()
+      }
+    }
     return {
       operation_type: '',
       gift_show: false,
@@ -64,7 +71,7 @@ export default {
       gift_form:{
         id: '',
         pic: [],
-        price: null,
+        price: 0.01,
         name: '',
         discount: 1,
         time: [],
@@ -73,10 +80,12 @@ export default {
       },
       gift_rules:{
         pic: [
+          {required: true,message: '请选择上传图片'},
           { validator: checkUpload }
         ],
         price: [
-          { required: true, message: '请输入礼物价格' }
+          { required: true, message: '请输入礼物价格' },
+          {validator: checkPrice}
         ],
         name: [
           { required: true, message: '请输入礼物名称' }
@@ -145,18 +154,34 @@ export default {
           key: 'operation',
           align: 'center',
           width:220,
+
+   //        <Poptip
+   //     confirm
+   //     title="您确认删除这条内容吗？"
+   //     @on-ok="ok"
+   //     @on-cancel="cancel">
+   //     <Button>删除</Button>
+   // </Poptip>
+
           render: (h, params) => {
             return h('div', [
-              h('Button', {
-                props: {
-                  type: 'text'
+              h('Poptip', {
+                props:{
+                  confirm: true,
+                  title:params.row.status == 0?'确定要上架吗？':'确定要下架吗？'
                 },
                 on: {
-                  click: ()=>{
+                  'on-ok': ()=>{
                     this.edit_status(params)
                   }
                 }
-              }, params.row.status==0?'上架':'下架'),
+              },[
+                h('Button',{
+                  props: {
+                    type: 'text'
+                  },
+                },params.row.status==0?'上架':'下架')
+              ]),
               h('Button', {
                 props: {
                   type: 'text'
@@ -167,16 +192,24 @@ export default {
                   }
                 }
               }, '编辑'),
-              h('Button', {
-                props: {
-                  type: 'text'
+              h('Poptip', {
+                props:{
+                  confirm: true,
+                  title:'确定要删除吗？',
+                  placement: 'left'
                 },
                 on: {
-                  click: ()=>{
+                  'on-ok': ()=>{
                     this.del_gift(params)
                   }
                 }
-              }, '删除')
+              }, [
+                h('Button',{
+                  props: {
+                    type: 'text'
+                  }
+                },'删除')
+              ])
             ])
           }
         }
@@ -292,7 +325,7 @@ export default {
       this.gift_show = true;
     },
     refresh() {
-      console.log('刷新')
+      this.getData();
     },
     getData() {
       this.tableLoading = true;

@@ -4,7 +4,7 @@
 
   </title-bar>
   <search-group :searchList="searchList" @search="search">
-    <Button type="warning" icon="pinpoint" @click="senior_search=true">高级检索</Button>
+    <!-- <Button type="warning" icon="pinpoint" @click="senior_search=true">高级检索</Button> -->
   </search-group>
   <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
     <div slot="btn">
@@ -14,7 +14,7 @@
   </table-container>
 
   <!-- 高级检索模态框 -->
-  <Modal v-model="senior_search" title="高级检索" ok-text="开始检索" cancel-text="重置">
+  <!-- <Modal v-model="senior_search" title="高级检索" ok-text="开始检索" cancel-text="重置">
     <div class="senior-search-container">
       <div>
         <div class="label">
@@ -42,7 +42,7 @@
           会员等级:
         </div>
         <Select>
-          <Option value="pt">普通会员</Option>
+          <Option value="pt">普通会员</Option>s
           <Option value="hj">黄金会员</Option>
           <Option value="bj">白金会员</Option>
           <Option value="zs">钻石会员</Option>
@@ -62,7 +62,7 @@
         <DatePicker type="daterange" placement="bottom-end" placeholder="Select date" style="width:100%"></DatePicker>
       </div>
     </div>
-  </Modal>
+  </Modal> -->
 
   <user-detail ref="userDetail"></user-detail>
 
@@ -92,32 +92,31 @@ export default {
           key: 'uuid',
           align: 'center'
         }, {
-          title: '用户账号',
-          key: 'mobile',
-          align: 'center'
-        }, {
           title: '用户昵称',
-          key: 'user_name',
+          key: 'nick_name',
           align: 'center'
         }, {
           title: '注册时间',
-          key: 'register_time',
+          key: 'created_at',
           align: 'center'
         }, {
           title: '绑定手机号',
-          key: 'apply_num',
+          key: 'mobile',
           align: 'center'
         }, {
           title: '授权微信',
-          key: 'register_num',
-          align: 'center'
+          key: 'is_bind_wx',
+          align: 'center',
+          render: (h,params)=>{
+            return h('span',params.row.is_bind_wx==1?'是':'否')
+          }
         },{
           title: '主播等级',
           key: 'level',
           align: 'center'
         }, {
-          title: '迷币余额',
-          key: 'love_money',
+          title: '秘币余额',
+          key: 'balance',
           align: 'center'
         }, {
           title: '操作',
@@ -125,11 +124,6 @@ export default {
           align: 'center',
           render: (h, params) => {
             return h('div', [
-              h('Button', {
-                props: {
-                  type: 'text'
-                },
-              }, '删除'),
               h('Button', {
                 props: {
                   type: 'text'
@@ -172,12 +166,13 @@ export default {
         page: 1,
         size: 10
       },
-      searchForm: {} //搜索框属性
+      searchForm: {}, //搜索框属性
+      my_search: {type:2} //固定搜索女主播
     }
   },
   computed: {
     searchData () {
-      return Object.assign(this.fy,this.searchForm);
+      return Object.assign(this.fy,this.searchForm,this.my_search);
     }
   },
   methods: {

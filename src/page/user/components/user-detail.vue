@@ -72,15 +72,15 @@
                     是否黑名单
                   </div>
                   <div class="content">
-                    <div class="text"  v-if="!edit_user_info">
-                      {{user_info_form.status==1?'否':'是'}}
+                    <div class="text">
+                      {{user_detail.status==1?'否':'是'}}
                     </div>
-                    <div v-else>
+                    <!-- <div v-else>
                       <Select v-model="user_info_form.status">
                         <Option :value="1">否</Option>
                         <Option :value="2">是</Option>
                       </Select>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
                 <div class="input-group">
@@ -147,6 +147,14 @@
                   <Button @click="edit('user_info')" v-show="!edit_user_info" type="info">编辑</Button>
                   <Button @click="save('user_info')" v-show="edit_user_info" type="success">保存</Button>
                   <Button @click="cancle('user_info')" v-show="edit_user_info" style="margin-left:20px;">取消</Button>
+                  <Poptip
+                    confirm
+                    :title="user_detail.status == 1?'您确定要拉黑这个用户吗？':'您确定要把这个用户移出黑名单吗？'"
+                    @on-ok="toggle_black"
+                    placement="left-start"
+                    >
+                    <Button type="error" style="margin-left:20px;">{{user_detail.status == 1?'拉黑':'移出黑名单'}}</Button>
+                  </Poptip>
                 </div>
               </div>
             </TabPane>
@@ -156,8 +164,8 @@
                   他的标签：
                 </div>
                 <div class="tips-container">
-                  <div class="tip" v-for="item in 3">
-                    二次元
+                  <div class="tip" v-for="item in user_detail.user_tags">
+                    {{item.name}}
                   </div>
                 </div>
                 <div class="data-title" style="margin-top:10px;">
@@ -175,7 +183,7 @@
                   他的照片墙:
                 </div>
                 <div class="photo-wall">
-                  <div class="background-contain" v-for="(item,index) in user_data_form.user_photos">
+                  <div class="background-contain" v-for="(item,index) in user_data_form.user_photos" :style="'background-image:url('+item.img_path+')'">
                     <div class="close" @click="del_photos(index)">
                       <Icon type="close-circled" color="#ff0000" size="20" v-show="edit_user_data"></Icon>
                     </div>
@@ -185,6 +193,14 @@
                   <Button @click="edit('user_data')" v-show="!edit_user_data" type="info">编辑</Button>
                   <Button @click="save('user_data')" v-show="edit_user_data" type="success">保存</Button>
                   <Button @click="cancle('user_data')" v-show="edit_user_data" style="margin-left:20px;">取消</Button>
+                  <Poptip
+                    confirm
+                    :title="user_detail.status == 1?'您确定要拉黑这个用户吗？':'您确定要把这个用户移出黑名单吗？'"
+                    @on-ok="toggle_black"
+                    placement="left-start"
+                    >
+                    <Button type="error" style="margin-left:20px;">{{user_detail.status == 1?'拉黑':'移出黑名单'}}</Button>
+                  </Poptip>
                 </div>
               </div>
             </TabPane>
@@ -213,6 +229,14 @@
                   <Button @click="edit('user_trends')" v-show="!edit_user_trends" type="info">编辑</Button>
                   <Button @click="save('user_trends')" v-show="edit_user_trends" type="success">保存</Button>
                   <Button @click="cancle('user_trends')" v-show="edit_user_trends" style="margin-left:20px;">取消</Button>
+                  <Poptip
+                    confirm
+                    :title="user_detail.status == 1?'您确定要拉黑这个用户吗？':'您确定要把这个用户移出黑名单吗？'"
+                    @on-ok="toggle_black"
+                    placement="left-start"
+                    >
+                    <Button type="error" style="margin-left:20px;">{{user_detail.status == 1?'拉黑':'移出黑名单'}}</Button>
+                  </Poptip>
                 </div>
               </div>
             </TabPane>
@@ -424,6 +448,16 @@ export default {
     },
   },
   methods: {
+    toggle_black() {
+      this.axios.post('user-set-status',{
+        uuid: this.uuid,
+        status: this.user_detail.status == 1? 2:1
+      }).then(res=>{
+        if(res){
+          this.user_detail.status = this.user_detail.status==1?2:1
+        }
+      })
+    },
     upload_success(list) {
       this.user_info_form.portrait = list[0][0];
     },
@@ -449,8 +483,9 @@ export default {
     },
     save(item){
       this.axios.post('edit-user-detail',this.edit_form).then(res=>{
-        cnsole.log(res)
-        this.$data['edit_'+item] = false;
+        if(res){
+          this.$data['edit_'+item] = false;
+        }
       })
     },
     cancle(item) {
@@ -488,7 +523,7 @@ export default {
       })
     },
     show(id) {
-      this.uuid = 'P15141873551220443';
+      this.uuid = id;
       this.if_show = true;
       this.left_loading = true;
       this.axios.get(`get-user-card?uuid=${this.uuid}`).then(res=>{
@@ -581,7 +616,6 @@ export default {
     >div{
       width:110px;
       height:110px;
-      background-color:#000;
       margin-bottom:10px;
       margin-left:10px;
       position:relative;

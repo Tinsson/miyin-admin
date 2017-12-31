@@ -1,6 +1,6 @@
 <template>
-  <div id="tableCard">
-    <div class="card" v-for="(card,index) in columns" :class="{active:choseIndex==index}" @click="choseCard(card,index)">
+  <div id="tableCard" :style="container_style">
+    <div class="card" :style="card_style" v-for="(card,index) in columns" :class="{active:choseIndex==index}" @click="choseCard(card,index)">
       <div class="card-left">
         <div class="title">
           {{card.title}}
@@ -18,6 +18,12 @@
 export default {
   name: "tableCard",
   props: {
+    container_style: {
+      default: ''
+    },
+    card_style: {
+      default: ''
+    },
     columns: {
       type: Array
     },
@@ -40,7 +46,6 @@ export default {
   },
   watch: {
     data(cur) {
-      // console.log('出发')
       this.choseIndex = 0;
       this.$emit('change',this.columns[0].type)
     }

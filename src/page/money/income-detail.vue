@@ -1,93 +1,75 @@
 <template>
-  <div id="cash-apply">
-    <title-bar title="提现列表" @refresh="refresh"></title-bar>
+  <div id="income-detail">
+    <title-bar title="收入明细" @refresh="refresh"></title-bar>
     <search-group :searchList="searchList" @search="search"></search-group>
     <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
+      <div slot="btn">
+        收入总秘币：{{Math.abs(all_price)}}
+      </div>
       <Table :columns="columns" :data="myData" border :loading="tableLoading"></Table>
     </table-container>
   </div>
 </template>
 <script>
 export default {
-  name: "cash-apply",
+  name: "income-detail",
   data() {
     return {
+      all_price: '',
       columns: [
         {
-          title: 'id',
-          key: 'id',
-          align: 'center'
-        },{
-          title: '昵称',
+          title: '用户昵称',
           key: 'nick_name',
           align: 'center'
-        }, {
-          title: '姓名',
-          key: 'name',
-          align: 'center'
-        }, {
-          title: '绑定手机号',
-          key: 'user_mobile',
-          align: 'center'
-        }, {
-          title: '联系手机号',
-          key: 'mobile',
-          align: 'center'
-        }, {
-          title: '支付宝账号',
-          key: 'alipay',
-          align: 'center'
-        }, {
-          title: '提现订单号',
+        },{
+          title: '用户id',
           key: 'uuid',
           align: 'center'
         }, {
-          title: '提现金额（rmb）',
-          key: 'money',
+          title: '绑定手机号',
+          key: 'mobile',
           align: 'center'
-        },{
-          title: '申请时间',
+        }, {
+          title: '收入类型',
+          key: 'remark',
+          align: 'center'
+        }, {
+          title: '增加秘币',
+          key: 'price',
+          align: 'center'
+        }, {
+          title: '增加时间',
           key: 'created_at',
           align: 'center'
-        },{
-          title: '提现通过时间',
-          key: 'updated_at',
-          align:'center'
+        }, {
+          title: '秘币余额',
+          key: 'balance',
+          align: 'center'
         }
       ],
       myData: [],
       tableLoading: false,
       searchList: [
         {
-          label: '昵称',
+          label: '用户昵称',
           type: 'input',
           placeholder: '用户昵称',
           model: 'nick_name'
         },{
-          label: '支付宝账号',
+          label: '用户id',
           type: 'input',
-          placeholder: '支付宝账号',
-          model: 'alipay'
-        },{
-          label: '联系手机号',
-          type: 'input',
-          placeholder: '联系手机号',
-          model: 'mobile'
-        },{
-          label: '姓名',
-          type: 'input',
-          placeholder: '姓名',
-          model: 'name'
+          placeholder: '用户id',
+          model: 'uuid'
         },{
           label: '绑定手机号',
           type: 'input',
           placeholder: '绑定手机号',
-          model: 'user_mobile'
+          model: 'mobile'
         },{
-          label: '申请时间',
+          label: '消费时间',
           type: 'daterange',
           placeholder: '请选择时间',
-          model: 'apply_time',
+          model: 'created_time',
           start_end: ['start_time','end_time']
         }
       ],
@@ -100,14 +82,14 @@ export default {
         size: 10
       },
       searchForm: {}, //搜索框属性
-      cardsearch: {
-        status: 1
+      my_search: {
+        pay_type: 2
       }
     }
   },
   computed: {
     searchData () {
-      return Object.assign(this.fy,this.searchForm,this.cardsearch);
+      return Object.assign(this.fy,this.searchForm,this.my_search);
     }
   },
   methods: {
@@ -127,13 +109,14 @@ export default {
       this.getData();
     },
     getData() {
-      this.tableLoading = true;
-      this.axios.get('wallet-withdrawing',{
-        params: this.searchData
+      this.tableLoading = true
+      this.axios.get('bill-user-log-list',{
+        params:this.searchData
       }).then(res=>{
-        this.tableLoading = false;
         if(res){
-          this.myData = res.data.list
+          this.tableLoading = false
+          this.all_price = res.data.all_price
+          this.myData = res.data.log_list
         }
       })
     },

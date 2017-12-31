@@ -150,11 +150,6 @@ export default {
                 props: {
                   type: 'text'
                 },
-              }, '删除'),
-              h('Button', {
-                props: {
-                  type: 'text'
-                },
                 on: {
                   click: () => {
                     this.$refs.userDetail.show(params.row.uuid)

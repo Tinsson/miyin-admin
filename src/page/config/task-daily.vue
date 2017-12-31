@@ -1,6 +1,6 @@
 <template>
-  <div id="task-newcomer">
-    <title-bar title="新手任务" @refresh="refresh"></title-bar>
+  <div id="task-daily">
+    <title-bar title="每日任务" @refresh="refresh"></title-bar>
     <table-container>
       <div slot="btn">
         <Button type="primary" @click="add_task">新增任务</Button>
@@ -8,13 +8,13 @@
       <Table :columns="columns" :data="myData" border :loading="tableLoading"></Table>
     </table-container>
 
-    <add-task ref="add_task" :task_form="task_form" :type="1" @modal-close="modalClose"></add-task>
+    <add-task ref="add_task" :task_form="task_form" :type="2" @modal-close="modalClose"></add-task>
   </div>
 </template>
 <script>
 import addTask from './components/add-task.vue'
 export default {
-  name: "task-newcomer",
+  name: "task-daily",
   data() {
     return {
       task_form: {
@@ -128,7 +128,7 @@ export default {
     },
     getData() {
       this.tableLoading = true;
-      this.axios.get(`task-list?type=1`).then(res=>{
+      this.axios.get(`task-list?type=2`).then(res=>{
         this.tableLoading = false;
         if(res){
           this.myData = res.data.task_list

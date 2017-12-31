@@ -66,6 +66,22 @@ export default {
         id: '12',
         name: '支付宝充值列表',
         path: '/alipay'
+      },{
+        id: '17',
+        name: '微信充值列表',
+        path: '/wx-recharge'
+      },{
+        id: '18',
+        name: '礼物明细',
+        path: '/gift-detail'
+      },{
+        id: '19',
+        name: '消费明细',
+        path: '/consumer-detail'
+      },{
+        id: '20',
+        name: '收入明细',
+        path: '/income-detail'
       }]
     },{
       id:'13',
@@ -73,9 +89,17 @@ export default {
       path: '/config',
       children: [
         {
+          id: '15',
+          name: '全局配置',
+          path: '/global-config'
+        },{
           id: '14',
           name: '新手任务',
           path: '/task-newcomer'
+        },{
+          id: '16',
+          name: '每日任务',
+          path: '/task-daily'
         }
       ]
     },{

@@ -1,6 +1,7 @@
 <template>
   <div id="verify">
     <title-bar title="真人审核列表" @refresh="refresh"></title-bar>
+    <table-card :columns="card_columns" :data="card_data" @change="cardChange"></table-card>
     <search-group :searchList="searchList" @search="search"></search-group>
     <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
       <div slot="btn">
@@ -12,7 +13,7 @@
     <Modal v-model="verify_show" title="审核" width="600">
       <div class="verify-container">
         <div class="top">
-          <div class="photo background-contain">
+          <div class="photo background-contain" :style="'background-image:url('+verify_user.portrait+')'">
 
           </div>
           <div class="detail">
@@ -21,7 +22,7 @@
                 昵称:
               </div>
               <div class="text">
-                lmmmmmm
+                {{verify_user.nick_name}}
               </div>
             </div>
             <div class="line">
@@ -29,7 +30,7 @@
                 注册时间:
               </div>
               <div class="text">
-                2017-11-23 12:30:30
+                {{verify_user.created_at}}
               </div>
             </div>
             <div class="line">
@@ -37,7 +38,7 @@
                 绑定手机号:
               </div>
               <div class="text">
-                15068610274
+                {{verify_user.mobile}}
               </div>
             </div>
           </div>
@@ -46,20 +47,20 @@
           <div class="title">
             审核照片:
           </div>
-          <div class="pic">
+          <div class="pic background-contain" :style="'background-image:url('+verify_user.img_path+')'">
 
           </div>
         </div>
       </div>
       <div class="verify-footer" slot="footer">
         <div>
-          <Button size="large" type="warning" long>待定</Button>
+          <Button size="large" type="warning" long @click="verify(5)">待定</Button>
         </div>
         <div>
-          <Button size="large" type="error" long>不通过</Button>
+          <Button size="large" type="error" long @click="verify(4)">不通过</Button>
         </div>
         <div>
-          <Button size="large" type="success" long>通过</Button>
+          <Button size="large" type="success" long @click="verify(3)">通过</Button>
         </div>
       </div>
     </Modal>
@@ -71,6 +72,36 @@ export default {
   name: "verify",
   data() {
     return {
+      verify_user: {},
+      card_columns: [
+        {
+          title: '待审核',
+          unit: '人',
+          key: 'k2',
+          type: 2,
+          icon:'ios-timer'
+        },{
+          title: '通过',
+          unit: '人',
+          key: 'k3',
+          type: 3,
+          icon: 'ios-close'
+        },{
+          title: '不通过',
+          unit: '人',
+          key: 'k4',
+          type: 4,
+          icon: 'ios-checkmark'
+        },{
+          title: '挂起',
+          unit: '人',
+          key: 'k5',
+          type: 5,
+          icon: 'android-sync'
+        }
+      ],
+      card_data: {},
+
       verify_show: false,
       columns: [
         {
@@ -96,7 +127,10 @@ export default {
         }, {
           title: '授权微信',
           key: 'is_bind_wx',
-          align: 'center'
+          align: 'center',
+          render: (h,params)=>{
+            return h('span',params.row.is_bind_wx==1?'是':'否')
+          }
         }, {
           title: '审核状态',
           key: 'is_auth',
@@ -123,15 +157,11 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.verify_show = true
+                    this.verify_user = params.row;
+                    this.verify_show = true;
                   }
                 }
-              }, '审核'),
-              h('Button', {
-                props: {
-                  type: 'text'
-                }
-              }, '删除')
+              }, '审核')
             ])
           }
         }
@@ -143,30 +173,18 @@ export default {
           label: '用户账号',
           type: 'input',
           placeholder: '用户ID/账号',
-          model: 'uuid'
+          model: 'username'
         },{
           label: '用户昵称',
           type: 'input',
           placeholder: '用户昵称',
-          model: 'nickname'
+          model: 'nick_name'
         },{
           label: '注册时间',
           type: 'daterange',
           placeholder: '请选择时间',
           model: 'register_time',
           start_end: ['start_time','end_time']
-        },{
-          label: '审核状态',
-          type: 'select',
-          placeholder: '选择审核状态',
-          model: 'status',
-          options:[{
-            label: '通过',
-            value: '1'
-          },{
-            label: '未通过',
-            value: '0'
-          }]
         }
       ],
       select_arr: [], //选择的用户列表
@@ -179,19 +197,36 @@ export default {
         size: 10
       },
       searchForm: {}, //搜索框属性
-      my_search: {
+      card_search: {
+        is_auth: 2,
         type: 3
       }
     }
   },
   computed: {
     searchData () {
-      return Object.assign(this.fy,this.searchForm,this.my_search);
+      return Object.assign(this.fy,this.searchForm,this.card_search);
     }
   },
   methods: {
+    cardChange(type) {
+      this.card_search.is_auth = type;
+      this.getData();
+    },
+    verify(type) {
+      this.axios.post('user-audit-cert',{
+        uuid: this.verify_user.uuid,
+        auth: type
+      }).then(res=>{
+        if(res){
+          this.verify_show=false;
+          this.getData();
+        }
+      })
+    },
+
     refresh() {
-      console.log('刷新')
+      this.getData();
     },
     select(selection) {
       this.select_arr = selection
@@ -221,9 +256,17 @@ export default {
         }
       })
     },
+    getCardData() {
+      this.axios.get('user-cert-group-count').then(res=>{
+        if(res){
+          this.card_data = res.data.count_list;
+        }
+      })
+    }
   },
   mounted() {
-    this.getData()
+    this.getCardData();
+    // this.getData()
   },
   components: {
     msgBtn
@@ -241,7 +284,6 @@ export default {
     .photo{
       width:80px;
       height:80px;
-      background-color:#000;
       margin-right:20px;
     }
     .detail{
@@ -265,7 +307,6 @@ export default {
       width:400px;
       height:400px;
       margin:0 auto;
-      background-color:#000;
     }
   }
 }

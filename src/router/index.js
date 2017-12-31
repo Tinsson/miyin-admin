@@ -21,9 +21,15 @@ import gifts from '@/page/gift/gifts' //礼物管理
 import cashApply from '@/page/money/cash-apply' //提现申请
 import cashList from '@/page/money/cash-list'  //提现列表
 import alipay from '@/page/money/alipay' //支付宝充值列表
+import wxRecharge from '@/page/money/wx-recharge' //微信充值列表
+import giftDetail from '@/page/money/gift-detail' //礼物明细
+import consumerDetail from '@/page/money/consumer-detail' //消费明细
+import incomeDetail from '@/page/money/income-detail' //收入明细
 
 //配置管理
+import globalConfig from '@/page/config/global-config' //全局配置
 import taskNewcomer from '@/page/config/task-newcomer' //新手任务配置
+import taskDaily from '@/page/config/task-daily' //每日任务配置
 
 // 内容管理
 import articleClass from '@/page/content/articleClass' //文章分类管理
@@ -87,9 +93,33 @@ const router = new Router({
           name: 'alipay',
           component: alipay
         }, {
+          path: '/money/wx-recharge',
+          name: 'wxRecharge',
+          component: wxRecharge
+        },{
+          path: '/money/gift-detail',
+          name: 'giftDetail',
+          component: giftDetail
+        },{
+          path: '/money/consumer-detail',
+          name: 'consumerDetail',
+          component: consumerDetail
+        },{
+          path: '/money/income-detail',
+          name: 'incomeDetail',
+          component: incomeDetail
+        },{
           path: '/config/task-newcomer',
           name: 'taskNewcomer',
           component: taskNewcomer
+        },{
+          path: '/config/task-daily',
+          name: 'taskDaily',
+          component:taskDaily
+        },{
+          path: '/config/global-config',
+          name: 'globalConfig',
+          component: globalConfig
         }
       ]
     }
