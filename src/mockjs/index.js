@@ -76,6 +76,29 @@ Mock.mock(/\/user-get-card/,(options)=>{
   return res;
 })
 
+Mock.mock('/message/temp-list',(options)=>{
+  let res = {
+    code: 1,
+    status: 1,
+    data:{
+      tempList: [{
+        id: '1',
+        title: '短信验证码',
+        title_en: 'code',
+        status: 1,
+        content: '您的验证码是{code}，请于10分钟内正确输入。'
+      },{
+        id: '2',
+        title: '基础认证通过',
+        title_en: 'auditOk',
+        status: 0,
+        content: '您的基础认证已通过，祝您生活愉快！'
+      }]
+    },
+    message: '获取数据成功'
+  };
+  return res;
+})
 
 
 Mock.setup({

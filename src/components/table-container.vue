@@ -4,7 +4,7 @@
     <div class="title" slot="title">
       <div class="label">
         <Icon type="clipboard"></Icon>
-        数据列表
+        {{title}}
       </div>
       <div class="btn-group">
         <slot name="btn"></slot>
@@ -23,6 +23,12 @@
 export default {
   name: "tableContainer",
   props: {
+    title: {
+      type: String,
+      default: ()=>{
+        return '数据列表';
+      }
+    },
     page: {
       type: Boolean,
       default: false

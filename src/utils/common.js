@@ -47,7 +47,31 @@ function copyObj(obj,emptyObj={}) {
   return emptyObj;
 }
 
+//获取对象交集
+function crossObj(rowobj, sourceobj) {
+  let obj = {};
+  Object.keys(rowobj).forEach(val=>{
+    obj[val] = sourceobj[val];
+  });
+  return obj;
+}
+
+function uploadData(url, params){
+  return new Promise((resolve, reject)=>{
+    this.axios.post(url, params).then((d)=>{
+      if(d.status === 1){
+        this.$Message.success(d.message);
+        resolve(d.data);
+      }else{
+        this.$Message.error(d.message);
+      }
+    })
+  })
+}
+
 export {
   compareObject,
-  copyObj
+  copyObj,
+  crossObj,
+  uploadData
 }

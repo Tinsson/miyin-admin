@@ -34,6 +34,8 @@ import taskDaily from '@/page/config/task-daily' //每日任务配置
 // 内容管理
 import articleClass from '@/page/content/articleClass' //文章分类管理
 
+// 消息管理
+import msgTemplate from '@/page/message/msg-template'
 
 const router = new Router({
   // mode: 'history',
@@ -120,6 +122,10 @@ const router = new Router({
           path: '/config/global-config',
           name: 'globalConfig',
           component: globalConfig
+        },{
+          path: '/message/msg-template',
+          name: 'msgTemplate',
+          component: msgTemplate
         }
       ]
     }

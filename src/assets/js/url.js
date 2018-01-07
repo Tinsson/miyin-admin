@@ -42,6 +42,21 @@ const urlList = {
   'task-list': '/task/list', //获取任务列表
   'task-add': '/task/add', //添加任务
   'task-edit': '/task/edit', //修改任务
+
+  //消息管理
+  'temp-kw-list': '/template-keyword/list',
+  'temp-kw-add': '/template-keyword/add',
+  'temp-kw-edit': '/template-keyword/edit',
+  'temp-kw-del': '/template-keyword/delete',
+  'temp-kw-detail': '/template-keyword/detail',
+  'temp-kw-all': '/template-keyword/all',
+
+  'temp-list': '/template/list',
+  'temp-add': '/template/add',
+  'temp-edit': '/template/edit',
+  'temp-delete': '/template/delete',
+  'temp-switch': '/template/switch',
+  'temp-detail': '/template/detail'
 }
 
 export default urlList;

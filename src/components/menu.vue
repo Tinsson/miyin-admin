@@ -111,6 +111,15 @@ export default {
         name: '文章分类管理',
         path: '/article-class'
       }]
+    },{
+      id: '17',
+      name: '消息管理',
+      path: '/message',
+      children: [{
+        id: '18',
+        name: '消息模板',
+        path: '/msg-template'
+      }]
     }]
   }),
   computed: {
