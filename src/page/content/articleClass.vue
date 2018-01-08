@@ -8,6 +8,13 @@
       <Tree :data="myData" :render="renderTree"></Tree>
     </table-container>
 
+    <playground ref="playgroud"></playground>
+    <!-- <Carousel v-model="test_index" loop>
+      <CarouselItem v-for="item in 3">
+        <div class="pic background-contain">123</div>
+      </CarouselItem>
+    </Carousel> -->
+
     <!-- 群发站内信模态框 -->
     <Modal v-model="modal_show" title="添加文章分类">
       <div class="">
@@ -37,6 +44,7 @@
 export default {
   name: "articleClass",
   data: () => ({
+    test_index:0,
     form: {
       class_name: '',
       sequence: '',
@@ -135,7 +143,7 @@ export default {
       // })
     },
     refresh() {
-      console.log('刷新')
+      this.$refs.playgroud.show([123,123,123])
     },
     getData() {
       this.axios.get('/adv-class/all').then(res=>{
@@ -184,6 +192,13 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.pic {
+    width: 500px;
+    height: 500px;
+    background-color: #e8e8e8;
+    position: relative;
+    background-image: url("http://img1.imgtn.bdimg.com/it/u=2689704752,3058454475&fm=11&gp=0.jpg");
+}
 // .a{
 //   align-items:
 // }

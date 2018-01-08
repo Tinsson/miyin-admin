@@ -33,6 +33,7 @@ const urlList = {
   'product-drop': '/product/drop', //获取礼物名称下拉列表
   'product-search': '/product/search', //获取礼物明细
   'bill-user-log-list': '/bill/user-log-list', //消费/收入明细
+  'wallet-recharge': '/wallet/recharge', //微信/支付宝充值记录
 
   //配置管理
 
@@ -42,6 +43,16 @@ const urlList = {
   'task-list': '/task/list', //获取任务列表
   'task-add': '/task/add', //添加任务
   'task-edit': '/task/edit', //修改任务
+
+  //内容管理
+  'comment-list': '/comment/list', //获取评论列表
+  'comment-del': '/comment/del', //删除评论
+  'circles-list': '/circles/list', //获取动态列表
+  'circles-del': '/circles/del', //删除动态
+  'user-record-list': '/user/record-list', //获取录音列表
+  'user-set-record-status': '/user/set-record-status', //审核录音
+  'porn-log-list': '/porn-log/list', //涉黄管理列表获取
+  'porn-log-del': '/porn-log/del', //删除涉黄项目
 }
 
 export default urlList;

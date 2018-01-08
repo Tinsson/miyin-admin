@@ -110,6 +110,22 @@ export default {
         id: '4',
         name: '文章分类管理',
         path: '/article-class'
+      },{
+        id:'17',
+        name: '评论管理',
+        path: '/comment'
+      },{
+        id: '18',
+        name: '动态管理',
+        path: '/circles'
+      },{
+        id: '19',
+        name: '录音审核',
+        path: '/voice-verify'
+      },{
+        id: '20',
+        name: '涉黄管理',
+        path: '/yellow'
       }]
     }]
   }),
