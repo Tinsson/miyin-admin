@@ -127,6 +127,17 @@ export default {
         name: '涉黄管理',
         path: '/yellow'
       }]
+    },{
+      id: '21',
+      name: '权限管理',
+      path: '/authority',
+      children: [
+        {
+          id: '22',
+          name: '角色列表',
+          path: '/role'
+        }
+      ]
     }]
   }),
   computed: {

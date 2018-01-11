@@ -38,6 +38,10 @@ import circles from '@/page/content/circles' //动态管理
 import voiceVerify from '@/page/content/voice-verify' //录音审核
 import yellow from '@/page/content/yellow' //涉黄管理
 
+
+//权限管理
+import role from '@/page/authority/role' //角色管理
+
 const router = new Router({
   // mode: 'history',
   routes: [
@@ -139,6 +143,10 @@ const router = new Router({
           path: '/config/global-config',
           name: 'globalConfig',
           component: globalConfig
+        },{
+          path: '/authority/role',
+          name: 'role',
+          component: role
         }
       ]
     }
