@@ -30,7 +30,7 @@ export default {
             return h('audio',{
               attrs:{
                 controls:"controls",
-                src: 'http://myin.oss-cn-beijing.aliyuncs.com/ios/volume20171226163124.mp3'
+                src: params.row.url
               }
             })
           }
