@@ -136,6 +136,14 @@ export default {
           id: '22',
           name: '角色列表',
           path: '/role'
+        },{
+          id: '23',
+          name: '权限列表',
+          path: '/authority'
+        },{
+          id: '24',
+          name: '账户列表',
+          path: '/admin'
         }
       ]
     }]

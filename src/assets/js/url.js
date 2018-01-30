@@ -1,4 +1,21 @@
 const urlList = {
+  //权限管理
+  'role-list': '/role/list', //角色列表
+  'role-html': '/role/html', //角色权限的详情
+  'role-permission-all': '/role/permission-all', //获取权限配置列表
+  'role-permission-add': '/role/permission-add', //配置权限
+  'role-delete': '/role/delete', //角色删除
+  'role-edit': '/role/edit', //角色编辑
+  'role-add': '/role/add', //角色添加
+  'permission-list': '/permission/list', //获取权限列表
+  'permission-add': '/permission/add', //添加节点
+  'permission-edit': '/permission/edit', //修改节点
+  'admin-list': '/admin/list', //获取后台账号列表
+  'admin-add': '/admin/add', //后台用户添加
+  'admin-edit': '/admin/edit', //后台用户修改
+  'admin-delete': '/admin/delete', //删除用户
+  'admin-role-all': '/admin/role-all', //获取所有角色
+  'admin-admin-role-add': '/admin/admin-role-add', //分配角色
 
   //图片上传
   'upload-img': '/product/upload',
