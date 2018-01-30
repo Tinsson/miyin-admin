@@ -13,9 +13,9 @@
         <div class="node-title">
           <Checkbox :indeterminate="check_authority_list[pindex].indeterminate" :value="check_authority_list[pindex].checkAll" size="large" @click.prevent.native="handleCheckAll(pindex)">{{item.display_name}}</Checkbox>
         </div>
-        <CheckboxGroup v-model="check_authority_list[pindex].child" @on-change="checkChange">
+        <CheckboxGroup v-model="check_authority_list[pindex].children" @on-change="checkChange">
           <div class="node-list">
-            <div class="node-item" v-for="(child,index) in item.child" @click="setPindex(pindex)">
+            <div class="node-item" v-for="(child,index) in item.children" @click="setPindex(pindex)">
               <Checkbox :label="child.id">{{child.display_name}}</Checkbox>
             </div>
           </div>
@@ -184,7 +184,7 @@ export default {
         if (this.check_authority_list[i].indeterminate || this.check_authority_list[i].checkAll) {
           arr.push(this.check_authority_list[i].pid);
         }
-        arr = arr.concat(this.check_authority_list[i].child);
+        arr = arr.concat(this.check_authority_list[i].children);
       }
       this.axios.post('role-permission-add', {
         permission_id: arr.join(','),
@@ -210,7 +210,7 @@ export default {
     modalChange(show) {
       if (!show) {
         for (let i = 0; i < this.check_authority_list.length; i++) {
-          this.check_authority_list[i].child = [];
+          this.check_authority_list[i].children = [];
           this.check_authority_list[i].indeterminate = false;
           this.check_authority_list[i].checkAll = false;
         }
@@ -235,10 +235,10 @@ export default {
       }
       this.check_authority_list[pindex].indeterminate = false;
 
-      this.check_authority_list[pindex].child = [];
+      this.check_authority_list[pindex].children = [];
       if (this.check_authority_list[pindex].checkAll) {
-        for (let i = 0; i < this.authority_list[pindex].child.length; i++) {
-          this.check_authority_list[pindex].child.push(this.authority_list[pindex].child[i].id);
+        for (let i = 0; i < this.authority_list[pindex].children.length; i++) {
+          this.check_authority_list[pindex].children.push(this.authority_list[pindex].children[i].id);
         }
       }
     },
@@ -262,13 +262,13 @@ export default {
       this.axios.get(`role-html?id=${id}`).then(res => {
         this.checked_list = res.data.rolePermission;
         for (let i = 0; i < this.authority_list.length; i++) {
-          for (let k = 0; k < this.authority_list[i].child.length; k++) {
-            if (this.checked_list.indexOf(this.authority_list[i].child[k].id) !== -1) {
-              this.check_authority_list[i].child.push(this.authority_list[i].child[k].id);
+          for (let k = 0; k < this.authority_list[i].children.length; k++) {
+            if (this.checked_list.indexOf(this.authority_list[i].children[k].id) !== -1) {
+              this.check_authority_list[i].children.push(this.authority_list[i].children[k].id);
               this.check_authority_list[i].indeterminate = true;
             }
           }
-          if (this.check_authority_list[i].child.length == this.authority_list[i].child.length) {
+          if (this.check_authority_list[i].children.length == this.authority_list[i].children.length) {
             this.check_authority_list[i].indeterminate = false;
             this.check_authority_list[i].checkAll = true;
           }
@@ -278,11 +278,11 @@ export default {
     getAuthorityList() {
       this.axios.get('role-permission-all').then(res => {
         console.log(res);
-        this.authority_list = res.data.permissionAll[0].child;
+        this.authority_list = res.data.permissionAll[0].children;
         this.check_authority_list = [];
         for (let i = 0; i < this.authority_list.length; i++) {
           this.$set(this.check_authority_list, i, {
-            child: [],
+            children: [],
             indeterminate: false,
             checkAll: false,
             pid: this.authority_list[i].id
@@ -291,8 +291,8 @@ export default {
       })
     },
     checkChange(data) {
-      this.check_authority_list[this.pindex].child = data;
-      if (data.length == this.authority_list[this.pindex].child.length) {
+      this.check_authority_list[this.pindex].children = data;
+      if (data.length == this.authority_list[this.pindex].children.length) {
         this.check_authority_list[this.pindex].indeterminate = false
         this.check_authority_list[this.pindex].checkAll = true
       } else if (data.length > 0) {

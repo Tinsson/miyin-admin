@@ -132,8 +132,9 @@ export default {
         params: this.searchData
       }).then(res=>{
         this.tableLoading = false;
+        console.log(res);
         if(res){
-          this.myData = res.data.list
+          this.myData = res.data.log_list
         }
       })
     },

@@ -29,7 +29,7 @@ export default {
           render: (h,params)=>{
             return h('img',{
               attrs: {
-                src: this.$oss_url+params.row.img
+                src: params.row.img
               },
               style: {
                 width:'50px'
