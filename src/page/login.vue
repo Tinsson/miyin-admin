@@ -55,12 +55,16 @@
               admin_password: this.password
           }
           this.btnInfo = '登录中...'
-          // this.axios.post('admin-login',data).then(res=>{
-            sessionStorage.setItem('user_id','123123123')
-            this.$router.push('/home')
-          //   this.btnInfo = '登录'
-          //   console.log(res);
-          // })
+          this.axios.post('admin-login',data).then(res=>{
+            if(res){
+              console.log(res);
+              sessionStorage.setItem('token',res.data.token)
+              sessionStorage.setItem('user_name',this.username)
+              this.$router.push('/home')
+            } else {
+              this.btnInfo = '登录'
+            }
+          })
           // this.axios.post('Login/login',data).then((d)=>{
           //     // const info = d.data;
           //     // if(d.status === 1) {

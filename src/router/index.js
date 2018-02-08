@@ -53,7 +53,7 @@ const router = new Router({
       name: 'root',
       redirect: function(path) {
         console.log(path);
-        return sessionStorage.getItem('user_id')
+        return sessionStorage.getItem('token')
           ? '/home'
           : '/login'
       }
@@ -169,8 +169,8 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log(to.hash)
-  if (!sessionStorage.getItem('user_id') && to.path != '/login') {
+  console.log(to)
+  if (!sessionStorage.getItem('token') && to.path != '/login') {
     router.push('/login')
   }
   sessionStorage.setItem('cur_path', to.path)

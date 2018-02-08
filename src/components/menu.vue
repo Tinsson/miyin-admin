@@ -6,7 +6,7 @@
     </div>
     <div class="user-panel">
       <div class="pull-left">
-        <p class="text">liumiao</p>
+        <p class="text">{{user_name}}</p>
         <p class="state"><i class="icon-state"></i>online</p>
       </div>
     </div>
@@ -150,7 +150,8 @@ export default {
           path: '/admin'
         }
       ]
-    }]
+    }],
+    user_name: sessionStorage.getItem('user_name')
   }),
   computed: {
     cur_path() {

@@ -103,6 +103,13 @@ export default {
           key: 'remark',
           align: 'center'
         },{
+          title: '状态',
+          key: 'status',
+          align: 'center',
+          render: (h,params)=>{
+            return h('span',params.row.status==1?'正常':'禁用')
+          }
+        },{
           title: '操作',
           key: 'operation',
           align: 'center',
@@ -140,10 +147,10 @@ export default {
                 },
                 on: {
                   click: ()=>{
-                    this.del(params.row.admin_id)
+                    this.del(params.row)
                   }
                 }
-              }, '删除')
+              }, params.row.status==1?'禁用':'恢复')
             ])
           }
         }
@@ -184,9 +191,10 @@ export default {
         }
       })
     },
-    del(id) {
-      this.axios.post('admin-delete',{
-        admin_id:id
+    del(user) {
+      this.axios.post('admin-set-status',{
+        admin_id:user.admin_id,
+        status:user.status == 1?2:1
       }).then(res=>{
         if(res){
           this.getData();
