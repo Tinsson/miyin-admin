@@ -14,6 +14,14 @@ import components from '@/assets/js/components'
 import VueAxios from 'vue-axios'
 import axios from '@/assets/js/axios'
 
+import echarts from 'echarts/lib/echarts'
+import 'echarts/lib/chart/pie'
+import 'echarts/lib/component/tooltip'
+import 'echarts/lib/component/legend'
+
+window.echarts = echarts;
+
+
 // import '@/mockjs'
 
 Vue.use(VueAxios, axios)

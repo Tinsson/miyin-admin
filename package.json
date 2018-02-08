@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "echarts": "^4.0.2",
     "iview": "^2.7.3",
     "node-sass": "^4.7.2",
     "normalize.css": "^7.0.0",

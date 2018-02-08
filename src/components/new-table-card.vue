@@ -1,6 +1,9 @@
+
+<!-- 新tableCard组件 优化了事件触发方式,改变data不改变当前选中状态 -->
+
 <template>
   <div id="tableCard" :style="container_style">
-    <div class="card" :style="card_style" v-for="(card,index) in columns" :class="{active:choseIndex==index}" @click="choseCard(card,index)">
+    <div class="card" :style="card_style" v-for="(card,index) in columns" :class="{active:choseIndex==index}" @click="choseCard(index)">
       <div class="card-left">
         <div class="title">
           {{card.title}}
@@ -36,21 +39,30 @@ export default {
     }
   },
   data: () => ({
-    choseIndex: 0
+    choseIndex: 0,
+    choseType: ''
   }),
   methods: {
-    choseCard(card,index) {
+    choseCard(index) {
       this.choseIndex = index;
-      this.$emit('change',card.type)
+      this.choseType = this.columns[this.choseIndex].type
     }
   },
   watch: {
     data(cur) {
       console.log(cur)
-      this.choseIndex = 0;
-      this.$emit('change',this.columns[0].type)
+      if(JSON.stringify(cur) == '{}'){
+        this.choseType = '';
+        return;
+      }
+      this.choseType = this.columns[this.choseIndex].type;
+    },
+    choseType(cur) {
+      this.$emit('change',cur)
     }
-
+  },
+  mounted() {
+    console.log('加载了组件')
   }
 }
 </script>

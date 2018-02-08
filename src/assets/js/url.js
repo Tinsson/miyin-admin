@@ -29,6 +29,11 @@ const urlList = {
   'user-set-status': '/user/set-status', //拉黑/移出黑名单
   'user-audit-cert': '/user/audit-cert', //改变用户审核状态
   'user-cert-group-count': '/user/cert-group-count', //获取用户各个审核状态的数量
+  'user-anchor-stats': '/user/anchor-stats', //获取女主播统计数据
+  'user-anchor-talk-log': '/user/anchor-talk-log', //获取主播聊天记录
+  'user-anchor-income': '/user/anchor-income', //获取主播收入
+  'user-anchor-gift': '/user/anchor-gift', //获取主播礼物收入
+  'user-anchor-withdraw': '/user/anchor-withdraw', //获取主播提现记录
 
 
   //动态
