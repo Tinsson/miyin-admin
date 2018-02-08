@@ -97,7 +97,7 @@ export default {
                 },
                 on:{
                   click:()=>{
-                    this.$refs.userDetail.show(params.row.uuid);
+                    this.$refs.userDetail.show(params.row.user_uuid);
                   }
                 }
               }, '查看信息'),
@@ -236,6 +236,7 @@ export default {
         params: this.searchData
       }).then(res=>{
         this.tableLoading = false;
+        console.log(res);
         if(res){
           this.myData = res.data.list
         }

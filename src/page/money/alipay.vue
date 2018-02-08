@@ -17,62 +17,57 @@ export default {
       columns: [
         {
           title: '用户昵称',
-          key: 'uuid',
+          key: 'nick_name',
           align: 'center'
         },{
           title: '用户id',
-          key: 'account',
+          key: 'user_uuid',
           align: 'center'
         }, {
           title: '绑定手机号',
-          key: 'user_name',
+          key: 'user_mobile',
           align: 'center'
         }, {
           title: '交易流水号',
-          key: 'register_time',
+          key: 'flow_uuid',
           align: 'center'
         }, {
           title: '充值金额',
-          key: 'mobile',
+          key: 'money',
           align: 'center'
         }, {
-          title: '用户唯一支付宝号',
-          key: 'wx',
+          title: '支付宝账号',
+          key: 'account',
           align: 'center'
         }, {
           title: '时间',
-          key: 'pic',
+          key: 'updated_at',
           align: 'center'
         }
       ],
-      myData: [{uuid:1}],
+      myData: [],
       tableLoading: false,
       searchList: [
         {
           label: '用户昵称',
           type: 'input',
           placeholder: '用户昵称',
-          model: 'uuid'
+          model: 'nick_name'
+        },{
+          label: '用户id',
+          type: 'input',
+          placeholder: '用户id',
+          model: 'user_uuid'
         },{
           label: '支付宝账号',
           type: 'input',
           placeholder: '支付宝账号',
-          model: 'nickname'
-        },{
-          label: '联系手机号',
-          type: 'input',
-          placeholder: '联系手机号',
-          model: 'nickname'
-        },{
-          label: '姓名',
-          type: 'input',
-          placeholder: '姓名',
-          model: 'nickname'
+          model: 'account'
         },{
           label: '绑定手机号',
           type: 'input',
           placeholder: '绑定手机号',
-          model: 'nickname'
+          model: 'user_mobile'
         },{
           label: '通过时间',
           type: 'daterange',
@@ -89,17 +84,21 @@ export default {
         page: 1,
         size: 10
       },
-      searchForm: {} //搜索框属性
+      searchForm: {}, //搜索框属性
+      my_search: {
+        type: 1,
+        status: 1
+      }
     }
   },
   computed: {
     searchData () {
-      return Object.assign(this.fy,this.searchForm);
+      return Object.assign(this.fy,this.searchForm,this.my_search);
     }
   },
   methods: {
     refresh() {
-      console.log('刷新')
+      this.getData();
     },
     search(data) {
       this.searchForm = data;
@@ -114,8 +113,20 @@ export default {
       this.getData();
     },
     getData() {
-      console.log(this.searchData)
+      this.tableLoading = true
+      this.axios.get('wallet-recharge',{
+        params: this.searchData
+      }).then(res=>{
+        this.tableLoading = false;
+        if(res){
+          this.myData = res.data.list;
+          this.pageprops.total = res.data.total
+        }
+      })
     },
+  },
+  mounted() {
+    this.getData();
   }
 }
 </script>

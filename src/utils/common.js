@@ -47,6 +47,7 @@ function copyObj(obj,emptyObj={}) {
   return emptyObj;
 }
 
+
 //获取对象交集
 function crossObj(rowobj, sourceobj) {
   let obj = {};
@@ -56,22 +57,47 @@ function crossObj(rowobj, sourceobj) {
   return obj;
 }
 
-function uploadData(url, params){
-  return new Promise((resolve, reject)=>{
-    this.axios.post(url, params).then((d)=>{
-      if(d.status === 1){
+function uploadData(url, params) {
+  return new Promise((resolve, reject) => {
+    this.axios.post(url, params).then((d) => {
+      if (d.status === 1) {
         this.$Message.success(d.message);
         resolve(d.data);
-      }else{
+      } else {
         this.$Message.error(d.message);
       }
     })
   })
 }
 
+
+//格式化日期
+function formateDate(date,type) {  //type：日期类型  1：起始日期（+00:00:00）  2：终止日期(+23:59:59)  不填的话为正常日期
+  if(!date) {
+    return '';
+  }
+  let time = '';
+  let Y = date.getFullYear();
+  let M = date.getMonth()+1;
+  if(M<10){
+    M = '0'+M;
+  }
+  let D = date.getDate();
+  if(D<10){
+    D = '0'+ D
+  }
+  time = time + Y + '-' + M + '-' + D;
+  switch(type){
+    case 1:time += ' 00:00:00';break;
+    case 2:time += ' 23:59:59';break;
+  }
+  return time;
+}
+
 export {
   compareObject,
   copyObj,
   crossObj,
-  uploadData
+  uploadData,
+  formateDate
 }

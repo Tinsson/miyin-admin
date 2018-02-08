@@ -18,7 +18,7 @@
                     头像:
                   </div>
                   <div class="content">
-                    <div class="photo background-contain" :style="'background-image:url('+user_info_form.portrait+')'" @click="showImg">
+                    <div class="photo background-contain" :style="'background-image:url('+user_info_form.portrait+')'">
 
                     </div>
                     <my-upload v-if="edit_user_info" @success="upload_success"></my-upload>
@@ -248,9 +248,6 @@
       </div>
 
     </Modal>
-    <Modal v-model="imgShow" title="图片查看" width="600">
-      12312312
-    </Modal>
   </div>
 </template>
 <script>
@@ -353,7 +350,7 @@ export default {
 
 
     myData: [],
-    imgShow: false,
+    // imgShow: false,
 
     if_show: false,
     left_loading: false,
@@ -471,9 +468,9 @@ export default {
         }
       })
     },
-    showImg() {
-      this.imgShow = true;
-    },
+    // showImg() {
+    //   this.imgShow = true;
+    // },
     edit(item) {
       // for(let key in this.$data[item+'_form']){
       //   this.$set(this.$data[item+'_form_copy'],key,this.$data[item+'_form'][key])

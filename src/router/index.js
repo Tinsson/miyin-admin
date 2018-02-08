@@ -33,9 +33,18 @@ import taskDaily from '@/page/config/task-daily' //每日任务配置
 
 // 内容管理
 import articleClass from '@/page/content/articleClass' //文章分类管理
+import comment from '@/page/content/comment' //评论管理
+import circles from '@/page/content/circles' //动态管理
+import voiceVerify from '@/page/content/voice-verify' //录音审核
+import yellow from '@/page/content/yellow' //涉黄管理
 
 // 消息管理
 import msgTemplate from '@/page/message/msg-template'
+
+//权限管理
+import role from '@/page/authority/role' //角色管理
+import authority from '@/page/authority/authority' //权限列表
+import admin from '@/page/authority/admin' //账户列表
 
 const router = new Router({
   // mode: 'history',
@@ -78,7 +87,23 @@ const router = new Router({
           path: '/content/article-class',
           name: 'articleClass',
           component: articleClass
-        }, {
+        },{
+          path: '/content/comment',
+          name: 'comment',
+          component: comment
+        },{
+          path: '/content/circles',
+          name: 'circles',
+          component: circles
+        },{
+          path: '/content/voice-verify',
+          name:'voiceVerify',
+          component: voiceVerify
+        },{
+          path: '/content/yellow',
+          name: 'yellow',
+          component:yellow
+        },{
           path: '/gift/gifts',
           name: 'gifts',
           component: gifts
@@ -122,10 +147,22 @@ const router = new Router({
           path: '/config/global-config',
           name: 'globalConfig',
           component: globalConfig
-        },{
+        }, {
           path: '/message/msg-template',
           name: 'msgTemplate',
           component: msgTemplate
+        },{
+          path: '/authority/role',
+          name: 'role',
+          component: role
+        },{
+          path: '/authority/authority',
+          name: 'authority',
+          component:authority
+        },{
+          path: '/authority/admin',
+          name: 'admin',
+          component:admin
         }
       ]
     }

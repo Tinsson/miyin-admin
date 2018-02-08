@@ -7,7 +7,7 @@
   </search-group>
   <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
     <div slot="btn">
-      <msg-btn :select="select_arr" :total="pageprops.total"></msg-btn>
+      <msg-btn :select="select_arr" :total="pageprops.total" @refresh="getData"></msg-btn>
     </div>
     <Table :columns="columns" :data="myData" border :loading="tableLoading" @on-selection-change="select"></Table>
   </table-container>
@@ -261,7 +261,7 @@ export default {
       this.getData();
     },
     refresh() {
-      console.log('刷新')
+      this.getData()
     },
     pageChange(page) {
       this.fy.page = page;

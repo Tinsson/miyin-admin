@@ -110,16 +110,51 @@ export default {
         id: '4',
         name: '文章分类管理',
         path: '/article-class'
+      },{
+        id:'17',
+        name: '评论管理',
+        path: '/comment'
+      },{
+        id: '18',
+        name: '动态管理',
+        path: '/circles'
+      },{
+        id: '19',
+        name: '录音审核',
+        path: '/voice-verify'
+      },{
+        id: '20',
+        name: '涉黄管理',
+        path: '/yellow'
       }]
-    },{
-      id: '17',
+    }, {
+      id: '25',
       name: '消息管理',
       path: '/message',
       children: [{
-        id: '18',
+        id: '26',
         name: '消息模板',
         path: '/msg-template'
       }]
+    },{
+      id: '21',
+      name: '权限管理',
+      path: '/authority',
+      children: [
+        {
+          id: '22',
+          name: '角色列表',
+          path: '/role'
+        },{
+          id: '23',
+          name: '权限列表',
+          path: '/authority'
+        },{
+          id: '24',
+          name: '账户列表',
+          path: '/admin'
+        }
+      ]
     }]
   }),
   computed: {

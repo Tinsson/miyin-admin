@@ -13,64 +13,13 @@
     <Table :columns="columns" :data="myData" border :loading="tableLoading" @on-selection-change="select"></Table>
   </table-container>
 
-  <!-- 高级检索模态框 -->
-  <!-- <Modal v-model="senior_search" title="高级检索" ok-text="开始检索" cancel-text="重置">
-    <div class="senior-search-container">
-      <div>
-        <div class="label">
-          用户账号:
-        </div>
-        <Input placeholder="用户ID/账号"></Input>
-      </div>
-      <div>
-        <div class="label">
-          用户昵称:
-        </div>
-        <Input placeholder="用户昵称"></Input>
-      </div>
-      <div>
-        <div class="label">
-          用户来源:
-        </div>
-        <Select>
-          <Option value='PC'>PC端</Option>
-          <Option value="web">WEB端</Option>
-        </Select>
-      </div>
-      <div>
-        <div class="label">
-          会员等级:
-        </div>
-        <Select>
-          <Option value="pt">普通会员</Option>s
-          <Option value="hj">黄金会员</Option>
-          <Option value="bj">白金会员</Option>
-          <Option value="zs">钻石会员</Option>
-        </Select>
-      </div>
-      <div>
-        <div class="label">
-          用户标签:
-        </div>
-        <Select>
-        </Select>
-      </div>
-      <div>
-        <div class="label">
-          注册时间:
-        </div>
-        <DatePicker type="daterange" placement="bottom-end" placeholder="Select date" style="width:100%"></DatePicker>
-      </div>
-    </div>
-  </Modal> -->
-
-  <user-detail ref="userDetail"></user-detail>
+  <anchor-detail ref="anchorDetail"></anchor-detail>
 
 </div>
 </template>
 <script>
 import msgBtn from './components/user-msg-btn.vue'
-import userDetail from './components/user-detail.vue'
+import anchorDetail from './components/anchor-detail.vue'
 export default {
   name: "anchor",
   data (){
@@ -130,7 +79,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.$refs.userDetail.show(params.row.userID)
+                    this.$refs.anchorDetail.show(params.row)
                   }
                 }
               }, '查看')
@@ -145,17 +94,18 @@ export default {
         label: '用户账号',
         type: 'input',
         placeholder: '用户ID/账号',
-        model: 'uuid'
+        model: 'username'
       }, {
         label: '用户昵称',
         type: 'input',
         placeholder: '用户昵称',
-        model: 'userName'
+        model: 'nick_name'
       }, {
         label: '注册时间',
         type: 'daterange',
         placeholder: '请选择注册时间',
-        model: 'register_time'
+        model: 'register_time',
+        start_end: ['start_time','end_time']
       }],
 
       pageprops: { //分页配置
@@ -212,7 +162,7 @@ export default {
   },
   components: {
     msgBtn,
-    userDetail
+    anchorDetail
   }
 }
 </script>
