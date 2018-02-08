@@ -118,16 +118,16 @@
     <Modal v-model="money_modal" title="赠送秘币">
       <Form ref="money_form" :model="money_form" :rules="money_rule" :label-width="80">
         <FormItem label="发送对象:">
-          共<span style="color:red">{{money_form.send_type=='勾选的用户'?select.length:total}}</span>个用户
+          共<span style="color:red">{{money_form.send_type=='1'?select.length:total}}</span>个用户
         </FormItem>
         <FormItem label="发送类型:">
           <RadioGroup v-model="money_form.send_type">
-            <Radio label="勾选的用户"></Radio>
-            <Radio label="全部用户"></Radio>
+            <Radio label="1">勾选的用户</Radio>
+            <Radio label="2">全部用户</Radio>
           </RadioGroup>
         </FormItem>
         <FormItem label="秘币数量:">
-          <Input v-model="app_form.url"></Input>
+          <Input v-model="money_form.num"></Input>
         </FormItem>
       </Form>
       <div slot="footer">
@@ -152,7 +152,7 @@ export default {
     //赠送秘币
     money_modal: false,
     money_form: {
-      send_type: '勾选的用户',
+      send_type: '1',
       num: ''
     },
     money_modal_loading:false,
@@ -247,7 +247,19 @@ export default {
     zn_submit() {
 
     },
-    money_submit() {}
+    money_submit() {
+      this.axios.post('user-give-gold',{
+        check_type:1,
+        price:this.money_form.num,
+        ids:this.select[0].uuid
+      }).then(res=>{
+        if(res){
+          this.money_modal = false;
+          this.$Message.success('充值成功');
+          this.$emit('refresh')
+        }
+      })
+    }
   }
 }
 </script>

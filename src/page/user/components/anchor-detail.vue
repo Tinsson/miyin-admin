@@ -308,11 +308,9 @@ export default {
         },
         legend: {
           orient: 'vertical',
-          // x: 'right',
           right: 10,
           top: 20,
           bottom: 20,
-          // data:['直接访问 31244秘币 45%','邮件营销 31200秘币 10%','联盟广告 31100秘币 30%','视频广告 22222秘币 20%','搜索引擎 34234秘币 13%']
           data: arr1
         },
         series: [{

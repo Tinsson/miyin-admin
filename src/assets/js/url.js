@@ -34,6 +34,7 @@ const urlList = {
   'user-anchor-income': '/user/anchor-income', //获取主播收入
   'user-anchor-gift': '/user/anchor-gift', //获取主播礼物收入
   'user-anchor-withdraw': '/user/anchor-withdraw', //获取主播提现记录
+  'user-give-gold':'/user/give-gold',//赠送秘币
 
 
   //动态
