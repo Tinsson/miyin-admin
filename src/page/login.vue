@@ -51,14 +51,16 @@
             return false;
           }
           const data = {
-              username: this.username,
-              password: this.password
+              admin_name: this.username,
+              admin_password: this.password
           }
           this.btnInfo = '登录中...'
-          setTimeout(()=>{
+          // this.axios.post('admin-login',data).then(res=>{
             sessionStorage.setItem('user_id','123123123')
             this.$router.push('/home')
-          },1000)
+          //   this.btnInfo = '登录'
+          //   console.log(res);
+          // })
           // this.axios.post('Login/login',data).then((d)=>{
           //     // const info = d.data;
           //     // if(d.status === 1) {

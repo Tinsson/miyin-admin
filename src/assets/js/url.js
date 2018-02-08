@@ -1,4 +1,6 @@
 const urlList = {
+  'admin-login': '/admin/login',//用户登录
+
   //权限管理
   'role-list': '/role/list', //角色列表
   'role-html': '/role/html', //角色权限的详情

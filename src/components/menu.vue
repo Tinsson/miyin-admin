@@ -100,6 +100,10 @@ export default {
           id: '16',
           name: '每日任务',
           path: '/task-daily'
+        },{
+          id:'25',
+          name:'充值比例',
+          path:'/recharge-ratio'
         }
       ]
     },{

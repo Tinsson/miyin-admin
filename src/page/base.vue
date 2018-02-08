@@ -129,6 +129,7 @@ export default {
       this.select_arr = selection
     },
     search(data) {
+      this.fy.page = 1;
       this.searchForm = data;
       this.getData();
     },

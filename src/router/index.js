@@ -30,6 +30,7 @@ import incomeDetail from '@/page/money/income-detail' //收入明细
 import globalConfig from '@/page/config/global-config' //全局配置
 import taskNewcomer from '@/page/config/task-newcomer' //新手任务配置
 import taskDaily from '@/page/config/task-daily' //每日任务配置
+import rechargeRatio from '@/page/config/recharge-ratio' //充值比例配置
 
 // 内容管理
 import articleClass from '@/page/content/articleClass' //文章分类管理
@@ -145,6 +146,10 @@ const router = new Router({
           path: '/config/global-config',
           name: 'globalConfig',
           component: globalConfig
+        },{
+          path: '/config/recharge-ratio',
+          name: 'rechargeRatio',
+          component: rechargeRatio
         },{
           path: '/authority/role',
           name: 'role',

@@ -7,61 +7,10 @@
   </search-group>
   <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
     <div slot="btn">
-      <msg-btn :select="select_arr" :total="pageprops.total" @refresh="getData"></msg-btn>
+      <msg-btn :select="select_arr" :total="pageprops.total" @refresh="getData" :search="searchForm"></msg-btn>
     </div>
     <Table :columns="columns" :data="myData" border :loading="tableLoading" @on-selection-change="select"></Table>
   </table-container>
-
-  <!-- 高级检索模态框 -->
-  <!-- <Modal v-model="senior_search" title="高级检索" ok-text="开始检索" cancel-text="重置">
-    <div class="senior-search-container">
-      <div>
-        <div class="label">
-          用户账号:
-        </div>
-        <Input placeholder="用户ID/账号"></Input>
-      </div>
-      <div>
-        <div class="label">
-          用户昵称:
-        </div>
-        <Input placeholder="用户昵称"></Input>
-      </div>
-      <div>
-        <div class="label">
-          用户来源:
-        </div>
-        <Select>
-          <Option value='PC'>PC端</Option>
-          <Option value="web">WEB端</Option>
-        </Select>
-      </div>
-      <div>
-        <div class="label">
-          会员等级:
-        </div>
-        <Select>
-          <Option value="pt">普通会员</Option>
-          <Option value="hj">黄金会员</Option>
-          <Option value="bj">白金会员</Option>
-          <Option value="zs">钻石会员</Option>
-        </Select>
-      </div>
-      <div>
-        <div class="label">
-          用户标签:
-        </div>
-        <Select>
-        </Select>
-      </div>
-      <div>
-        <div class="label">
-          注册时间:
-        </div>
-        <DatePicker type="daterange" placement="bottom-end" placeholder="Select date" style="width:100%"></DatePicker>
-      </div>
-    </div>
-  </Modal> -->
 
   <user-detail ref="userDetail"></user-detail>
 
@@ -217,9 +166,6 @@ export default {
           label: '请选择',
           value: '',
         },{
-          label: '未知',
-          value: 0
-        },{
           label: '男',
           value: 1
         },{
@@ -257,7 +203,9 @@ export default {
       this.select_arr = selection
     },
     search(data) {
+      this.fy.page = 1;
       this.searchForm = data;
+      // this.$set(this.$data,'searchForm',data)
       this.getData();
     },
     refresh() {
@@ -274,6 +222,7 @@ export default {
     },
     getData () {
       this.tableLoading = true
+      this.select_arr = []
       this.axios.get(`user-list`,{
         params: this.searchData
       }).then(res => {
