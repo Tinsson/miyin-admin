@@ -100,6 +100,14 @@ export default {
           id: '16',
           name: '每日任务',
           path: '/task-daily'
+        },{
+          id: '17',
+          name: '头像配置',
+          path: '/avatar-config'
+        },{
+          id: '18',
+          name: '标签配置',
+          path: '/tag-config'
         }
       ]
     },{
@@ -135,6 +143,10 @@ export default {
         id: '26',
         name: '消息模板',
         path: '/msg-template'
+      },{
+        id: '27',
+        name: '推送列表',
+        path: '/push-list'
       }]
     },{
       id: '21',

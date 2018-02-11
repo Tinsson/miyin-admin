@@ -53,9 +53,27 @@ export default {
         {
           title: '添加时间',
           key: 'created_at'
+        },
+        {
+          title: '操作',
+          key: 'operation',
+          width: '160',
+          align: 'center',
+          render: (h, params)=>{
+            return this.render_btn(h, params, this.btnData_kw);
+          }
         }
       ],
       myData_kw: [],
+      btnData_kw: [{
+        type: 'primary',
+        func: 'EditOptKw',
+        text: '编辑'
+      },{
+        type: 'error',
+        func: 'DelOptKw',
+        text: '删除'
+      }],
       columns: [
         {
           title: '序号',
@@ -112,7 +130,7 @@ export default {
         },{
           title: '操作',
           key: 'operation',
-          width: '160',
+          width: '220',
           align: 'center',
           render: (h, params)=>{
             return this.render_btn(h, params, this.btnData);
@@ -121,6 +139,12 @@ export default {
       ],
       myData: [],
       btnData: [{
+        type1: 'success',
+        type2: 'error',
+        func: 'ChangeStatus',
+        text1: '启用',
+        text2: '禁用'
+      },{
         type: 'primary',
         func: 'EditOpt',
         text: '编辑'
@@ -157,6 +181,15 @@ export default {
     render_btn(h, params, bdata){
       let res = [];
       bdata.forEach(val=>{
+        if(val.func === "ChangeStatus") {
+          if(params.row.status === 0){
+            val.type = val.type1;
+            val.text = val.text1;
+          }else if(params.row.status === 1){
+            val.type = val.type2;
+            val.text = val.text2;
+          }
+        }
         const btn = h('Button',{
           props: {
             type: val.type
@@ -214,7 +247,22 @@ export default {
       };
       this.$refs.keyword_modal.show();
     },
-    SubKeyword(){
+    SubKeyword(info,sign){
+      if(sign.status){
+        let params = {
+          keyword_id: sign.id,
+          ...info
+        };
+        this.$uploadData('temp-kw-edit',params).then(()=>{
+          this.$refs.keyword_modal.close();
+          this.getData();
+        });
+      }else{
+        this.$uploadData('temp-kw-add',info).then(()=>{
+          this.$refs.keyword_modal.close();
+          this.getData();
+        });
+      }
 
     },
     //添加模板
@@ -250,6 +298,26 @@ export default {
         }
       })
     },
+    EditOptKw(row){
+      this.kw_modal.isEdit = true;
+      this.kw_modal.data = {
+        keyword_name: row.keyword_name,
+        keyword_zh: row.keyword_zh
+      };
+      this.kw_modal.id = row.keyword_id;
+      this.$refs.keyword_modal.show();
+    },
+    DelOptKw(row){
+      this.$Modal.confirm({
+        title: '温馨提示',
+        content: '<p class="confirm-text">确认删除此关键词吗？</p>',
+        onOk: ()=>{
+          this.$uploadData('temp-kw-del',{keyword_id: row.keyword_id}).then(()=>{
+            this.getData();
+          });
+        }
+      })
+    },
     //编辑模板
     EditOpt(row){
       this.temp_modal.isEdit = true;
@@ -268,6 +336,17 @@ export default {
           });
         }
       })
+    },
+    ChangeStatus(row){
+      let status = row.status;
+      if(status === 1){
+        status = 0;
+      }else if(status === 0){
+        status = 1;
+      }
+      this.$uploadData('temp-switch',{id: row.id, status}).then(()=>{
+        this.getData();
+      });
     }
   },
   mounted() {

@@ -66,6 +66,13 @@ const urlList = {
   'task-list': '/task/list', //获取任务列表
   'task-add': '/task/add', //添加任务
   'task-edit': '/task/edit', //修改任务
+  'avatar-list': '/system/portrait-list', //默认头像列表
+  'avatar-add': '/system/add-portrait', //默认头像添加
+  'avatar-del': '/system/del-portrait', //默认头像删除
+  'avatar-edit': '/system/edit-portrait', //默认头像修改
+  'tag-list':  '/tag/list', //标签列表
+  'tag-add': '/tag/add',  //添加标签
+  'tag-del': '/tag/del',  //删除标签
 
   //消息管理
   'temp-kw-list': '/template-keyword/list',
@@ -82,6 +89,8 @@ const urlList = {
   'temp-switch': '/template/switch',
   'temp-detail': '/template/detail',
 
+  'push-list': '/message/push-list',
+  'push-delete': '/message/push-delete',
 
   //内容管理
   'comment-list': '/comment/list', //获取评论列表

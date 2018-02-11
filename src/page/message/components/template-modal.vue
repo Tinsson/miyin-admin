@@ -84,11 +84,7 @@ export default {
     }
   },
   mounted(){
-    this.axios.get('temp-kw-all').then(res=>{
-      if(res.status === 1){
-        this.FixArr = res.data.keyword_list;
-      }
-    });
+    this.initData();
   },
   watch: {
     init_data(val){
@@ -106,9 +102,17 @@ export default {
   methods: {
     show() {
       this.if_show = true;
+      this.initData();
     },
     close() {
       this.if_show = false;
+    },
+    initData(){
+      this.axios.get('temp-kw-all').then(res=>{
+        if(res.status === 1){
+          this.FixArr = res.data.keyword_list;
+        }
+      });
     },
     AlertErr(text = '请选择输入框！'){
       this.$Message.error(text);

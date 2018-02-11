@@ -1,6 +1,7 @@
 <template>
   <div id="keywordModal">
     <Modal v-model="if_show" :title="model_title" width="600" @on-cancel="close">
+      <div slot="header">设置关键词</div>
       <Form ref="kw_form" :model="kw_form" :rules="temp_rules" :label-width="100">
         <FormItem label="关键字:">
           <Input class="ipt-info" v-model="kw_form.keyword_name" />

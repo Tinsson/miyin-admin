@@ -30,6 +30,8 @@ import incomeDetail from '@/page/money/income-detail' //收入明细
 import globalConfig from '@/page/config/global-config' //全局配置
 import taskNewcomer from '@/page/config/task-newcomer' //新手任务配置
 import taskDaily from '@/page/config/task-daily' //每日任务配置
+import avatarConfig from '@/page/config/avatar-config' //头像配置
+import tagConfig from '@/page/config/tag-config'   //标签配置
 
 // 内容管理
 import articleClass from '@/page/content/articleClass' //文章分类管理
@@ -40,6 +42,7 @@ import yellow from '@/page/content/yellow' //涉黄管理
 
 // 消息管理
 import msgTemplate from '@/page/message/msg-template'
+import pushList from '@/page/message/push-list'
 
 //权限管理
 import role from '@/page/authority/role' //角色管理
@@ -147,10 +150,22 @@ const router = new Router({
           path: '/config/global-config',
           name: 'globalConfig',
           component: globalConfig
+        },{
+          path: '/config/avatar-config',
+          name: 'avatarConfig',
+          component: avatarConfig
+        },{
+          path: '/config/tag-config',
+          name: 'tagConfig',
+          component: tagConfig
         }, {
           path: '/message/msg-template',
           name: 'msgTemplate',
           component: msgTemplate
+        },{
+          path: '/message/push-list',
+          name: 'pushList',
+          component: pushList
         },{
           path: '/authority/role',
           name: 'role',
