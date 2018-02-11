@@ -41,6 +41,9 @@ import circles from '@/page/content/circles' //动态管理
 import voiceVerify from '@/page/content/voice-verify' //录音审核
 import yellow from '@/page/content/yellow' //涉黄管理
 
+// 任务统计
+import taskStat from '@/page/stat/task-stat' //任务统计
+
 // 消息管理
 import msgTemplate from '@/page/message/msg-template'
 import pushList from '@/page/message/push-list'
@@ -167,6 +170,10 @@ const router = new Router({
           path: '/message/push-list',
           name: 'pushList',
           component: pushList
+        },{
+          path: '/stat/task-stat',
+          name: 'taskStat',
+          component: taskStat
         },{
           path: '/config/recharge-ratio',
           name: 'rechargeRatio',

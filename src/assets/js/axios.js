@@ -16,7 +16,7 @@ axios.interceptors.request.use(config => {
   // config.headers.common['token'] = 'SJK3zSvzciwY6MF3jjCIXTduwg3+vcQqhLQrX6L1KdtAPz8=aCRRGiE1oboQYgRSI+zBsEce9XLWbk4qRGjc6949';
   return config
 }, err => {
-  myvue.$Message.error('网络错误')
+  myvue.$Message.error('网络错误');
   return Promise.reject(err)
 })
 
