@@ -251,7 +251,7 @@ export default {
 
     },
     money_submit() {
-      let str = ''
+      let str = '';
       for(let i=0;i<this.select.length;i++){
         if(i==0){
           str+=this.select[i].uuid

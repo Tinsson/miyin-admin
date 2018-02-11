@@ -76,6 +76,9 @@ const urlList = {
   'tag-list':  '/tag/list', //标签列表
   'tag-add': '/tag/add',  //添加标签
   'tag-del': '/tag/del',  //删除标签
+  'refig-list': '/system/refig-list', //充值比例列表
+  'refig-add': '/system/add-refig',   //充值比例添加
+  'refig-del': '/system/del-refig',   //充值比例删除
 
   //消息管理
   'temp-kw-list': '/template-keyword/list',

@@ -60,7 +60,7 @@ export default {
           label: '用户昵称',
           type: 'input',
           placeholder: '用户昵称',
-          model: 'user_uuid'
+          model: 'nick_name'
         },{
           label: '用户id',
           type: 'input',

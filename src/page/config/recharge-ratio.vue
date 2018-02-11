@@ -1,14 +1,22 @@
 <template>
   <div id="recharge-ratio">
-    <title-bar title="基础" @refresh="refresh"></title-bar>
+    <title-bar title="充值比例" @refresh="refresh"></title-bar>
     <table-container>
       <div slot="btn">
+        <Button type="primary" @click="add_refig_btn">新增充值选项</Button>
       </div>
       <Table :columns="columns" :data="myData" border :loading="tableLoading"></Table>
     </table-container>
+    <add-refig ref="add_refig"
+             :edit_info="refig_edit"
+             @editOver="refig_edit_over"
+             @subOver="refig_add_over"
+             @modal-close="modalClose"></add-refig>
   </div>
 </template>
 <script>
+import addRefig from './components/add-refig.vue'
+
 export default {
   name: "recharge-ratio",
   data() {
@@ -16,67 +24,120 @@ export default {
       columns: [
         {
           title: '用户ID',
-          key: 'uuid',
+          key: 'id',
           align: 'center'
         },{
-          title: '用户账号',
-          key: 'account',
+          title: '充值金额',
+          key: 'money',
           align: 'center'
         }, {
-          title: '用户昵称',
-          key: 'user_name',
-          align: 'center'
-        }, {
-          title: '注册时间',
-          key: 'register_time',
-          align: 'center'
-        }, {
-          title: '绑定手机号',
-          key: 'mobile',
-          align: 'center'
-        }, {
-          title: '授权微信',
-          key: 'wx',
-          align: 'center'
-        }, {
-          title: '认证图',
-          key: 'pic',
-          align: 'center'
-        }, {
-          title: '审核状态',
-          key: 'status',
+          title: '对应秘币',
+          key: 'value',
           align: 'center'
         },{
           title: '操作',
           key: 'operation',
+          width: '200',
           align: 'center',
           render: (h, params) => {
-            return h('div', [
-              h('Button', {
-                props: {
-                  type: 'text'
-                },
-              }, '查看'),
-              h('Button', {
-                props: {
-                  type: 'text'
-                }
-              }, '删除')
-            ])
+            return this.render_btn(h, params, this.btnData);
           }
         }
       ],
-      myData: [{uuid:1}],
+      myData: [],
+      btnData: [{
+        type: 'error',
+        func: 'DelOpt',
+        text: '删除'
+      }],
+      refig_edit: {
+        status: false,
+        money: '',
+        value: '',
+        id: ''
+      },
       tableLoading: false,
     }
   },
   methods: {
+    render_btn(h, params, bdata){
+      let res = [];
+      bdata.forEach(val=>{
+        const btn = h('Button',{
+          props: {
+            type: val.type
+          },
+          style: {
+            marginRight: '5px'
+          },
+          on: {
+            click: ()=>{
+              this[val.func](params.row)
+            }
+          },
+        },val.text);
+        res.push(btn);
+      });
+      return res;
+    },
     refresh() {
-      console.log('刷新')
+      console.log('刷新');
     },
-    getData() {
-      
+    add_refig_btn(){
+      this.refig_edit = {
+        type: false,
+        id: '',
+        money: '',
+        value: ''
+      };
+      this.$refs.add_refig.show();
     },
+    refig_add_over(data){
+      this.axios.post('refig-add', data).then(() => {
+        this.getData();
+        this.$refs.add_refig.close();
+      })
+    },
+    modalClose(){
+
+    },
+    EditOpt(row){
+      this.refig_edit = {
+        type: true,
+        id: row.id,
+        money: row.money,
+        value: row.value
+      };
+      this.$refs.add_refig.show();
+    },
+    refig_edit_over(data){
+      console.log(data);
+    },
+    DelOpt(row){
+      this.$Modal.confirm({
+        title: '温馨提示',
+        content: '<p class="confirm-text">确认删除此项充值选项吗？</p>',
+        onOk: ()=>{
+          this.axios.post('refig-del', {id: row.id}).then(() => {
+            this.getData();
+          })
+        }
+      })
+    },
+    getData(){
+      this.axios.get('refig-list').then(d=>{
+        console.log(d);
+        if(d.status === 1){
+          this.myData = d.data.refig_list;
+        }
+      })
+    },
+  },
+  mounted(){
+    this.getData();
+  },
+  components: {
+    addRefig
   }
 }
 </script>
