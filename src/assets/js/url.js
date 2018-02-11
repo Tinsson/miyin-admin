@@ -1,4 +1,6 @@
 const urlList = {
+  'admin-login': '/admin/login',//用户登录
+
   //权限管理
   'role-list': '/role/list', //角色列表
   'role-html': '/role/html', //角色权限的详情
@@ -16,6 +18,7 @@ const urlList = {
   'admin-delete': '/admin/delete', //删除用户
   'admin-role-all': '/admin/role-all', //获取所有角色
   'admin-admin-role-add': '/admin/admin-role-add', //分配角色
+  'admin-set-status': '/admin/set-status', //设置用户是否禁用
 
   //图片上传
   'upload-img': '/product/upload',

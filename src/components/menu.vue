@@ -6,7 +6,7 @@
     </div>
     <div class="user-panel">
       <div class="pull-left">
-        <p class="text">liumiao</p>
+        <p class="text">{{user_name}}</p>
         <p class="state"><i class="icon-state"></i>online</p>
       </div>
     </div>
@@ -104,10 +104,14 @@ export default {
           id: '17',
           name: '头像配置',
           path: '/avatar-config'
-        },{
+        }, {
           id: '18',
           name: '标签配置',
           path: '/tag-config'
+        },{
+          id:'25',
+          name:'充值比例',
+          path:'/recharge-ratio'
         }
       ]
     },{
@@ -167,7 +171,8 @@ export default {
           path: '/admin'
         }
       ]
-    }]
+    }],
+    user_name: sessionStorage.getItem('user_name')
   }),
   computed: {
     cur_path() {

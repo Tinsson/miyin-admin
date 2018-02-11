@@ -346,11 +346,7 @@ export default {
       }
       myChart.setOption(option)
     },
-  },
-  mounted() {
-    console.log(echarts)
-    // this.initPie();
-  },
+  }
 }
 </script>
 <style lang="scss" scoped>

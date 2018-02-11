@@ -146,6 +146,9 @@ export default {
     },
     total: {
       type: [String,Number]
+    },
+    search:{
+      type:Object
     }
   },
   data: () => ({
@@ -248,10 +251,19 @@ export default {
 
     },
     money_submit() {
+      let str = ''
+      for(let i=0;i<this.select.length;i++){
+        if(i==0){
+          str+=this.select[i].uuid
+        }else {
+          str = str + ',' + this.select[i].uuid
+        }
+      }
       this.axios.post('user-give-gold',{
-        check_type:1,
+        ...this.search,
+        check_type:this.money_form.send_type,
         price:this.money_form.num,
-        ids:this.select[0].uuid
+        ids:str
       }).then(res=>{
         if(res){
           this.money_modal = false;

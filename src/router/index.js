@@ -32,6 +32,7 @@ import taskNewcomer from '@/page/config/task-newcomer' //新手任务配置
 import taskDaily from '@/page/config/task-daily' //每日任务配置
 import avatarConfig from '@/page/config/avatar-config' //头像配置
 import tagConfig from '@/page/config/tag-config'   //标签配置
+import rechargeRatio from '@/page/config/recharge-ratio' //充值比例配置
 
 // 内容管理
 import articleClass from '@/page/content/articleClass' //文章分类管理
@@ -57,7 +58,7 @@ const router = new Router({
       name: 'root',
       redirect: function(path) {
         console.log(path);
-        return sessionStorage.getItem('user_id')
+        return sessionStorage.getItem('token')
           ? '/home'
           : '/login'
       }
@@ -162,10 +163,14 @@ const router = new Router({
           path: '/message/msg-template',
           name: 'msgTemplate',
           component: msgTemplate
-        },{
+        }, {
           path: '/message/push-list',
           name: 'pushList',
           component: pushList
+        },{
+          path: '/config/recharge-ratio',
+          name: 'rechargeRatio',
+          component: rechargeRatio
         },{
           path: '/authority/role',
           name: 'role',
@@ -185,8 +190,8 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log(to.hash)
-  if (!sessionStorage.getItem('user_id') && to.path != '/login') {
+  console.log(to)
+  if (!sessionStorage.getItem('token') && to.path != '/login') {
     router.push('/login')
   }
   sessionStorage.setItem('cur_path', to.path)

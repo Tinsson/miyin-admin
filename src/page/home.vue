@@ -3,7 +3,7 @@
   <div class="home-content">
     <my-menu></my-menu>
     <div class="layout-header">
-      <p class="login-out">
+      <p class="login-out" @click="logout">
         <Icon type="power"></Icon>
         退出登录
       </p>
@@ -24,7 +24,9 @@ export default {
 
   }),
   methods: {
-    Login() {
+    logout() {
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('user_name');
       this.$router.push('/login')
     }
   },
