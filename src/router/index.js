@@ -33,6 +33,7 @@ import taskDaily from '@/page/config/task-daily' //每日任务配置
 import avatarConfig from '@/page/config/avatar-config' //头像配置
 import tagConfig from '@/page/config/tag-config'   //标签配置
 import rechargeRatio from '@/page/config/recharge-ratio' //充值比例配置
+import nickName from '@/page/config/nick-name'    //昵称词库配置
 
 // 内容管理
 import articleClass from '@/page/content/articleClass' //文章分类管理
@@ -43,6 +44,10 @@ import yellow from '@/page/content/yellow' //涉黄管理
 
 // 任务统计
 import taskStat from '@/page/stat/task-stat' //任务统计
+
+// 财务统计
+import withdrawStat from '@/page/stat/withdraw-stat' //提现统计
+import rechargeStat from '@/page/stat/recharge-stat' //充值统计
 
 // 消息管理
 import msgTemplate from '@/page/message/msg-template'
@@ -162,6 +167,10 @@ const router = new Router({
           path: '/config/tag-config',
           name: 'tagConfig',
           component: tagConfig
+        },{
+          path: '/config/nick-name',
+          name: 'nickName',
+          component: nickName
         }, {
           path: '/message/msg-template',
           name: 'msgTemplate',
@@ -174,6 +183,14 @@ const router = new Router({
           path: '/stat/task-stat',
           name: 'taskStat',
           component: taskStat
+        },{
+          path: '/finance/withdraw-stat',
+          name: 'withdrawStat',
+          component: withdrawStat
+        },{
+          path: '/finance/recharge-stat',
+          name: 'rechargeStat',
+          component: rechargeStat
         },{
           path: '/config/recharge-ratio',
           name: 'rechargeRatio',

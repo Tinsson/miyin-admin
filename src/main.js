@@ -18,6 +18,7 @@ import axios from '@/assets/js/axios'
 import '@/mockjs'
 import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/pie'
+import 'echarts/lib/chart/line'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/legend'
 

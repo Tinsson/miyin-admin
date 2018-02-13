@@ -1,19 +1,9 @@
 <template>
   <div id="addTag">
-    <Modal v-model="if_show" title="添加标签" width="600">
+    <Modal v-model="if_show" :title="topTitle" width="600">
       <Form ref="tag_form" :label-width="80">
-        <FormItem label="标签名:">
-          <Input type="text" class="ipt-box" v-model="name" />
-        </FormItem>
-        <FormItem label="类型:">
-          <RadioGroup v-model="type">
-            <Radio :label="1">
-              <span>用户标签</span>
-            </Radio>
-            <Radio :label="2">
-              <span>系统标签</span>
-            </Radio>
-          </RadioGroup>
+        <FormItem label="词名:">
+          <Input type="text" class="ipt-box" v-model="edit_form.names" />
         </FormItem>
       </Form>
       <div slot="footer">
@@ -32,7 +22,7 @@
           return {
             status: false,
             id: '',
-            name: '',
+            names: '',
             type: 1
           }
         }
@@ -41,17 +31,29 @@
     data() {
 
       return {
-        type: 1,
-        name: '',
+        title: ['添加姓氏','添加名氏'],
+        edit_form:{
+          type: 3,
+          names: '',
+        },
         if_show: false,
         edit_type: false
       }
     },
     watch: {
       edit_info(val){
-        this.type = val.type;
-        this.name = val.name;
+        this.edit_form.type = val.type;
+        this.edit_form.names = val.name;
         this.edit_type = val.status;
+      }
+    },
+    computed: {
+      topTitle(){
+        if(this.edit_form.type === 3){
+          return this.title[0];
+        }else if(this.edit_form.type === 4){
+          return this.title[1];
+        }
       }
     },
     methods: {
@@ -59,19 +61,13 @@
         this.if_show = true;
       },
       submit() {
-        if(this.name === ''){
+        if(this.edit_form.names === ''){
           this.$Message.error('请先填写标签名！');
+        }else if(this.edit_form.names.length > 4){
+          this.$Message.error('不能超过4个字！');
         }else{
-          let params = {
-            names: this.name,
-            type: this.type
-          };
-          if(this.edit_type){
-            params.id = this.edit_info.id;
-            this.$emit('editOver',params);
-          }else{
-            this.$emit('subOver', params);
-          }
+          let params = this.edit_form;
+          this.$emit('subOver', params);
         }
       },
       close() {

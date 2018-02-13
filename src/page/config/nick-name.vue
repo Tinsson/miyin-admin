@@ -1,25 +1,31 @@
 <template>
-  <div id="tag-config">
-    <title-bar title="标签配置" @refresh="refresh"></title-bar>
-    <table-container>
+  <div id="nick-name">
+    <title-bar title="昵称词库配置" @refresh="refresh"></title-bar>
+    <table-container title="姓氏列表">
       <div slot="btn">
-        <Button type="primary" @click="add_tag">新增标签</Button>
+        <Button type="primary" @click="add_tag(3)">新增姓氏</Button>
       </div>
       <Table :columns="columns" :data="myData" border :loading="tableLoading"></Table>
     </table-container>
-    <add-tag ref="add_tag"
-            :edit_info="tag_edit"
-            :task_form="task_form"
-            :type="1"
-            @editOver="edit_edit"
-            @subOver="tag_over"
-            @modal-close="modalClose"></add-tag>
+    <table-container title="名氏列表">
+      <div slot="btn">
+        <Button type="primary" @click="add_tag(4)">新增名氏</Button>
+      </div>
+      <Table :columns="columns" :data="myData2" border :loading="tableLoading"></Table>
+    </table-container>
+    <add-nickname ref="add_nickname"
+             :edit_info="tag_edit"
+             :task_form="task_form"
+             :type="1"
+             @editOver="edit_edit"
+             @subOver="tag_over"
+             @modal-close="modalClose"></add-nickname>
   </div>
 </template>
 <script>
-import addTag from './components/add-tag.vue'
+import addNickname from './components/add-nickname.vue'
 export default {
-  name: "tag-config",
+  name: "nick-name",
   data() {
     return {
       task_form: {
@@ -40,7 +46,7 @@ export default {
             return h('span',params.index+1);
           }
         }, {
-          title: '标签名',
+          title: '词名',
           key: 'name',
           align: 'center'
         }, {
@@ -48,31 +54,6 @@ export default {
           key: 'created_at',
           align: 'center'
         }, {
-          title: '类型',
-          key: 'type',
-          align: 'center',
-          render: (h, params)=>{
-            let type = params.row.type;
-            switch (type){
-              case 1:
-                type = '用户标签';
-                break;
-              case 2:
-                type = '系统标签';
-                break;
-              case 3:
-                type = '姓氏标签';
-                break;
-              case 4:
-                type = '名氏标签';
-                break;
-              default:
-                type = '未知';
-                break;
-            }
-            return h('span', type);
-          }
-        },{
           title: '操作',
           key: 'operation',
           align: 'center',
@@ -83,6 +64,7 @@ export default {
         }
       ],
       myData: [],
+      myData2: [],
       btnData: [{
         type: 'error',
         func: 'DelOpt',
@@ -115,14 +97,13 @@ export default {
     modalClose() {
 
     },
-    add_tag() {
+    add_tag(sign) {
       this.tag_edit = {
-        type: 1,
+        type: sign,
         name: '',
         id: ''
-
       };
-      this.$refs.add_tag.show();
+      this.$refs.add_nickname.show();
     },
     EditOpt(row){
       this.tag_edit = {
@@ -133,13 +114,13 @@ export default {
         img_path: row.img_path
       };
       //console.log(this.tag_edit);
-      this.$refs.add_tag.show();
+      this.$refs.add_nickname.show();
     },
 
     DelOpt(row){
       this.$Modal.confirm({
         title: '温馨提示',
-        content: '<p class="confirm-text">确认删除此项标签吗？</p>',
+        content: '<p class="confirm-text">确认删除此项吗？</p>',
         onOk: ()=>{
           this.axios.post('tag-del', {id: row.id}).then(() => {
             this.getData();
@@ -159,7 +140,7 @@ export default {
     tag_over(data){
       this.axios.post("tag-add",data).then(res=>{
         console.log(res);
-        this.$refs.add_tag.close();
+        this.$refs.add_nickname.close();
         this.getData();
       })
     },
@@ -174,19 +155,23 @@ export default {
         console.log(res);
         if(res){
           let resList = res.data.tag_list;
-          let newArr = [];
+          let newArr = [],
+              newArr2 = [];
           resList.forEach(val=>{
-            if(val.type === 1 || val.type === 2){
+            if(val.type === 3){
               newArr.push(val);
+            }else if(val.type === 4){
+              newArr2.push(val);
             }
-          })
+          });
           this.myData = newArr;
+          this.myData2 = newArr2;
         }
       })
     },
   },
   components: {
-    addTag
+    addNickname
   },
   mounted() {
     this.getData();

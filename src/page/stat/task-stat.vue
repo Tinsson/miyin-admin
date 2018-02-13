@@ -14,42 +14,44 @@ export default {
   name: "task-stat",
   data() {
     return {
-      columns: [
-        {
-          title: '用户昵称',
+      columns: [{
+          title: '序号',
+          align: 'center',
+          render: (h, params)=>{
+            return h('span', params.index+1);
+          }
+        },{
+          title: '昵称',
           key: 'nick_name',
           align: 'center'
         },{
           title: '用户id',
-          key: 'from_uuid',
+          key: 'uuid',
           align: 'center'
         }, {
-          title: '绑定手机号',
-          key: 'user_mobile',
-          align: 'center'
-        }, {
-          title: '礼物名称',
-          key: 'name',
-          align: 'center'
-        }, {
-          title: '礼物价值',
-          key: 'price',
-          align: 'center'
-        }, {
-          title: '赠送时间',
+          title: '完成时间',
           key: 'created_at',
           align: 'center'
         }, {
-          title: '赠送人',
-          key: 'to_uuid',
+          title: '任务名称',
+          key: 'name',
           align: 'center'
-        },{
-          title: '秘币变化',
-          key: 'buy_price',
-          align: 'center'
-        },{
-          title: '秘币余额',
-          key: 'balance',
+        }, {
+          title: '任务类型',
+          key: 'type',
+          align: 'center',
+          render: (h, params)=>{
+            let type = params.row.type;
+            if(type === 1){
+              type = '新手任务';
+            }else if(type === 2){
+              type = '每日任务';
+            }
+            return h('span', type);
+          }
+        }, {
+          title: '奖励秘币',
+          key: 'price',
           align: 'center'
         }
       ],
@@ -57,32 +59,33 @@ export default {
       tableLoading: false,
       searchList: [
         {
-          label: '用户昵称',
+          label: '完成人昵称',
           type: 'input',
-          placeholder: '用户昵称',
+          placeholder: '',
           model: 'nick_name'
         },{
-          label: '用户id',
+          label: '完成人id',
           type: 'input',
-          placeholder: '用户id',
-          model: 'user_uuid'
+          placeholder: '',
+          model: 'uuid'
         },{
-          label: '绑定手机号',
-          type: 'input',
-          placeholder: '绑定手机号',
-          model: 'user_mobile'
-        },{
-          label: '礼物名称',
-          type: 'select',
-          placeholder: '姓名',
-          model: 'product_id',
-          options: []
-        },{
-          label: '赠送时间',
+          label: '时间',
           type: 'daterange',
           placeholder: '请选择时间',
           model: 'register_time',
           start_end: ['start_time','end_time']
+        },{
+          label: '任务类型',
+          type: 'select',
+          placeholder: '',
+          model: 'type',
+          options: [{
+            label: '新手任务',
+            value: '1'
+          },{
+            label: '每日任务',
+            value: '2'
+          }]
         }
       ],
       pageprops: { //分页配置
@@ -119,29 +122,13 @@ export default {
     },
     getData() {
       this.tableLoading = true;
-      this.axios.get('product-search',{
+      this.axios.get('task-count',{
         params:this.searchData
       }).then(res=>{
         this.tableLoading = false;
         if(res){
-          this.myData = res.data.list
-        }
-      })
-    },
-    set_gift_name() {
-      this.axios.get('product-drop').then(res=>{
-        if(res){
-          for(let i = 0;i<this.searchList.length;i++){
-            if(this.searchList[i].label=="礼物名称"){
-              for(let key in res.data.list) {
-                this.searchList[i].options.push({
-                  label:res.data.list[key],
-                  value: key
-                })
-              }
-              break;
-            }
-          }
+          this.myData = res.data.stats_list;
+          this.pageprops.total = res.data.total;
         }
       })
     }
@@ -149,7 +136,6 @@ export default {
   },
   mounted() {
     this.getData();
-    this.set_gift_name()
   }
 }
 </script>

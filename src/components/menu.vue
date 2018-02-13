@@ -33,140 +33,166 @@ export default {
         name: '用户管理',
         path: '/users'
       },{
-        id:'5',
+        id:'3',
         name: '女主播列表',
         path: '/anchor'
       },{
-        id: '6',
+        id: '4',
         name: '真人审核列表',
         path: '/verify'
       }]
     },{
-      id: '7',
+      id: '5',
       name: '礼物管理',
       path: '/gift',
       children: [{
-        id: '8',
+        id: '6',
         name: '礼物管理',
         path: '/gifts'
       }]
     },{
-      id: '9',
+      id: '7',
       name: '资金管理',
       path: '/money',
       children: [{
-        id: '10',
+        id: '8',
         name: '提现申请',
         path: '/cash-apply'
       },{
-        id: '11',
+        id: '9',
         name: '提现列表',
         path: '/cash-list'
       },{
-        id: '12',
+        id: '10',
         name: '支付宝充值列表',
         path: '/alipay'
       },{
-        id: '17',
+        id: '11',
         name: '微信充值列表',
         path: '/wx-recharge'
       },{
-        id: '18',
+        id: '12',
         name: '礼物明细',
         path: '/gift-detail'
       },{
-        id: '19',
+        id: '13',
         name: '消费明细',
         path: '/consumer-detail'
       },{
-        id: '20',
+        id: '14',
         name: '收入明细',
         path: '/income-detail'
       }]
     },{
-      id:'13',
+      id:'15',
       name: '配置管理',
       path: '/config',
       children: [
         {
-          id: '15',
+          id: '16',
           name: '全局配置',
           path: '/global-config'
         },{
-          id: '14',
+          id: '17',
           name: '新手任务',
           path: '/task-newcomer'
         },{
-          id: '16',
+          id: '18',
           name: '每日任务',
           path: '/task-daily'
         },{
-          id: '17',
+          id: '19',
           name: '头像配置',
           path: '/avatar-config'
         }, {
-          id: '18',
+          id: '20',
           name: '标签配置',
           path: '/tag-config'
         },{
-          id:'25',
+          id:'21',
           name:'充值比例',
           path:'/recharge-ratio'
+        },{
+          id: '22',
+          name: '昵称词库配置',
+          path: '/nick-name'
         }
       ]
     },{
-      id: '3',
+      id: '23',
+      name: '任务统计',
+      path: '/stat',
+      children: [{
+        id: '24',
+        name: '任务统计',
+        path: '/task-stat'
+      }]
+    },{
+      id: '25',
+      name: '财务统计',
+      path: '/finance',
+      children: [{
+        id: '26',
+        name: '提现统计',
+        path: '/withdraw-stat'
+      },{
+        id: '40',
+        name: '充值统计',
+        path: '/recharge-stat'
+      }]
+    },{
+      id: '27',
       name: '内容管理',
       path: '/content',
       children: [{
-        id: '4',
+        id: '28',
         name: '文章分类管理',
         path: '/article-class'
       },{
-        id:'17',
+        id:'29',
         name: '评论管理',
         path: '/comment'
       },{
-        id: '18',
+        id: '30',
         name: '动态管理',
         path: '/circles'
       },{
-        id: '19',
+        id: '31',
         name: '录音审核',
         path: '/voice-verify'
       },{
-        id: '20',
+        id: '32',
         name: '涉黄管理',
         path: '/yellow'
       }]
     }, {
-      id: '25',
+      id: '33',
       name: '消息管理',
       path: '/message',
       children: [{
-        id: '26',
+        id: '34',
         name: '消息模板',
         path: '/msg-template'
       },{
-        id: '27',
+        id: '35',
         name: '推送列表',
         path: '/push-list'
       }]
     },{
-      id: '21',
+      id: '36',
       name: '权限管理',
       path: '/authority',
       children: [
         {
-          id: '22',
+          id: '37',
           name: '角色列表',
           path: '/role'
         },{
-          id: '23',
+          id: '38',
           name: '权限列表',
           path: '/authority'
         },{
-          id: '24',
+          id: '39',
           name: '账户列表',
           path: '/admin'
         }

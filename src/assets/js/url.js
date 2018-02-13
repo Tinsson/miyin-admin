@@ -98,6 +98,14 @@ const urlList = {
   'push-list': '/message/push-list',
   'push-delete': '/message/push-delete',
 
+  //任务统计
+  'task-count': '/stats/task-list',  //任务统计
+  'withdraw-list': '/stats/withdraw-list', //提现统计列表
+  'withdraw-detail': '/stats/withdraw', //提现统计详情
+  'recharge-list': '/stats/recharge-list', //充值统计列表
+  'recharge-detail': '/stats/recharge', //充值统计详情
+  'recharge-time': '/stats/recharge-time', //充值时间段统计
+
   //内容管理
   'comment-list': '/comment/list', //获取评论列表
   'comment-del': '/comment/del', //删除评论

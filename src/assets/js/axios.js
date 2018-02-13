@@ -7,7 +7,7 @@ import urlList from './url'
 let myvue = new Vue()
 
 axios.interceptors.request.use(config => {
-  config.data = qs.stringify(config.data)
+  config.data = qs.stringify(config.data);
   let url = config.url.split('?')[0];
   let params = config.url.split('?')[1]?config.url.split('?')[1]:'';
   if(urlList[url]) {
