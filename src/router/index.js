@@ -32,6 +32,7 @@ import taskNewcomer from '@/page/config/task-newcomer' //新手任务配置
 import taskDaily from '@/page/config/task-daily' //每日任务配置
 import avatarConfig from '@/page/config/avatar-config' //头像配置
 import tagConfig from '@/page/config/tag-config'   //标签配置
+import anchorLevel from '@/page/config/anchor-level'  //女主播等级配置
 import rechargeRatio from '@/page/config/recharge-ratio' //充值比例配置
 import nickName from '@/page/config/nick-name'    //昵称词库配置
 
@@ -165,6 +166,10 @@ const router = new Router({
           path: '/config/global-config',
           name: 'globalConfig',
           component: globalConfig
+        },{
+          path: '/config/anchor-level',
+          name: 'anchorLevel',
+          component: anchorLevel
         },{
           path: '/config/avatar-config',
           name: 'avatarConfig',

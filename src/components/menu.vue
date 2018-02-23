@@ -109,6 +109,10 @@ export default {
           name: '标签配置',
           path: '/tag-config'
         },{
+          id: '45',
+          name: '女主播等级配置',
+          path: '/anchor-level'
+        },{
           id:'21',
           name:'充值比例',
           path:'/recharge-ratio'

@@ -79,6 +79,10 @@ const urlList = {
   'refig-list': '/system/refig-list', //充值比例列表
   'refig-add': '/system/add-refig',   //充值比例添加
   'refig-del': '/system/del-refig',   //充值比例删除
+  'level-list': '/level/level-list',  //主播等级列表
+  'level-edit': '/level/edit-level', //修改主播等级
+  'level-add': '/level/add-level',   //添加主播等级
+  'upgrade-list': '/level/upgrade-list', //主播升级配置
 
   //消息管理
   'temp-kw-list': '/template-keyword/list',
