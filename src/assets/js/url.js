@@ -38,7 +38,7 @@ const urlList = {
   'user-anchor-gift': '/user/anchor-gift', //获取主播礼物收入
   'user-anchor-withdraw': '/user/anchor-withdraw', //获取主播提现记录
   'user-give-gold':'/user/give-gold',//赠送秘币
-
+  'export-excel': '/user/export-excel', //导出数据
 
   //动态
   'get-circles': '/circles/list',  //获取动态列表
@@ -98,13 +98,21 @@ const urlList = {
   'push-list': '/message/push-list',
   'push-delete': '/message/push-delete',
 
-  //任务统计
+  //统计
   'task-count': '/stats/task-list',  //任务统计
   'withdraw-list': '/stats/withdraw-list', //提现统计列表
   'withdraw-detail': '/stats/withdraw', //提现统计详情
   'recharge-list': '/stats/recharge-list', //充值统计列表
   'recharge-detail': '/stats/recharge', //充值统计详情
   'recharge-time': '/stats/recharge-time', //充值时间段统计
+  'action-all': '/stats/detail', //用户行为数据统计
+  'talk-list': '/stats/talk-list', //通话统计列表
+  'expense-list': '/stats/user-expense-list', //用户秘币消费列表
+  'expense-time': '/stats/user-expense-time', //用户秘币消费时间段
+  'expense-detail': '/stats/user-expense-detail', //用户秘币消费详情
+  'product-list': '/stats/product-list',  //礼物消费列表
+  'product-chart': '/stats/product-chart',  //礼物消费图表
+  'product-detail': '/stats/product-detail', //礼物消费详情
 
   //内容管理
   'comment-list': '/comment/list', //获取评论列表

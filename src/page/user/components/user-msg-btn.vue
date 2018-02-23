@@ -5,7 +5,7 @@
     <Button type="success" @click="zn_modal=true">群发站内信</Button>
     <Button type="error" @click="app_modal=true">APP推送</Button>
     <Button type="warning" @click="money_modal=true">赠送秘币</Button>
-    <Button type="info">导出数据</Button>
+    <Button type="info" @click="export_modal=true">导出数据</Button>
     <Modal v-model="duanxin_modal" title="群发短信">
       <div class="duanxin-container">
         <Form ref="duanxin_form" :model="duanxin_form" :rules="duanxin_rule" :label-width="80">
@@ -67,7 +67,7 @@
         </Form>
       </div>
       <div slot="footer">
-        <Button>取消</Button>
+        <Button @click="zn_modal=false">取消</Button>
         <Button type="primary" @click="zn_submit" :loading="zn_modal_loading">确定</Button>
       </div>
     </Modal>
@@ -110,7 +110,7 @@
         </Form>
       </div>
       <div slot="footer">
-        <Button>取消</Button>
+        <Button @click="app_modal=false">取消</Button>
         <Button type="primary" @click="zn_submit" :loading="zn_modal_loading">确定</Button>
       </div>
     </Modal>
@@ -131,13 +131,33 @@
         </FormItem>
       </Form>
       <div slot="footer">
-        <Button>取消</Button>
+        <Button @click="money_modal=false">取消</Button>
         <Button type="primary" @click="money_submit" :loading="money_modal_loading">确定</Button>
+      </div>
+    </Modal>
+
+    <Modal v-model="export_modal" title="导出数据">
+      <Form ref="export_form" :model="export_form" :rules="money_rule" :label-width="80">
+        <FormItem label="导出用户:">
+          共<span style="color:red">{{export_form.check=='1'?select.length:total}}</span>个用户
+        </FormItem>
+        <FormItem label="导出类型:">
+          <RadioGroup v-model="export_form.check">
+            <Radio label="1">勾选的用户</Radio>
+            <Radio label="2">全部用户</Radio>
+          </RadioGroup>
+        </FormItem>
+      </Form>
+      <div slot="footer">
+        <Button @click="export_modal=false">取消</Button>
+        <Button type="primary" @click="export_submit">确定</Button>
       </div>
     </Modal>
   </div>
 </template>
 <script>
+import qs from 'qs'
+
 export default {
   name: "userMsgBtn",
   props: {
@@ -149,6 +169,9 @@ export default {
     },
     search:{
       type:Object
+    },
+    type: {
+      type: [String,Number]
     }
   },
   data: () => ({
@@ -165,6 +188,12 @@ export default {
         message: '请输入要赠送的秘币数量',
         trigger: 'blur'
       }],
+    },
+
+    //导出数据
+    export_modal: false,
+    export_form: {
+      check: '1'
     },
 
 
@@ -271,6 +300,36 @@ export default {
           this.$emit('refresh')
         }
       })
+    },
+    export_submit(){
+      let str = '',
+          baseUrl = '';
+      for(let i=0;i<this.select.length;i++){
+        if(i==0){
+          str+=this.select[i].uuid
+        }else {
+          str = str + ',' + this.select[i].uuid
+        }
+      }
+      if(this.export_form.check === '1' && str === ''){
+        this.$Message.error('还未选中用户！');
+        return;
+      }
+      let params = {
+        ...this.search,
+        check: this.export_form.check,
+        type: this.type,
+        ids: str
+      };
+      if(process.env.NODE_ENV === 'development'){
+        baseUrl = 'http://apitest.jkxxkj.com/backend';
+      }else{
+        baseUrl = this.axios.defaults.baseURL;
+      }
+      console.log(params);
+      window.location.href = `${baseUrl}/user/export-excel?${qs.stringify(params)}`;
+
+      this.export_modal = false;
     }
   }
 }

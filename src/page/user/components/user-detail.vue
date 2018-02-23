@@ -222,7 +222,12 @@
                   </div>
                 </div>
                 <div style="display:flex;justify-content:flex-end;margin-top:10px;">
-                  <Page :total="100" size="small"></Page>
+                  <Page :total="circle_total"
+                        :current="circle_fy.page"
+                        :page-size="circle_fy.size"
+                        @on-change="circlePage"
+                        @on-page-size-change="circleSize"
+                        size="small"></Page>
                 </div>
 
                 <div style="margin-top:20px;text-align:right">
@@ -394,6 +399,7 @@ export default {
       page: 1,
       size: 10
     },
+    circle_total: 0,
     circle_fy: {
       page: 1,
       size:10
@@ -428,7 +434,11 @@ export default {
   }),
   computed: {
     user_data_sign_html() {
-      return this.user_data_form.introduce.replace(/\n/g,'<br>')
+      if(this.user_data_form.introduce !== undefined){
+        return this.user_data_form.introduce.replace(/\n/g,'<br>')
+      }else{
+        return '';
+      }
     },
     user_sex() {
       if(this.user_info_form.sex == 1) {
@@ -461,10 +471,17 @@ export default {
     del_photos(index) {
       this.user_data_form.user_photos.splice(index,1);
     },
+    circlePage(page){
+      this.circle_fy.page = page;
+    },
+    circleSize(size){
+      this.circle_fy.size = size;
+    },
     getCircles() {
       this.axios.get(`get-circles?user_uuid=${this.uuid}&page=${this.circle_fy.page}&size=${this.circle_fy.size}`).then(res=>{
         if(res){
-          this.circles = res.data.list
+          this.circles = res.data.list;
+          this.circle_total = res.data.total;
         }
       })
     },
@@ -505,7 +522,7 @@ export default {
       this.tale_get_data();
     },
     tale_get_data() {
-      this.tableLoading = true
+      this.tableLoading = true;
       this.axios.get(`user-card-table?page=${this.fy.page}&size=${this.fy.size}`,{
         params:{
           uuid: this.uuid,

@@ -7,7 +7,7 @@
   </search-group>
   <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
     <div slot="btn">
-      <msg-btn :select="select_arr" :total="pageprops.total" @refresh="getData" :search="searchForm"></msg-btn>
+      <msg-btn :select="select_arr" :total="pageprops.total" @refresh="getData" :type="my_search.type" :search="searchForm"></msg-btn>
     </div>
     <Table :columns="columns" :data="myData" border :loading="tableLoading" @on-selection-change="select"></Table>
   </table-container>

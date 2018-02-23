@@ -5,7 +5,7 @@
     <search-group :searchList="searchList" @search="search"></search-group>
     <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
       <div slot="btn">
-        <msg-btn :select="select_arr" :total="pageprops.total"></msg-btn>
+        <msg-btn :select="select_arr" :type="my_search.type" :total="pageprops.total"></msg-btn>
       </div>
       <Table :columns="columns" :data="myData" border :loading="tableLoading" @on-selection-change="select"></Table>
     </table-container>
@@ -200,7 +200,8 @@ export default {
       card_search: {
         is_auth: 2,
         type: 3
-      }
+      },
+      my_search: {type:3} //固定搜索认证列表
     }
   },
   computed: {

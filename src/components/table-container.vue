@@ -56,6 +56,7 @@ export default {
     myPage: {
       functional: true,
       render: function(h,context) {
+        //console.log(context.parent.pageprops);
         return h('Page',{
           props: context.parent.pageprops,
           on:{

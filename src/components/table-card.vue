@@ -46,7 +46,7 @@ export default {
   },
   watch: {
     data(cur) {
-      console.log(cur)
+      //console.log(cur)
       this.choseIndex = 0;
       this.$emit('change',this.columns[0].type)
     }

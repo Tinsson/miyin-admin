@@ -46,8 +46,14 @@ import yellow from '@/page/content/yellow' //涉黄管理
 import taskStat from '@/page/stat/task-stat' //任务统计
 
 // 财务统计
+import consumeStat from '@/page/stat/consume-stat'  //用户秘币消费统计
 import withdrawStat from '@/page/stat/withdraw-stat' //提现统计
 import rechargeStat from '@/page/stat/recharge-stat' //充值统计
+
+//用户行为统计
+import actionAll from '@/page/stat/action-all' //行为统计
+import circlesList from '@/page/stat/action/circles-list' //动态列表
+import talkList from '@/page/stat/action/talk-list' //通话统计
 
 // 消息管理
 import msgTemplate from '@/page/message/msg-template'
@@ -184,6 +190,10 @@ const router = new Router({
           name: 'taskStat',
           component: taskStat
         },{
+          path: '/finance/consume-stat',
+          name: 'consumeStat',
+          component: consumeStat
+        },{
           path: '/finance/withdraw-stat',
           name: 'withdrawStat',
           component: withdrawStat
@@ -191,6 +201,18 @@ const router = new Router({
           path: '/finance/recharge-stat',
           name: 'rechargeStat',
           component: rechargeStat
+        },{
+          path: '/action/action-all',
+          name: 'actionAll',
+          component: actionAll
+        },{
+          path: '/action/circles-list',
+          name: 'circlesList',
+          component: circlesList
+        },{
+          path: '/action/talk-list',
+          name: 'talkList',
+          component: talkList
         },{
           path: '/config/recharge-ratio',
           name: 'rechargeRatio',

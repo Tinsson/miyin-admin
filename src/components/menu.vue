@@ -129,9 +129,13 @@ export default {
       }]
     },{
       id: '25',
-      name: '财务统计',
+      name: '财务数据统计',
       path: '/finance',
       children: [{
+        id: '43',
+        name: '用户秘币消费统计',
+        path: '/consume-stat'
+      },{
         id: '26',
         name: '提现统计',
         path: '/withdraw-stat'
@@ -139,6 +143,15 @@ export default {
         id: '40',
         name: '充值统计',
         path: '/recharge-stat'
+      }]
+    },{
+      id: '41',
+      name: '用户行为数据统计',
+      path: '/action',
+      children: [{
+        id: '42',
+        name: '用户行为统计',
+        path: '/action-all'
       }]
     },{
       id: '27',
