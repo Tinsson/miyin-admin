@@ -17,7 +17,9 @@
             <Option :value="11">偷听解锁头像</Option>
           </Select>
           <Select style="width: 150px;margin-left: 10px"
-                  v-model="product_id" v-show="giftShow">
+                  v-model="product_id"
+                  v-show="giftShow"
+                  @on-change="choseProduct">
             <Option :value="0">全部</Option>
             <Option v-for="item in product_list" :value="item.id" :key="item.id">{{item.title}}</Option>
           </Select>
@@ -111,17 +113,27 @@
         <div class="btn-group">
           <Select style="width: 200px"
                   v-model="time_type"
+                  v-show="!giftShow"
                   @on-change="choseTimeType">
             <Option :value="1">按消费秘币数</Option>
             <Option :value="2">按消费平均秘币数</Option>
             <Option :value="3">消费秘币人数</Option>
+          </Select>
+          <Select style="width: 200px"
+                  v-model="gift_time_type"
+                  v-show="giftShow"
+                  @on-change="choseGiftTimeType">
+            <Option :value="1">总金额</Option>
+            <Option :value="2">笔数</Option>
+            <Option :value="3">人数</Option>
+            <Option :value="4">人均</Option>
           </Select>
         </div>
       </div>
       <div id="LineChart" class="chart-box2" :style="{width: chartWidth2+'px'}"></div>
     </Card>
     <table-container title="统计列表" @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
-      <Table :columns="columns" :data="myData" border :loading="tableLoading"></Table>
+      <Table :columns="listColumns" :data="myData" border :loading="tableLoading"></Table>
     </table-container>
   </div>
 </template>
@@ -137,6 +149,7 @@
         title: '统计首页',
         data_type: 0,
         time_type: 1,
+        gift_time_type: 1,
         product_id: 0,
         product_list: [],
         product_data:{
@@ -196,13 +209,34 @@
           key: 'all_people',
           align: 'center'
         }],
+        columns_gift:[{
+          title: '日期',
+          key: 'time',
+          align: 'center'
+        },{
+          title: '消费总金额',
+          key: 'sum',
+          align: 'center'
+        },{
+          title: '消费笔数',
+          key: 'count',
+          align: 'center'
+        },{
+          title: '消费人数',
+          key: 'person',
+          align: 'center'
+        },{
+          title: '人均消费金额',
+          key: 'per',
+          align: 'center'
+        }],
         myData: [],
         options: {
           title : {
             text: '充值渠道占比情况',
             x:'center'
           },
-          color: ['#3366CC','#3399CC','#33CC66','#6633CC','#993333','#99CC33'],
+          color: ['#85B5E7','#434347','#A7E989','#EDA568','#7E88E3','#E16681','#E3D269','#488E8E','#E46560','#A3E6E1'],
           tooltip : {
             trigger: 'item',
             formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -279,6 +313,9 @@
       pieShow(){
         return (this.data_type === 0 || (this.data_type === 1 && this.product_id === 0))?true:false;
       },
+      listColumns(){
+        return this.data_type === 1?this.columns_gift:this.columns;
+      },
       colWidth1(){
         if(this.data_type === 0 || (this.data_type === 1 && this.product_id === 0)){
           return 6;
@@ -296,17 +333,27 @@
     },
     methods: {
       //初始化数据
-      choseType(type){
+      initPage(){
         this.pageprops.current = 1;
         this.pageprops.pageSize = 10;
         this.fy = {
           page: 1,
           size: 10
         };
+      },
+      choseType(type){
+        this.initPage();
         this.InitData();
       },
       choseTimeType(type){
         this.getStatTimes();
+      },
+      choseGiftTimeType(){
+        this.getGiftTimes();
+      },
+      choseProduct(type){
+        this.initPage();
+        this.InitData();
       },
       choseRange(type){
         if(this.date_type[type]) return;
@@ -480,7 +527,23 @@
         })
       },
       getGiftTimes(){
-
+        let params_list = this.searchData;
+        params_list.type = this.gift_time_type;
+        params_list.product_id = this.product_id;
+        this.axios.get(`product-chart?${qs.stringify(params_list)}`).then((d)=>{
+          let res = d.data.info_list;
+          if(d.status === 1){
+            let date_line = res.map(val=>{
+              return val.date;
+            });
+            let money_line = res.map(val=>{
+              return val.value;
+            });
+            this.options2.xAxis.data = date_line;
+            this.options2.series[0].data = money_line;
+            this.DrawChart2();
+          }
+        })
       },
       getStatList(){
         this.tableLoading = true;
@@ -496,7 +559,17 @@
         })
       },
       getGiftList(){
-
+        this.tableLoading = true;
+        let params_list = this.searchData;
+        params_list.product_id = this.product_id;
+        this.axios.get(`product-list?${qs.stringify(params_list)}`).then((d)=>{
+          let res = d.data;
+          if(d.status === 1){
+            this.myData = res.list;
+            this.pageprops.total = res.total;
+            this.tableLoading = false;
+          }
+        })
       }
     }
   }
