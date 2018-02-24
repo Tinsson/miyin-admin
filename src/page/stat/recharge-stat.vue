@@ -169,7 +169,7 @@
               name: '充值金额',
               type: 'pie',
               radius : '75%',
-              center: ['50%', '45%'],
+              center: ['50%', '50%'],
               data:[
                 {value:1, name:'支付宝'},
                 {value:1, name:'微信'},
@@ -219,7 +219,6 @@
       this.InitData();
       this.chartWidth = this.$refs['PieTitle'].offsetWidth;
       this.chartWidth2 = this.$refs['LineTitle'].offsetWidth;
-      console.log(this.chartWidth);
     },
     computed: {
       searchData () {

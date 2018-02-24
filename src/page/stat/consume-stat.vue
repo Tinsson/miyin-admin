@@ -123,10 +123,10 @@
                   v-model="gift_time_type"
                   v-show="giftShow"
                   @on-change="choseGiftTimeType">
-            <Option :value="1">总金额</Option>
-            <Option :value="2">笔数</Option>
-            <Option :value="3">人数</Option>
-            <Option :value="4">人均</Option>
+            <Option :value="1">消费总金额</Option>
+            <Option :value="2">消费笔数</Option>
+            <Option :value="3">消费人数</Option>
+            <Option :value="4">人均消费秘币</Option>
           </Select>
         </div>
       </div>
@@ -271,17 +271,19 @@
           color: ['#13c2c2'],
           tooltip: {
             trigger: 'axis',
-            formatter: "{a} <br/>{b} : {c} (元)"
+            formatter: "{a} <br/>{b} : {c}"
           },
           yAxis: {
             type: 'value'
           },
           series: [{
-            name: '金额',
+            name: '消费秘币（个）',
             data: [],
             type: 'line'
           }]
         },
+        seriesName1: ['消费秘币数（个）','消费平均秘币数（个）','消费秘币人数（人）'],
+        seriesName2: ['消费总秘币（个）','消费笔数（笔）','消费人数（人）','人均消费秘币（个）'],
         date_range: [],
         pageprops: { //分页配置
           showSizer:true,
@@ -342,13 +344,20 @@
         };
       },
       choseType(type){
+        if(type === 1){
+          this.options2.series[0].name = this.seriesName2[this.gift_time_type - 1];
+        }else{
+          this.options2.series[0].name = this.seriesName1[this.time_type - 1];
+        }
         this.initPage();
         this.InitData();
       },
       choseTimeType(type){
+        this.options2.series[0].name = this.seriesName1[type - 1];
         this.getStatTimes();
       },
-      choseGiftTimeType(){
+      choseGiftTimeType(type){
+        this.options2.series[0].name = this.seriesName2[type - 1];
         this.getGiftTimes();
       },
       choseProduct(type){
@@ -483,17 +492,18 @@
         params_list.product_id = this.product_id;
         this.axios.get(`product-detail?${qs.stringify(params_list)}`).then((d)=>{
           //console.log(d);
+          const res = d.data.list;
           if(d.status === 1){
-            this.product_data.all_money = d.data.sum;
-            this.product_data.det_list[0].value = d.data.count;
-            this.product_data.det_list[1].value = d.data.sum;
-            this.product_data.det_list[2].value = d.data.person;
-            this.product_data.det_list[3].value = d.data.per;
+            this.product_data.all_money = res.sum;
+            this.product_data.det_list[0].value = res.count;
+            this.product_data.det_list[1].value = res.sum;
+            this.product_data.det_list[2].value = res.person;
+            this.product_data.det_list[3].value = res.per;
 
             if(this.product_id === 0){
               let pieData = [],
                 legend = [];
-              Object.values(d.data.group).forEach(val=>{
+              Object.values(res.group).forEach(val=>{
                 pieData.push({
                   value: val.buy_price,
                   name: val.name

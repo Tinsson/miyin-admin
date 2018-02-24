@@ -3,7 +3,10 @@
     <div class="title">
       {{title}}
     </div>
-    <Button type="info" icon="refresh" size="large" @click="refresh">刷新</Button>
+    <div>
+      <slot name="btn"></slot>
+      <Button type="info" icon="refresh" size="large" @click="refresh">刷新</Button>
+    </div>
   </div>
 </template>
 <script>

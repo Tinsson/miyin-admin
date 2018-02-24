@@ -1,9 +1,16 @@
 <template>
   <div id="task-stat">
-    <title-bar :title="titleTxt" @refresh="refresh"></title-bar>
+    <title-bar :title="titleTxt" @refresh="refresh">
+      <Button slot="btn"
+              type="warning"
+              icon="log-out"
+              size="large" @click="backToAll">返回</Button>
+    </title-bar>
     <search-group :searchList="searchList" @search="search"></search-group>
     <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
-      <div slot="btn">
+      <div class="count-all" slot="btn">
+        <span class="count-box">偷听电话总时长：{{count_data.all_mins}}</span>
+        <span class="count-box">偷听随机电话总花费：{{count_data.all_price}}秘币</span>
       </div>
       <Table :columns="columns" :data="myData" border :loading="tableLoading"></Table>
     </table-container>
@@ -15,6 +22,10 @@ export default {
   data() {
     return {
       talk_type: 5,
+      count_data:{
+        all_mins: '',
+        all_price: ''
+      },
       columns: [{
           title: '序号',
           align: 'center',
@@ -144,6 +155,9 @@ export default {
     //console.log(this.$route.query.type);
   },
   methods: {
+    backToAll(){
+      this.$router.push('/action/action-all');
+    },
     refresh() {
       this.getData();
     },
@@ -177,6 +191,15 @@ export default {
           this.myData = res.data.info_list;
           this.pageprops.total = res.data.total;
         }
+      });
+
+      this.axios.get('talk-detail',{
+        params:this.searchForm
+      }).then(d=>{
+        if(d.status === 1){
+          this.count_data.all_mins = d.data.detail.all_mins;
+          this.count_data.all_price = d.data.detail.all_price;
+        }
       })
     }
 
@@ -187,4 +210,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+  .count-box{
+    display: inline-block;
+    padding-left: 25px;
+    font-size: 13px;
+  }
 </style>

@@ -71,7 +71,7 @@
           label2: '单位电话偷听人数',
           value1: '11',
           value2: '11',
-          url: ''
+          url: '/action/tap-list'
         },{
           id: 4,
           title: '发送动态总量',

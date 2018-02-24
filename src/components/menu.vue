@@ -12,7 +12,7 @@
     </div>
     <Submenu v-for="(group,pindex) in arr" :name="group.path" :key="pindex">
       <template slot="title">
-          <Icon type="ios-paper"></Icon>
+          <Icon :type="group.icon"></Icon>
           {{group.name}}
       </template>
       <MenuItem v-for="(item,index) in group.children" :name="group.path+item.path" :key="index">{{item.name}}</MenuItem>
@@ -27,6 +27,7 @@ export default {
     arr: [{
       id: '1',
       name: '用户',
+      icon: "person-stalker",
       path: '/user',
       children: [{
         id: '2',
@@ -44,6 +45,7 @@ export default {
     },{
       id: '5',
       name: '礼物管理',
+      icon: "ios-heart",
       path: '/gift',
       children: [{
         id: '6',
@@ -53,6 +55,7 @@ export default {
     },{
       id: '7',
       name: '资金管理',
+      icon: "card",
       path: '/money',
       children: [{
         id: '8',
@@ -86,6 +89,7 @@ export default {
     },{
       id:'15',
       name: '配置管理',
+      icon: "settings",
       path: '/config',
       children: [
         {
@@ -109,107 +113,123 @@ export default {
           name: '标签配置',
           path: '/tag-config'
         },{
-          id: '45',
+          id: '21',
           name: '女主播等级配置',
           path: '/anchor-level'
         },{
-          id:'21',
+          id:'22',
           name:'充值比例',
           path:'/recharge-ratio'
         },{
-          id: '22',
+          id: '23',
           name: '昵称词库配置',
           path: '/nick-name'
         }
       ]
     },{
-      id: '23',
+      id: '24',
       name: '任务统计',
+      icon: "ios-list",
       path: '/stat',
       children: [{
-        id: '24',
+        id: '25',
         name: '任务统计',
         path: '/task-stat'
       }]
     },{
-      id: '25',
+      id: '26',
       name: '财务数据统计',
+      icon: "pie-graph",
       path: '/finance',
       children: [{
-        id: '43',
+        id: '27',
         name: '用户秘币消费统计',
         path: '/consume-stat'
       },{
-        id: '26',
+        id: '28',
         name: '提现统计',
         path: '/withdraw-stat'
       },{
-        id: '40',
+        id: '29',
         name: '充值统计',
         path: '/recharge-stat'
       }]
     },{
-      id: '41',
+      id: '30',
+      name: '用户数据统计',
+      icon: 'stats-bars',
+      path: '/statistics',
+      children: [{
+        id: '31',
+        name: '统计首页',
+        path: '/user-stat'
+      }]
+    },{
+      id: '32',
       name: '用户行为数据统计',
+      icon: "levels",
       path: '/action',
       children: [{
-        id: '42',
+        id: '33',
         name: '用户行为统计',
         path: '/action-all'
       }]
     },{
-      id: '27',
+      id: '34',
       name: '内容管理',
+      icon: "filing",
       path: '/content',
       children: [{
-        id: '28',
+        id: '35',
         name: '文章分类管理',
         path: '/article-class'
       },{
-        id:'29',
+        id:'36',
         name: '评论管理',
         path: '/comment'
       },{
-        id: '30',
+        id: '37',
         name: '动态管理',
         path: '/circles'
       },{
-        id: '31',
+        id: '38',
         name: '录音审核',
         path: '/voice-verify'
       },{
-        id: '32',
+        id: '39',
         name: '涉黄管理',
         path: '/yellow'
       }]
     }, {
-      id: '33',
+      id: '40',
       name: '消息管理',
+      icon: "chatbox-working",
       path: '/message',
       children: [{
-        id: '34',
+        id: '41',
         name: '消息模板',
         path: '/msg-template'
       },{
-        id: '35',
+        id: '42',
         name: '推送列表',
         path: '/push-list'
       }]
     },{
-      id: '36',
+      id: '43',
       name: '权限管理',
+      icon: "person-add",
       path: '/authority',
       children: [
         {
-          id: '37',
+          id: '44',
           name: '角色列表',
           path: '/role'
         },{
-          id: '38',
+          id: '45',
           name: '权限列表',
           path: '/authority'
         },{
-          id: '39',
+          id: '46',
           name: '账户列表',
           path: '/admin'
         }

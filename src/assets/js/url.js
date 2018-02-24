@@ -111,12 +111,16 @@ const urlList = {
   'recharge-time': '/stats/recharge-time', //充值时间段统计
   'action-all': '/stats/detail', //用户行为数据统计
   'talk-list': '/stats/talk-list', //通话统计列表
+  'talk-detail': '/stats/talk-detail', //通话统计总数
+  'tap-list': '/stats/tap-list',   //偷听统计列表
+  'tap-detail': '/stats/tap-detail', //偷听统计详情
   'expense-list': '/stats/user-expense-list', //用户秘币消费列表
   'expense-time': '/stats/user-expense-time', //用户秘币消费时间段
   'expense-detail': '/stats/user-expense-detail', //用户秘币消费详情
   'product-list': '/stats/product-list',  //礼物消费列表
   'product-chart': '/stats/product-chart',  //礼物消费图表
   'product-detail': '/stats/product-detail', //礼物消费详情
+  'front-detail': '/stats/front-detail',    //首页统计
 
   //内容管理
   'comment-list': '/comment/list', //获取评论列表

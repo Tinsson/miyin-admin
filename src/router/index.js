@@ -51,10 +51,14 @@ import consumeStat from '@/page/stat/consume-stat'  //用户秘币消费统计
 import withdrawStat from '@/page/stat/withdraw-stat' //提现统计
 import rechargeStat from '@/page/stat/recharge-stat' //充值统计
 
+//用户数据统计
+import userStat from '@/page/stat/user-stat'   //统计首页
+
 //用户行为统计
 import actionAll from '@/page/stat/action-all' //行为统计
 import circlesList from '@/page/stat/action/circles-list' //动态列表
 import talkList from '@/page/stat/action/talk-list' //通话统计
+import tapList from '@/page/stat/action/tap-list'  //偷听统计列表
 
 // 消息管理
 import msgTemplate from '@/page/message/msg-template'
@@ -195,6 +199,10 @@ const router = new Router({
           name: 'taskStat',
           component: taskStat
         },{
+          path: '/statistics/user-stat',
+          name: 'userStat',
+          component: userStat
+        },{
           path: '/finance/consume-stat',
           name: 'consumeStat',
           component: consumeStat
@@ -219,6 +227,10 @@ const router = new Router({
           name: 'talkList',
           component: talkList
         },{
+          path: '/action/tap-list',
+          name: 'tapList',
+          component: tapList
+        },{
           path: '/config/recharge-ratio',
           name: 'rechargeRatio',
           component: rechargeRatio
@@ -241,7 +253,6 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log(to)
   if (!sessionStorage.getItem('token') && to.path != '/login') {
     router.push('/login')
   }

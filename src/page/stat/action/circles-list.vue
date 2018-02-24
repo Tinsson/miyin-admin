@@ -1,6 +1,11 @@
 <template>
   <div id="task-stat">
-    <title-bar title="动态列表" @refresh="refresh"></title-bar>
+    <title-bar title="动态列表" @refresh="refresh">
+      <Button slot="btn"
+              type="warning"
+              icon="log-out"
+              size="large" @click="backToAll">返回</Button>
+    </title-bar>
     <search-group :searchList="searchList" @search="search"></search-group>
     <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
       <div slot="btn">
@@ -166,6 +171,9 @@ export default {
   methods: {
     refresh() {
       this.getData();
+    },
+    backToAll(){
+      this.$router.push('/action/action-all');
     },
     search(data) {
       this.searchForm = data;
