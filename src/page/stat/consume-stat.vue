@@ -1,5 +1,5 @@
 <template>
-  <div id="recharge-stat">
+  <div id="consume-stat">
     <title-bar title="用户秘币消费统计" @refresh="refresh"></title-bar>
     <Row type="flex" justify="space-between">
       <Col span="8">

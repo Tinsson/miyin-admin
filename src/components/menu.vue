@@ -176,60 +176,74 @@ export default {
       }]
     },{
       id: '34',
+      name: '女主播直播数据统计',
+      icon: 'arrow-graph-up-right',
+      path: '/anchor',
+      children: [{
+        id: '35',
+        name: '统计总览',
+        path: '/anchor-stat'
+      }]
+    },{
+      id: '36',
       name: '内容管理',
       icon: "filing",
       path: '/content',
       children: [{
-        id: '35',
+        id: '37',
         name: '文章分类管理',
         path: '/article-class'
       },{
-        id:'36',
+        id:'38',
         name: '评论管理',
         path: '/comment'
       },{
-        id: '37',
+        id: '39',
         name: '动态管理',
         path: '/circles'
       },{
-        id: '38',
+        id: '40',
         name: '录音审核',
         path: '/voice-verify'
       },{
-        id: '39',
+        id: '41',
         name: '涉黄管理',
         path: '/yellow'
+      },{
+        id: '49',
+        name: '意见反馈',
+        path: '/opinion'
       }]
     }, {
-      id: '40',
+      id: '42',
       name: '消息管理',
       icon: "chatbox-working",
       path: '/message',
       children: [{
-        id: '41',
+        id: '43',
         name: '消息模板',
         path: '/msg-template'
       },{
-        id: '42',
+        id: '44',
         name: '推送列表',
         path: '/push-list'
       }]
     },{
-      id: '43',
+      id: '45',
       name: '权限管理',
       icon: "person-add",
       path: '/authority',
       children: [
         {
-          id: '44',
+          id: '46',
           name: '角色列表',
           path: '/role'
         },{
-          id: '45',
+          id: '47',
           name: '权限列表',
           path: '/authority'
         },{
-          id: '46',
+          id: '48',
           name: '账户列表',
           path: '/admin'
         }

@@ -42,6 +42,7 @@ import comment from '@/page/content/comment' //评论管理
 import circles from '@/page/content/circles' //动态管理
 import voiceVerify from '@/page/content/voice-verify' //录音审核
 import yellow from '@/page/content/yellow' //涉黄管理
+import opinion from '@/page/content/opinion' //意见反馈
 
 // 任务统计
 import taskStat from '@/page/stat/task-stat' //任务统计
@@ -59,6 +60,9 @@ import actionAll from '@/page/stat/action-all' //行为统计
 import circlesList from '@/page/stat/action/circles-list' //动态列表
 import talkList from '@/page/stat/action/talk-list' //通话统计
 import tapList from '@/page/stat/action/tap-list'  //偷听统计列表
+
+//女主播直播数据统计】
+import anchorStat from '@/page/stat/anchor-stat'  //统计总览
 
 // 消息管理
 import msgTemplate from '@/page/message/msg-template'
@@ -126,6 +130,10 @@ const router = new Router({
           path: '/content/yellow',
           name: 'yellow',
           component:yellow
+        },{
+          path: '/content/opinion',
+          name: 'opinion',
+          component: opinion
         },{
           path: '/gift/gifts',
           name: 'gifts',
@@ -202,6 +210,10 @@ const router = new Router({
           path: '/statistics/user-stat',
           name: 'userStat',
           component: userStat
+        },{
+          path: '/anchor/anchor-stat',
+          name: 'anchorStat',
+          component: anchorStat
         },{
           path: '/finance/consume-stat',
           name: 'consumeStat',

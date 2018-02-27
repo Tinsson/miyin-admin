@@ -45,19 +45,19 @@
       <div class="duanxin-container">
         <Form ref="zn_form" :model="zn_form" :rules="zn_rule" :label-width="80">
           <FormItem label="发送对象:">
-            共<span style="color:red">{{zn_form.send_type=='勾选的用户'?select.length:total}}</span>个用户
+            共<span style="color:red">{{zn_form.send_type===1?select.length:total}}</span>个用户
           </FormItem>
           <FormItem label="发送类型:">
             <RadioGroup v-model="zn_form.send_type">
-              <Radio label="勾选的用户"></Radio>
-              <Radio label="全部用户"></Radio>
+              <Radio :label="1">勾选的用户</Radio>
+              <Radio :label="2">全部用户</Radio>
             </RadioGroup>
           </FormItem>
           <FormItem label="标题:" prop="title">
             <Input v-model="zn_form.title" :maxlength="20"></Input>
           </FormItem>
           <FormItem label="短信内容:" prop="content">
-            <Input type="textarea" :maxlength="100" v-model="duanxin_form.content"></Input>
+            <Input type="textarea" :maxlength="100" v-model="zn_form.content"></Input>
           </FormItem>
           <FormItem>
             <div>
@@ -175,6 +175,7 @@ export default {
     }
   },
   data: () => ({
+    //选中
     //赠送秘币
     money_modal: false,
     money_form: {
@@ -215,7 +216,7 @@ export default {
     // 站内群发
     zn_modal: false,
     zn_form: {
-      send_type: '勾选的用户',
+      send_type: 1,
       title: '',
       content: '',
     },
@@ -264,6 +265,19 @@ export default {
     },
     app_modal_loading: false,
   }),
+  computed: {
+    selectIds(){
+      let str = '';
+      for(let i=0;i<this.select.length;i++){
+        if(i==0){
+          str+=this.select[i].uuid
+        }else {
+          str = str + ',' + this.select[i].uuid
+        }
+      }
+      return str;
+    }
+  },
   methods: {
     duanxin_submit() {
       this.$refs.duanxin_form.validate((valid) => {
@@ -277,22 +291,37 @@ export default {
       })
     },
     zn_submit() {
+      let params = {};
+      if(this.zn_form.send_type === 1){
+        params = {
+          check_type: this.zn_form.send_type,
+          ids: this.selectIds,
+          content: this.zn_form.content
+        }
+      }else if(this.zn_form.send_type === 2){
+        params = {
+          check_type: this.zn_form.send_type,
+          content: this.zn_form.content,
+          type: this.type,
+          ...this.search
+        }
+      }
+      this.axios.post('send-letter',params).then(d=>{
+        //console.log(d);
+        if(d.status===1){
+          this.zn_modal = false;
+          this.$Message.success('发送成功！');
+          this.$emit('refresh')
+        }
+      })
 
     },
     money_submit() {
-      let str = '';
-      for(let i=0;i<this.select.length;i++){
-        if(i==0){
-          str+=this.select[i].uuid
-        }else {
-          str = str + ',' + this.select[i].uuid
-        }
-      }
       this.axios.post('user-give-gold',{
         ...this.search,
         check_type:this.money_form.send_type,
         price:this.money_form.num,
-        ids:str
+        ids:this.selectIds
       }).then(res=>{
         if(res){
           this.money_modal = false;
@@ -302,15 +331,7 @@ export default {
       })
     },
     export_submit(){
-      let str = '',
-          baseUrl = '';
-      for(let i=0;i<this.select.length;i++){
-        if(i==0){
-          str+=this.select[i].uuid
-        }else {
-          str = str + ',' + this.select[i].uuid
-        }
-      }
+      let baseUrl = '';
       if(this.export_form.check === '1' && str === ''){
         this.$Message.error('还未选中用户！');
         return;
@@ -319,7 +340,7 @@ export default {
         ...this.search,
         check: this.export_form.check,
         type: this.type,
-        ids: str
+        ids: this.selectIds
       };
       if(process.env.NODE_ENV === 'development'){
         baseUrl = 'http://apitest.jkxxkj.com/backend';

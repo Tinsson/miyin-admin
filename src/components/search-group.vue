@@ -20,7 +20,7 @@
         <Input :placeholder="item.placeholder" v-model="form[item.model]" v-if="item.type=='input'"></Input>
         <DatePicker type="date" :placeholder="item.placeholder" v-model="form[item.model]" v-if="item.type=='date'" :editable="false"></DatePicker>
         <DatePicker type="daterange" :placeholder="item.placeholder" v-model="form[item.model]" v-if="item.type=='daterange'" :editable="false"></DatePicker>
-        <Select v-model="form[item.model]" :placeholder="item.placeholder" v-if="item.type=='select'" clearable style="width:145px;">
+        <Select v-model="form[item.model]" :placeholder="item.placeholder" v-if="item.type=='select'" clearable style="width:165px;">
           <Option v-for="option in item.options" :value="option.value" :key="option.value">{{ option.label }}</Option>
         </Select>
       </div>
