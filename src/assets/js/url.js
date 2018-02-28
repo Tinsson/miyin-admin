@@ -38,6 +38,7 @@ const urlList = {
   'user-anchor-gift': '/user/anchor-gift', //获取主播礼物收入
   'user-anchor-withdraw': '/user/anchor-withdraw', //获取主播提现记录
   'send-letter': '/user/send-letter', //发送站内信
+  'send-msm': '/user/send-sms',    //发送短信
   'user-give-gold':'/user/give-gold',//赠送秘币
   'export-excel': '/user/export-excel', //导出数据
 

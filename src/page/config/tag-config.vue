@@ -1,7 +1,7 @@
 <template>
   <div id="tag-config">
     <title-bar title="标签配置" @refresh="refresh"></title-bar>
-    <table-container>
+    <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
       <div slot="btn">
         <Button type="primary" @click="add_tag">新增标签</Button>
       </div>
@@ -89,6 +89,14 @@ export default {
         text: '删除'
       }],
       tableLoading: false,
+      pageprops: { //分页配置
+        showSizer:true,
+        total:0,
+      },
+      fy: { //当前分页属性
+        page: 1,
+        size: 10
+      },
     }
   },
   methods: {
@@ -167,9 +175,21 @@ export default {
     refresh() {
       this.getData();
     },
+    pageChange(page) {
+      this.fy.page = page;
+      this.getData();
+    },
+    pageSizeChange(size) {
+      this.fy.size = size;
+      this.getData();
+    },
     getData() {
       this.tableLoading = true;
-      this.axios.get(`tag-list`).then(res=>{
+      this.axios.get(`tag-list`,{
+        params: {
+          ...this.fy
+        }
+      }).then(res=>{
         this.tableLoading = false;
         console.log(res);
         if(res){

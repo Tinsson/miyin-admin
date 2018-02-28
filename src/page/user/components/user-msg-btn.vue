@@ -10,18 +10,23 @@
       <div class="duanxin-container">
         <Form ref="duanxin_form" :model="duanxin_form" :rules="duanxin_rule" :label-width="80">
           <FormItem label="发送对象:">
-            共<span style="color:red">{{duanxin_form.send_type=='勾选的用户'?select.length:total}}</span>个用户
+            共<span style="color:red">{{duanxin_form.send_type==1?select.length:total}}</span>个用户
           </FormItem>
           <FormItem label="发送类型:">
             <RadioGroup v-model="duanxin_form.send_type">
-              <Radio label="勾选的用户"></Radio>
-              <Radio label="全部用户"></Radio>
+              <Radio :label="1">勾选的用户</Radio>
+              <Radio :label="2">全部用户</Radio>
             </RadioGroup>
+          </FormItem>
+          <FormItem label="短信模板:">
+            <Select v-model="duanxin_form.temp" clearable style="width: 200px" @on-change="chose_duanxin_temp">
+              <Option v-for="item in temp_select" :value="item.value" :key="item.value">{{item.label}}</Option>
+            </Select>
           </FormItem>
           <FormItem label="短信内容:" prop="content">
             <Input type="textarea" :maxlength="500" v-model="duanxin_form.content"></Input>
           </FormItem>
-          <FormItem>
+          <!--<FormItem>
             <div>
               发送时系统会自动在结尾追加【优品汇】，请勿重复添加。
             </div>
@@ -31,11 +36,11 @@
           </FormItem>
           <FormItem label="发送统计">
             <span style="margin-right:10px;">发送条数：<span class="red">20</span>条</span> <span>可用短信条数：<span class="red">100000</span>条 </span>
-          </FormItem>
+          </FormItem>-->
         </Form>
       </div>
       <div slot="footer">
-        <Button>取消</Button>
+        <Button @click="duanxin_modal=false">取消</Button>
         <Button type="primary" @click="duanxin_submit" :loading="duanxin_modal_loading">确定</Button>
       </div>
     </Modal>
@@ -53,8 +58,13 @@
               <Radio :label="2">全部用户</Radio>
             </RadioGroup>
           </FormItem>
-          <FormItem label="标题:" prop="title">
+          <!--<FormItem label="标题:" prop="title">
             <Input v-model="zn_form.title" :maxlength="20"></Input>
+          </FormItem>-->
+          <FormItem label="短信模板:">
+            <Select v-model="zn_form.temp" clearable style="width: 200px" @on-change="chose_zn_temp">
+              <Option v-for="item in temp_select" :value="item.value" :key="item.value">{{item.label}}</Option>
+            </Select>
           </FormItem>
           <FormItem label="短信内容:" prop="content">
             <Input type="textarea" :maxlength="100" v-model="zn_form.content"></Input>
@@ -175,7 +185,9 @@ export default {
     }
   },
   data: () => ({
-    //选中
+    //模板消息列表
+    template: [],
+    temp_select: [],
     //赠送秘币
     money_modal: false,
     money_form: {
@@ -201,7 +213,8 @@ export default {
     // 短信群发
     duanxin_modal: false,
     duanxin_form: {
-      send_type: '勾选的用户',
+      send_type: 1,
+      temp: '',
       content: ''
     },
     duanxin_rule: {
@@ -217,7 +230,7 @@ export default {
     zn_modal: false,
     zn_form: {
       send_type: 1,
-      title: '',
+      temp: '',
       content: '',
     },
     zn_rule: {
@@ -278,17 +291,66 @@ export default {
       return str;
     }
   },
+  mounted(){
+    this.get_template();
+  },
   methods: {
+    get_template(){
+      this.axios.get(`temp-list`).then(d=>{
+        if(d.status === 1){
+          let res = d.data.template_list;
+          this.template = res;
+          this.temp_select = res.map((val,index)=>{
+            return {
+              value: index,
+              label: val.title
+            }
+          })
+        }
+      });
+    },
     duanxin_submit() {
       this.$refs.duanxin_form.validate((valid) => {
         if (valid) {
-          this.duanxin_modal_loading = true
-          setTimeout(() => {
-            this.duanxin_modal_loading = false
-            this.duanxin_modal = false
-          }, 2000)
+          let params = {};
+          if(this.duanxin_form.send_type === 1){
+            params = {
+              check_type: this.duanxin_form.send_type,
+              ids: this.selectIds,
+              content: this.duanxin_form.content
+            }
+          }else if(this.duanxin_form.send_type === 2){
+            params = {
+              check_type: this.duanxin_form.send_type,
+              content: this.duanxin_form.content,
+              type: this.type,
+              ...this.search
+            }
+          }
+          this.axios.post('send-msm',params).then(d=>{
+            //console.log(d);
+            if(d.status===1){
+              this.duanxin_modal = false;
+              this.$Message.success('发送成功！');
+              this.$emit('refresh')
+            }
+          })
         }
       })
+    },
+    chose_zn_temp(type){
+      if(type === ""){
+        this.zn_form.content = '';
+      }else{
+        this.zn_form.content = this.template[type].content;
+      }
+    },
+    chose_duanxin_temp(type){
+      if(type === ""){
+        this.duanxin_form.content = '';
+      }else{
+        this.duanxin_form.content = this.template[type].content;
+      }
     },
     zn_submit() {
       let params = {};

@@ -1,13 +1,13 @@
 <template>
   <div id="nick-name">
     <title-bar title="昵称词库配置" @refresh="refresh"></title-bar>
-    <table-container title="姓氏列表">
+    <table-container title="姓氏列表" @on-change="pageChangeFirst" @on-page-size-change="pageSizeChangeFirst" page :pageprops="pageprops_first">
       <div slot="btn">
         <Button type="primary" @click="add_tag(3)">新增姓氏</Button>
       </div>
       <Table :columns="columns" :data="myData" border :loading="tableLoading"></Table>
     </table-container>
-    <table-container title="名氏列表">
+    <table-container title="名氏列表" @on-change="pageChangeLast" @on-page-size-change="pageSizeChangeLast" page :pageprops="pageprops_last">
       <div slot="btn">
         <Button type="primary" @click="add_tag(4)">新增名氏</Button>
       </div>
@@ -71,6 +71,22 @@ export default {
         text: '删除'
       }],
       tableLoading: false,
+      pageprops_first: { //分页配置
+        showSizer:true,
+        total:0,
+      },
+      fy_first: { //当前分页属性
+        page: 1,
+        size: 10
+      },
+      pageprops_last: { //分页配置
+        showSizer:true,
+        total:0,
+      },
+      fy_last: { //当前分页属性
+        page: 1,
+        size: 10
+      },
     }
   },
   methods: {
@@ -93,6 +109,22 @@ export default {
         res.push(btn);
       });
       return res;
+    },
+    pageChangeFirst(page){
+      this.fy_first.page = page;
+      this.getFirst();
+    },
+    pageSizeChangeFirst(size){
+      this.fy_first.size = size;
+      this.getFirst();
+    },
+    pageChangeLast(page){
+      this.fy_last.page = page;
+      this.getLast();
+    },
+    pageSizeChangeLast(size){
+      this.fy_last.size = size;
+      this.getLast();
     },
     modalClose() {
 
@@ -149,26 +181,36 @@ export default {
       this.getData();
     },
     getData() {
-      this.tableLoading = true;
-      this.axios.get(`tag-list`).then(res=>{
-        this.tableLoading = false;
-        console.log(res);
+      //this.tableLoading = true;
+      this.getFirst();
+      this.getLast();
+    },
+    getFirst(){
+      this.axios.get(`tag-list`,{
+        params: {
+          type: 3,
+          ...this.fy_first
+        }
+      }).then(res=>{
         if(res){
           let resList = res.data.tag_list;
-          let newArr = [],
-              newArr2 = [];
-          resList.forEach(val=>{
-            if(val.type === 3){
-              newArr.push(val);
-            }else if(val.type === 4){
-              newArr2.push(val);
-            }
-          });
-          this.myData = newArr;
-          this.myData2 = newArr2;
+          this.myData = resList;
         }
       })
     },
+    getLast(){
+      this.axios.get(`tag-list`,{
+        params: {
+          type: 4,
+          ...this.fy_last
+        }
+      }).then(res=>{
+        if(res){
+          let resList = res.data.tag_list;
+          this.myData2 = resList;
+        }
+      })
+    }
   },
   components: {
     addNickname
