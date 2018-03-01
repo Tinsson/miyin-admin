@@ -2,8 +2,9 @@
   <div id="userMsgBtn">
     <!-- 群发短信模态框 -->
     <Button type="ghost" @click="duanxin_modal=true">群发短信</Button>
-    <Button type="success" @click="zn_modal=true">群发站内信</Button>
-    <Button type="error" @click="app_modal=true">APP推送</Button>
+    <!--<Button type="success" @click="zn_modal=true">群发站内信</Button>-->
+    <!--<Button type="error" @click="app_modal=true">APP推送</Button>-->
+    <Button type="primary" @click="zn_modal=true">APP推送</Button>
     <Button type="warning" @click="money_modal=true">赠送秘币</Button>
     <Button type="info" @click="export_modal=true">导出数据</Button>
     <Modal v-model="duanxin_modal" title="群发短信">
@@ -46,7 +47,7 @@
     </Modal>
 
     <!-- 群发站内信模态框 -->
-    <Modal v-model="zn_modal" title="群发站内信">
+    <Modal v-model="zn_modal" title="APP推送">
       <div class="duanxin-container">
         <Form ref="zn_form" :model="zn_form" :rules="zn_rule" :label-width="80">
           <FormItem label="发送对象:">
@@ -61,19 +62,19 @@
           <!--<FormItem label="标题:" prop="title">
             <Input v-model="zn_form.title" :maxlength="20"></Input>
           </FormItem>-->
-          <FormItem label="短信模板:">
+          <FormItem label="推送模板:">
             <Select v-model="zn_form.temp" clearable style="width: 200px" @on-change="chose_zn_temp">
               <Option v-for="item in temp_select" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </FormItem>
-          <FormItem label="短信内容:" prop="content">
+          <FormItem label="推送内容:" prop="content">
             <Input type="textarea" :maxlength="100" v-model="zn_form.content"></Input>
           </FormItem>
-          <FormItem>
+          <!--<FormItem>
             <div>
               站内信标题不能超过<span class="red">20</span>个字，内容不能超过<span class="red">100</span>个字
             </div>
-          </FormItem>
+          </FormItem>-->
         </Form>
       </div>
       <div slot="footer">

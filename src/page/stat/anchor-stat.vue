@@ -27,7 +27,7 @@
       </div>
     </div>
     <Row :gutter="20" style="margin-bottom: 20px;">
-      <Col class="card-col" span="6" v-for="item in card_data" :key="item.label">
+      <Col class="card-col" :span="6" v-for="item in card_data" :key="item.label">
         <Card>
           <h2 class="card-title">{{item.label}}</h2>
           <p class="card-number">{{ item.value + item.unit }}</p>
@@ -43,37 +43,41 @@
         </div>
         <div class="btn-group">
           <Select style="width: 200px"
-                  v-model="time_type">
-            <Option :value="1">按消费秘币数</Option>
-            <Option :value="2">按消费平均秘币数</Option>
-            <Option :value="3">消费秘币人数</Option>
+                  v-model="time_cate"
+                  @on-change="getStatChart">
+            <Option :value="1">按时间段</Option>
+            <Option :value="2">按日期</Option>
+          </Select>
+          <Select style="width: 200px"
+                  v-model="time_type"
+                  @on-change="choseTimeType">
+            <Option :value="1">在线主播数</Option>
+            <Option :value="2">通话时长</Option>
+            <Option :value="3">收入秘币</Option>
+            <Option :value="4">收入礼物</Option>
           </Select>
         </div>
       </div>
       <div id="LineChart" class="chart-box2" :style="{width: chartWidth2+'px'}"></div>
     </Card>
-    <Row gutter="20">
+    <Row type="flex" :gutter="20">
       <Col :span="12">
         <table-container title="累计通话时长最长主播" @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
-          <Table :columns="columns" :data="myData" border :loading="tableLoading"></Table>
+          <Table :columns="columns_duration" :data="myData_duration" border :loading="tableLoading"></Table>
         </table-container>
       </Col>
       <Col :span="12">
         <table-container title="累计收入秘币最多主播" @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
-          <Table :columns="columns" :data="myData" border :loading="tableLoading"></Table>
+          <Table :columns="columns_income" :data="myData_income" border :loading="tableLoading"></Table>
         </table-container>
       </Col>
       <Col :span="12">
         <table-container title="累计收礼最多主播" @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
-          <Table :columns="columns" :data="myData" border :loading="tableLoading"></Table>
-        </table-container>
-      </Col>
-      <Col :span="12">
-        <table-container title="累计时间最长主播" @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
-          <Table :columns="columns" :data="myData" border :loading="tableLoading"></Table>
+          <Table :columns="columns_gift" :data="myData_gift" border :loading="tableLoading"></Table>
         </table-container>
       </Col>
     </Row>
+    <playground ref="playground"></playground>
   </div>
 </template>
 
@@ -101,7 +105,7 @@
         },{
           label: '累计通话时长（含随机）',
           value: '2',
-          unit: '分钟'
+          unit: ''
         },{
           label: '收入秘币',
           value: '3',
@@ -113,6 +117,7 @@
         }],
         time_type: 1,
         chartWidth2: '',
+        nameArr: ['主播数（人）','通话时长（分）','收入秘币（秘币）','收入礼物（秘币）'],
         options2:{
           xAxis: {
             type: 'category',
@@ -127,52 +132,117 @@
             type: 'value'
           },
           series: [{
-            name: '消费秘币（个）',
+            name: '主播数（人）',
             data: [],
             type: 'line'
           }]
         },
-        tableLoading: true,
-        columns: [{
-          title: '日期',
-          key: 'date',
-          align: 'center'
-        },{
-          title: '请求提现金额',
-          key: 'all_sum',
-          align: 'center'
-        },{
-          title: '请求提现笔数',
-          key: 'all_times',
-          align: 'center'
-        }],
-        columns: [{
-          title: '日期',
-          key: 'date',
-          align: 'center'
-        },{
-          title: '请求提现金额',
-          key: 'all_sum',
-          align: 'center'
-        },{
-          title: '请求提现笔数',
-          key: 'all_times',
-          align: 'center'
-        }],
-        columns: [{
+        tableLoading: false,
+        columns_duration: [{
           title: '昵称',
-          key: 'date',
+          key: 'nick_name',
           align: 'center'
         },{
-          title: '请求提现金额',
-          key: 'all_sum',
+          title: '头像',
+          key: 'portrait',
+          align: 'center',
+          render: (h, params)=>{
+            return h('img',{
+              style: {
+                width: '45px',
+                height: '45px',
+                marginTop: '5px'
+              },
+              attrs: {
+                src: params.row.portrait
+              },
+              on: {
+                click:()=>{
+                  this.$refs.playground.show(params.row.portrait);
+                }
+              }
+            })
+          }
+        },{
+          title: '等级',
+          key: 'level',
           align: 'center'
         },{
-          title: '请求提现笔数',
-          key: 'all_times',
+          title: '时长',
+          key: 'duration',
           align: 'center'
         }],
-        myData: [],
+        myData_duration: [],
+        columns_gift: [{
+          title: '昵称',
+          key: 'nick_name',
+          align: 'center'
+        },{
+          title: '头像',
+          key: 'portrait',
+          align: 'center',
+          render: (h, params)=>{
+            return h('img',{
+              style: {
+                width: '45px',
+                height: '45px',
+                marginTop: '5px'
+              },
+              attrs: {
+                src: params.row.portrait
+              },
+              on: {
+                click:()=>{
+                  this.$refs.playground.show(params.row.portrait);
+                }
+              }
+            })
+          }
+        },{
+          title: '等级',
+          key: 'level',
+          align: 'center'
+        },{
+          title: '收入',
+          key: 'price',
+          align: 'center'
+        }],
+        myData_gift: [],
+        columns_income: [{
+          title: '昵称',
+          key: 'nick_name',
+          align: 'center'
+        },{
+          title: '头像',
+          key: 'portrait',
+          align: 'center',
+          render: (h, params)=>{
+            return h('img',{
+              style: {
+                width: '45px',
+                height: '45px',
+                marginTop: '5px'
+              },
+              attrs: {
+                src: params.row.portrait
+              },
+              on: {
+                click:()=>{
+                  this.$refs.playground.show(params.row.portrait);
+                }
+              }
+            })
+          }
+        },{
+          title: '等级',
+          key: 'level',
+          align: 'center'
+        },{
+          title: '收入',
+          key: 'price',
+          align: 'center'
+        }],
+        myData_income: [],
         date_range: [],
         pageprops: { //分页配置
           showSizer:true,
@@ -182,7 +252,9 @@
           page: 1,
           size: 10
         },
-        searchForm: {} //搜索框属性
+        searchForm: {}, //搜索框属性
+        time_cate: 1,
+        time_type: 1
       }
     },
     mounted(){
@@ -223,6 +295,10 @@
         };
         this.searchForm = res;
         this.InitData();
+      },
+      choseTimeType(type){
+        this.options2.series[0].name = this.nameArr[type-1];
+        this.getStatChart();
       },
       getTime(type) {
         if (type == 'today') {
@@ -283,28 +359,43 @@
         //列表数据获取
 
         this.getStatDetail();
-        this.getStatList();
+        this.getStatChart();
       },
       getStatDetail(){
         let params_list = this.searchForm;
-        this.axios.get(`withdraw-detail?${qs.stringify(params_list)}`).then((d)=>{
+        this.axios.get(`anchor-detail`,{
+          params: params_list
+        }).then((d)=>{
+          console.log(d);
           let res = d.data.detail;
-          if(d.status === 1){
-            this.avg_sum = res.avg_sum;
-          }
+          this.card_data[0].value = res.count;
+          this.card_data[1].value = res.duration;
+          this.card_data[2].value = res.all_income;
+          this.card_data[3].value = res.gift_income;
+          this.myData_duration = res.duration_list;
+          this.myData_gift = res.gift_list;
+          this.myData_income = res.income_list;
         });
       },
-      getStatList(){
-        this.tableLoading = true;
-        let params_list = this.searchData;
-        console.log(params_list);
-        this.axios.get(`withdraw-list?${qs.stringify(params_list)}`).then((d)=>{
-          let res = d.data;
-          if(d.status === 1){
-            this.myData = res.info_list;
-            this.pageprops.total = res.total;
-            this.tableLoading = false;
-          }
+      getStatChart(){
+        //this.tableLoading = true;
+        let params_list = copyObj(this.searchForm);
+        params_list.cate = this.time_cate;
+        params_list.type = this.time_type;
+        this.axios.get('anchor-chart',{
+          params: params_list
+        }).then(d=>{
+          let res = d.data.info_list,
+              xData = [],
+              value = [];
+          res.forEach(val=>{
+            xData.push(val.date);
+            value.push(val.value)
+          })
+          this.options2.xAxis.data = xData;
+          this.options2.series[0].data = value;
+          console.log(this.options2);
+          this.DrawChart2();
         })
       }
     }
@@ -327,7 +418,7 @@
     white-space: nowrap;
     color: rgba(0, 0, 0, 0.85);
     margin: 20px 0;
-    font-size: 36px;
+    font-size: 28px;
     line-height: 50px;
   }
   .card-content{
@@ -430,6 +521,9 @@
   }
   .chart-out{
     display: inline-block;
+  }
+  .chart-box2{
+    height: 300px;
   }
   .count-info{
     padding: 0 10px;

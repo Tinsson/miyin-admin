@@ -123,6 +123,8 @@ const urlList = {
   'product-chart': '/stats/product-chart',  //礼物消费图表
   'product-detail': '/stats/product-detail', //礼物消费详情
   'front-detail': '/stats/front-detail',    //首页统计
+  'anchor-detail': '/stats/anchor-detail',  //女主播总览
+  'anchor-chart': '/stats/anchor-chart',  //女主播折线图
 
   //内容管理
   'comment-list': '/comment/list', //获取评论列表
