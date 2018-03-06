@@ -194,6 +194,7 @@ export default {
       }).then(res=>{
         if(res){
           let resList = res.data.tag_list;
+          this.pageprops_first.total = res.data.total;
           this.myData = resList;
         }
       })
@@ -207,6 +208,7 @@ export default {
       }).then(res=>{
         if(res){
           let resList = res.data.tag_list;
+          this.pageprops_last.total = res.data.total;
           this.myData2 = resList;
         }
       })
