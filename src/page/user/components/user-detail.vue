@@ -18,7 +18,7 @@
                     头像:
                   </div>
                   <div class="content">
-                    <div class="photo background-contain" :style="'background-image:url('+user_info_form.portrait+')'">
+                    <div class="photo background-contain" :style="'background-image:url('+user_info_form.portrait_long+')'">
 
                     </div>
                     <my-upload v-if="edit_user_info" @success="upload_success"></my-upload>
@@ -411,6 +411,7 @@ export default {
     edit_user_info: false,
     user_info_form:{
       portrait: '',
+      portrait_long: '',
       nick_name: '',
       mobile: '',
       sex: '',
@@ -466,7 +467,8 @@ export default {
       })
     },
     upload_success(list) {
-      this.user_info_form.portrait = list[0][0];
+      this.user_info_form.portrait = list[0][1];
+      this.user_info_form.portrait_long = list[0][0];
     },
     del_photos(index) {
       this.user_data_form.user_photos.splice(index,1);

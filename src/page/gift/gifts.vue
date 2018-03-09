@@ -246,7 +246,7 @@ export default {
             //添加礼物
             this.form_loading = true;
             this.axios.post('add-gift',{
-              img: this.gift_form.pic[0][0].replace(this.$oss_url,''),
+              img: this.gift_form.pic[0][1].replace(this.$oss_url,''),
               price: this.gift_form.price,
               title: this.gift_form.name,
               discount: this.gift_form.discount,

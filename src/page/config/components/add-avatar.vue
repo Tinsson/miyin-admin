@@ -60,6 +60,7 @@
             id: '',
             sex: 1,
             img_path: '',
+            img_short_path: '',
             status: 1
           }
         }
@@ -98,7 +99,7 @@
         }else{
           let params = {
             sex: this.sex,
-            img_path: this.img_path
+            img_path: this.img_short_path
           };
           if(this.edit_type){
             params.id = this.edit_info.id;
@@ -111,6 +112,7 @@
       },
       handle_success(data){
         this.img_path = data[0][0];
+        this.img_short_path = data[0][1];
       },
       close() {
         this.if_show = false;
