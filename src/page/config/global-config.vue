@@ -99,6 +99,7 @@ export default {
             value: this.edit_form.value
           }).then(res=>{
             if(res){
+              this.$Message.success(res.message);
               this.edit_show = false;
               this.getData();
             }

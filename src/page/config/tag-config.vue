@@ -1,11 +1,13 @@
 <template>
   <div id="tag-config">
-    <title-bar title="标签配置" @refresh="refresh"></title-bar>
-    <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
-      <div slot="btn">
-        <Button type="primary" @click="add_tag">新增标签</Button>
-      </div>
+    <title-bar title="标签配置" @refresh="refresh">
+      <Button slot="btn" size="large" type="primary" @click="add_tag">新增标签</Button>
+    </title-bar>
+    <table-container title="用户标签" @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
       <Table :columns="columns" :data="myData" border :loading="tableLoading"></Table>
+    </table-container>
+    <table-container title="系统标签" @on-change="pageChange2" @on-page-size-change="pageSizeChange2" page :pageprops="pageprops2">
+      <Table :columns="columns" :data="myData2" border :loading="tableLoading2"></Table>
     </table-container>
     <add-tag ref="add_tag"
             :edit_info="tag_edit"
@@ -89,7 +91,12 @@ export default {
         text: '删除'
       }],
       tableLoading: false,
+      tableLoading2: false,
       pageprops: { //分页配置
+        showSizer:true,
+        total:0,
+      },
+      pageprops2: { //分页配置
         showSizer:true,
         total:0,
       },
@@ -97,6 +104,10 @@ export default {
         page: 1,
         size: 10
       },
+      fy2: { //当前分页属性
+        page: 1,
+        size: 10
+      }
     }
   },
   methods: {
@@ -177,15 +188,27 @@ export default {
     },
     pageChange(page) {
       this.fy.page = page;
-      this.getData();
+      this.getList1();
     },
     pageSizeChange(size) {
       this.fy.size = size;
-      this.getData();
+      this.getList1();
+    },
+    pageChange2(page) {
+      this.fy2.page = page;
+      this.getList2();
+    },
+    pageSizeChange2(size) {
+      this.fy2.size = size;
+      this.getList2();
     },
     getData() {
+      this.getList1();
+      this.getList2();
+    },
+    getList1(){
       this.tableLoading = true;
-      this.axios.get(`tag-list`,{
+      this.axios.get(`tag-list?type=1`,{
         params: {
           ...this.fy
         }
@@ -194,16 +217,27 @@ export default {
         console.log(res);
         if(res){
           let resList = res.data.tag_list;
-          let newArr = [];
-          resList.forEach(val=>{
-            if(val.type === 1 || val.type === 2){
-              newArr.push(val);
-            }
-          })
-          this.myData = newArr;
+          this.myData = resList;
+          this.pageprops = res.data.total;
+        }
+      });
+    },
+    getList2(){
+      this.tableLoading2 = true;
+      this.axios.get(`tag-list?type=2`,{
+        params: {
+          ...this.fy2
+        }
+      }).then(res=>{
+        this.tableLoading2 = false;
+        console.log(res);
+        if(res){
+          let resList = res.data.tag_list;
+          this.myData2 = resList;
+          this.pageprops2 = res.data.total;
         }
       })
-    },
+    }
   },
   components: {
     addTag
