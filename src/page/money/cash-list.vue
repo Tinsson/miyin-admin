@@ -135,6 +135,7 @@ export default {
         console.log(res);
         if(res){
           this.myData = res.data.list
+          this.pageprops.total = res.data.total;
         }
       })
     },

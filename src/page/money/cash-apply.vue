@@ -238,7 +238,8 @@ export default {
         this.tableLoading = false;
         console.log(res);
         if(res){
-          this.myData = res.data.list
+          this.myData = res.data.list;
+          this.pageprops = res.data.total;
         }
       })
     },

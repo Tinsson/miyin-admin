@@ -124,7 +124,8 @@ export default {
       }).then(res=>{
         this.tableLoading = false;
         if(res){
-          this.myData = res.data.list
+          this.myData = res.data.list;
+          this.pageprops.total = res.data.total;
         }
       })
     },

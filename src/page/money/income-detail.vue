@@ -117,6 +117,8 @@ export default {
           this.tableLoading = false
           this.all_price = res.data.all_price
           this.myData = res.data.log_list
+          this.pageprops.total = res.data.total;
+          //console.log(res.data.total);
         }
       })
     },
