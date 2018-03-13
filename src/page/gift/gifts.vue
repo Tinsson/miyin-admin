@@ -265,7 +265,7 @@ export default {
             this.form_loading = true;
             this.axios.post('edit-gift',{
               id: this.gift_form.id,
-              img: this.gift_form.pic[0][0].replace(this.$oss_url,''),
+              img: this.gift_form.pic[0][1].replace(this.$oss_url,''),
               price: this.gift_form.price,
               title: this.gift_form.name,
               discount: this.gift_form.discount,
@@ -315,7 +315,8 @@ export default {
     edit_gift(params) {
       this.operation_type = 'edit'
       this.gift_form.id = params.row.id;
-      this.$set(this.gift_form.pic,0,[params.row.img])
+      this.$set(this.gift_form.pic,0,[params.row.img,params.row.img.split('com')[1]]);
+      //console.log(params.row.img.split('com')[1]);
       this.gift_form.price = parseFloat(params.row.price);
       this.gift_form.name = params.row.title;
       this.gift_form.discount = parseFloat(params.row.discount);

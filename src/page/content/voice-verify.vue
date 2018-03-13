@@ -57,7 +57,7 @@ export default {
           width:170,
           render: (h, params) => {
             return h('div', [
-              h('Poptip', {
+              /*h('Poptip', {
                 props: {
                   confirm: true,
                   title: '确定要通过吗？',
@@ -74,7 +74,7 @@ export default {
                     type: 'text'
                   }
                 },'通过')
-              ]),
+              ]),*/
               h('Poptip', {
                 props: {
                   confirm: true,

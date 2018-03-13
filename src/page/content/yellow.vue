@@ -183,13 +183,20 @@ export default {
   },
   methods: {
     del(id) {
-      this.tableLoading = true
-      this.axios.get(`porn-log-del?id=${id}`).then(res=>{
-        this.tableLoading = false;
-        if(res){
-          this.getData();
+      this.$Modal.confirm({
+        title: '提示',
+        content: '<p>是否删除此条记录？</p>',
+        onOk: () => {
+          this.tableLoading = true;
+          this.axios.get(`porn-log-del?id=${id}`).then(res=>{
+            this.tableLoading = false;
+            if(res){
+              this.getData();
+              this.$Message.success(res.message);
+            }
+          })
         }
-      })
+      });
     },
     del_select() {
       let arr = [];
