@@ -23,19 +23,31 @@
             <Input v-model="form.class_name"></Input>
           </FormItem>
           <FormItem label="父节点">
-            <Select v-model="form.p_id">
-              <Option value="1">分类1</Option>
-              <Option value="2">分类2</Option>
+            <Select v-model="form.pid" clearable>
+              <Option v-for="item in pidArr" :value="item.id" :key="item.id">{{item.class_name}}</Option>
             </Select>
           </FormItem>
-          <FormItem label="排序">
-            <Input v-model="form.sequence"></Input>
+          <FormItem label="层级">
+            <InputNumber :min="1" v-model="form.level"></InputNumber>
           </FormItem>
         </Form>
       </div>
       <div slot="footer">
         <Button>取消</Button>
-        <Button type="primary" @click="add">确定</Button>
+        <Button type="primary" @click="addNode">确定</Button>
+      </div>
+    </Modal>
+    <Modal v-model="edit_modal" title="添加文章分类">
+      <div class="">
+        <Form :model="edit_form" :rules="rules" :label-width="80">
+          <FormItem label="分类名称">
+            <Input v-model="edit_form.class_name"></Input>
+          </FormItem>
+        </Form>
+      </div>
+      <div slot="footer">
+        <Button type="default" @click="edit_modal=false">取消</Button>
+        <Button type="primary" @click="editOK">确定</Button>
       </div>
     </Modal>
   </div>
@@ -47,8 +59,8 @@ export default {
     test_index:0,
     form: {
       class_name: '',
-      sequence: '',
-      p_id: ''
+      pid: '',
+      level: 1
     },
     rules: {
       class_name: [
@@ -59,7 +71,11 @@ export default {
         }
       ]
     },
-
+    edit_modal: false,
+    edit_form: {
+      id: '',
+      class_name: ''
+    },
     columns: [
       {
         title: 'ID',
@@ -107,7 +123,7 @@ export default {
       }
     ],
     myData: [
-      {
+      /*{
         class_name: '分类1',
         id:1,
         children: [
@@ -119,36 +135,96 @@ export default {
             id:3
           }
         ]
-      },{
-        class_name: '分类2',
-        id:4,
-        children: [
-          {
-            class_name:'子分类1',
-            id:5
-          },{
-            class_name: '子分类2',
-            id:6
-          }
-        ]
-      }
+      }*/
     ],
 
     modal_show: false
   }),
+  computed:{
+    pidArr(){
+      let level = this.form.level,
+          list = this.myData;
+      if(level === 1){
+        this.form.pid = 0;
+        return [];
+      }else{
+        this.form.pid = '';
+        return this.getLevelList(list,level-1);
+      }
+    }
+  },
   methods: {
-    add() {
-      // this.axios.post('/adv-class/add',{
-      //   class_name: ''
-      // })
+    addNode() {
+      this.$refs['my_modal'].validate(valid=>{
+        if(valid){
+          this.axios.post('article-add',this.form).then(res=>{
+            if(res.status === 1){
+              this.$Message.success(res.message);
+              this.modal_show = false;
+              this.getData();
+              this.form.class_name = '';
+              this.form.pid = '';
+              this.form.level = 1;
+            }
+          })
+        }
+      })
+    },
+    getLevelList(list,level, num=1){
+      if(list.length === 0){
+        return [];
+      }else{
+        if(list[0].level === level){
+          return list;
+        }else{
+          return this.getLevelList(list.child, level);
+        }
+      }
     },
     refresh() {
       this.$refs.playgroud.show([123,123,123])
     },
     getData() {
-      this.axios.get('/adv-class/all').then(res=>{
-        console.log(res)
+      this.axios.get('article-class').then(res=>{
+        if(res.status === 1){
+          this.myData = res.data.list;
+        }
       })
+    },
+    editNode(node){
+      this.edit_modal = true;
+      this.edit_form.id = node.id;
+      this.edit_form.class_name = node.class_name;
+    },
+    editOK(){
+      let params = this.edit_form;
+      if(params.class_name === ''){
+        this.$Message.error('请输入分类名称！');
+        return;
+      }
+      this.axios.post('article-edit',params).then(res=>{
+        if(res.status === 1){
+          this.$Message.success(res.message);
+          this.edit_modal = false;
+          this.getData();
+        }
+      })
+    },
+    delNode(node){
+      this.$Modal.confirm({
+        title: '提示',
+        content: '<p>确定删除此分类吗？</p>',
+        onOk: () => {
+          this.axios.get('article-del',{
+            params: {id: node.id}
+          }).then(res=>{
+            if(res.status === 1){
+              this.$Message.success(res.message);
+              this.getData();
+            }
+          })
+        }
+      });
     },
     renderTree(h,{root,node,data}) {
       return h('div',{
@@ -171,7 +247,9 @@ export default {
               marginLeft: '30px'
             },
             on:{
-
+              click: ()=>{
+                this.editNode(node.node);
+              }
             }
           },'编辑'),
           h('Button',{
@@ -181,6 +259,11 @@ export default {
             },
             style: {
               marginLeft: '10px'
+            },
+            on:{
+              click: ()=>{
+                this.delNode(node.node);
+              }
             }
           },'删除')
       ])

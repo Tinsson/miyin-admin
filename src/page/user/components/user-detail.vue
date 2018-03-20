@@ -559,6 +559,8 @@ export default {
           for(let key in this.user_data_form) {
             this.user_data_form[key] = this.user_detail[key];
           }
+          this.user_info_form.portrait_long = this.user_detail.portrait;
+
           // this.user_info_form.photo =user_detail.portrait;
           // this.user_info_form.nickname = user_detail.nick_name;
           // this.user_info_form.mobile = user_detail.mobile;

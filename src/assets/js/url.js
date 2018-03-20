@@ -127,6 +127,10 @@ const urlList = {
   'anchor-chart': '/stats/anchor-chart',  //女主播折线图
 
   //内容管理
+  'article-class': '/article-class/all',//文章分类管理
+  'article-add': '/article-class/add', //文章分类添加
+  'article-edit': '/article-class/edit', //文章分类编辑
+  'article-del': '/article-class/del', //文章分类删除
   'comment-list': '/comment/list', //获取评论列表
   'comment-del': '/comment/del', //删除评论
   'circles-list': '/circles/list', //获取动态列表

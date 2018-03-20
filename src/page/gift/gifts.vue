@@ -313,7 +313,7 @@ export default {
       })
     },
     edit_gift(params) {
-      this.operation_type = 'edit'
+      this.operation_type = 'edit';
       this.gift_form.id = params.row.id;
       this.$set(this.gift_form.pic,0,[params.row.img,params.row.img.split('com')[1]]);
       //console.log(params.row.img.split('com')[1]);
