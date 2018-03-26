@@ -24,6 +24,9 @@
           <FormItem label="礼物名称:" prop="name">
             <Input v-model="gift_form.name"></Input>
           </FormItem>
+          <FormItem label="礼物描述:" prop="content">
+            <Input v-model="gift_form.content"></Input>
+          </FormItem>
           <FormItem label="礼物折扣:" prop="discount">
             <InputNumber :max="1" :min="0" :step="0.01" v-model="gift_form.discount"></InputNumber>
           </FormItem>
@@ -73,6 +76,7 @@ export default {
         pic: [],
         price: 0.01,
         name: '',
+        content: '',
         discount: 1,
         time: [],
         start_time: '',
@@ -89,6 +93,9 @@ export default {
         ],
         name: [
           { required: true, message: '请输入礼物名称' }
+        ],
+        content: [
+          { required: true, message: '请输入礼物描述' }
         ],
         time: [
           { required: true, message: '请选择时间' },
@@ -122,6 +129,10 @@ export default {
               }
             })
           }
+        },{
+          title: '礼物描述',
+          key: 'content',
+          align: 'center'
         }, {
           title: '价格（秘币）',
           key: 'price',
@@ -249,6 +260,7 @@ export default {
               img: this.gift_form.pic[0][1].replace(this.$oss_url,''),
               price: this.gift_form.price,
               title: this.gift_form.name,
+              content: this.gift_form.content,
               discount: this.gift_form.discount,
               start_time: this.gift_form.start_time,
               end_time: this.gift_form.end_time,
