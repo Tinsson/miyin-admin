@@ -344,6 +344,29 @@ export default {
         align: 'center'
       }
     ],
+    columns9: [
+      {
+        title: '礼物名称',
+        key: 'title',
+        align: 'center'
+      },{
+        title: '礼物数量',
+        key: 'num',
+        align: 'center'
+      },{
+        title: '礼物价值',
+        key: 'value',
+        align: 'center'
+      },{
+        title: '赠送时间',
+        key: 'created_at',
+        align: 'center'
+      },{
+        title: '赠送人',
+        key: 'user_uuid',
+        align: 'center'
+      }
+    ],
     columns10: [
       {
         title: '上线时间',
@@ -402,7 +425,7 @@ export default {
       },{
         title: '礼物收入',
         key: 'gift_income',
-        type: '11'
+        type: '9'
       },{
         title: '在线时长',
         key: 'online_mins',
