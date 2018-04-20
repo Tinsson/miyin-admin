@@ -46,9 +46,9 @@ axios.defaults.headers.common['token'] = 'SJK3zSvzciwY6MF3jjCIXTduwg3+vcQqhLQrX6
 axios.defaults.timeout = 60000
 
 if(process.env.NODE_ENV === 'production') {
-  axios.defaults.baseURL = 'http://api.jkxxkj.com/backend';
+  axios.defaults.baseURL = 'https://api.jkxxkj.com/backend';
 }else if(process.env.NODE_ENV === 'testing') {
-  axios.defaults.baseURL = 'http://apitest.jkxxkj.com/backend';
+  axios.defaults.baseURL = 'https://apitest.jkxxkj.com/backend';
 }else {
   axios.defaults.baseURL = '/'
 }

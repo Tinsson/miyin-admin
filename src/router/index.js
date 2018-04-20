@@ -107,7 +107,7 @@ const router = new Router({
           name: 'anchor',
           component: anchor
         },{
-          path: '/user/verify',
+          path: '/verify/verify',
           name: 'verify',
           component: verify
         }, {
@@ -135,11 +135,11 @@ const router = new Router({
           name: 'opinion',
           component: opinion
         },{
-          path: '/gift/gifts',
+          path: '/config/gifts',
           name: 'gifts',
           component: gifts
         }, {
-          path: '/money/cash-apply',
+          path: '/verify/cash-apply',
           name: 'cashApply',
           component: cashApply
         }, {
@@ -207,27 +207,27 @@ const router = new Router({
           name: 'taskStat',
           component: taskStat
         },{
-          path: '/statistics/user-stat',
+          path: '/stat/user-stat',
           name: 'userStat',
           component: userStat
         },{
-          path: '/anchor/anchor-stat',
+          path: '/stat/anchor-stat',
           name: 'anchorStat',
           component: anchorStat
         },{
-          path: '/finance/consume-stat',
+          path: '/stat/consume-stat',
           name: 'consumeStat',
           component: consumeStat
         },{
-          path: '/finance/withdraw-stat',
+          path: '/stat/withdraw-stat',
           name: 'withdrawStat',
           component: withdrawStat
         },{
-          path: '/finance/recharge-stat',
+          path: '/stat/recharge-stat',
           name: 'rechargeStat',
           component: rechargeStat
         },{
-          path: '/action/action-all',
+          path: '/stat/action-all',
           name: 'actionAll',
           component: actionAll
         },{

@@ -273,6 +273,7 @@ export default {
         key: 'price',
         align:'center',
         render: (h,params)=>{
+          console.log(params.row);
           return h('span',{
             style:{
               color: params.row.price[0]=='-'?'red':'green'
@@ -314,7 +315,11 @@ export default {
         key: 'price',
         align: 'center',
         render: (h,params)=>{
-          return h('span',params.row.price[0]=='-'?params.row.price.slice(1):params.row.price)
+          return h('span',{
+            style: {
+              color: '#ff3b11'
+            }
+          },params.row.price)
         }
       },{
         title: '消费时间',
@@ -323,6 +328,21 @@ export default {
       }
     ],
     columns5: [
+      {
+        title: '开始时间',
+        key: 'start_time',
+        align: 'center'
+      },{
+        title: '结束时间',
+        key: 'end_time',
+        align: 'center'
+      },{
+        title: '聊天时长',
+        key: 'mins',
+        align: 'center'
+      }
+    ],
+    columns10: [
       {
         title: '上线时间',
         key: 'start_time',
@@ -378,9 +398,13 @@ export default {
         key: 'all_expense',
         type: '3'
       },{
+        title: '礼物收入',
+        key: 'gift_income',
+        type: '11'
+      },{
         title: '在线时长',
-        key: '',
-        type: ''
+        key: 'online_mins',
+        type: '10'
       },{
         title: '聊天时长',
         key: 'talk_mins',
@@ -511,6 +535,7 @@ export default {
       this.$data['edit_'+item] = false;
     },
     card_change(key) {
+      console.log(key);
       this.table_type = key
       this.tale_get_data();
     },
@@ -533,6 +558,7 @@ export default {
       }).then(res=>{
         this.tableLoading = false;
         if(res){
+          console.log(res.data.log_list);
           this.myData = res.data.log_list
           this.pageprops.total = res.data.total
         }

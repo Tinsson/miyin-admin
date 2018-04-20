@@ -37,42 +37,38 @@ export default {
         id:'3',
         name: '女主播列表',
         path: '/anchor'
-      },{
-        id: '4',
+      },]
+    },{
+      id: '2',
+      name: '审核',
+      icon: "filing",
+      path: "/verify",
+      children: [{
+        id: '1',
         name: '真人审核列表',
         path: '/verify'
-      }]
-    },{
-      id: '5',
-      name: '礼物管理',
-      icon: "ios-heart",
-      path: '/gift',
-      children: [{
-        id: '6',
-        name: '礼物管理',
-        path: '/gifts'
+      },{
+        id: '2',
+        name: '提现申请',
+        path: '/cash-apply'
       }]
     },{
       id: '7',
-      name: '资金管理',
+      name: '资金明细',
       icon: "card",
       path: '/money',
       children: [{
-        id: '8',
-        name: '提现申请',
-        path: '/cash-apply'
+        id: '10',
+        name: '支付宝充值',
+        path: '/alipay'
+      },{
+        id: '11',
+        name: '微信充值',
+        path: '/wx-recharge'
       },{
         id: '9',
         name: '提现列表',
         path: '/cash-list'
-      },{
-        id: '10',
-        name: '支付宝充值列表',
-        path: '/alipay'
-      },{
-        id: '11',
-        name: '微信充值列表',
-        path: '/wx-recharge'
       },{
         id: '12',
         name: '礼物明细',
@@ -114,36 +110,34 @@ export default {
           path: '/tag-config'
         },{
           id: '21',
-          name: '女主播等级配置',
+          name: '主播等级',
           path: '/anchor-level'
         },{
           id:'22',
-          name:'充值比例',
+          name:'充值配置',
           path:'/recharge-ratio'
         },{
           id: '23',
-          name: '昵称词库配置',
+          name: '昵称配置',
           path: '/nick-name'
+        },{
+          id: '24',
+          name: '礼物配置',
+          path: '/gifts'
         }
       ]
     },{
       id: '24',
-      name: '任务统计',
+      name: '统计',
       icon: "ios-list",
       path: '/stat',
       children: [{
         id: '25',
         name: '任务统计',
         path: '/task-stat'
-      }]
-    },{
-      id: '26',
-      name: '财务数据统计',
-      icon: "pie-graph",
-      path: '/finance',
-      children: [{
+      },{
         id: '27',
-        name: '用户秘币消费统计',
+        name: '秘币消费',
         path: '/consume-stat'
       },{
         id: '28',
@@ -153,35 +147,17 @@ export default {
         id: '29',
         name: '充值统计',
         path: '/recharge-stat'
-      }]
-    },{
-      id: '30',
-      name: '用户数据统计',
-      icon: 'stats-bars',
-      path: '/statistics',
-      children: [{
+      },{
         id: '31',
-        name: '统计首页',
+        name: '用户数据',
         path: '/user-stat'
-      }]
-    },{
-      id: '32',
-      name: '用户行为数据统计',
-      icon: "levels",
-      path: '/action',
-      children: [{
+      },{
         id: '33',
-        name: '用户行为统计',
+        name: '通话数据',
         path: '/action-all'
-      }]
-    },{
-      id: '34',
-      name: '女主播直播数据统计',
-      icon: 'arrow-graph-up-right',
-      path: '/anchor',
-      children: [{
+      },{
         id: '35',
-        name: '统计总览',
+        name: '主播数据',
         path: '/anchor-stat'
       }]
     },{
