@@ -1,6 +1,6 @@
 <template>
   <div id="verify">
-    <title-bar title="真人审核列表" @refresh="refresh"></title-bar>
+    <title-bar title="主播审核" @refresh="refresh"></title-bar>
     <table-card :columns="card_columns" :data="card_data" @change="cardChange"></table-card>
     <search-group :searchList="searchList" @search="search"></search-group>
     <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">

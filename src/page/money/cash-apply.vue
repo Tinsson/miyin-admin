@@ -1,6 +1,6 @@
 <template>
   <div id="cash-apply">
-    <title-bar title="提现申请" @refresh="refresh"></title-bar>
+    <title-bar title="提现审核" @refresh="refresh"></title-bar>
     <table-card :columns="cardColumns" :data="cardData" card_style="width:40%;" container_style="justify-content:space-around;" @change="cardChange"></table-card>
     <search-group :searchList="searchList" @search="search"></search-group>
     <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">

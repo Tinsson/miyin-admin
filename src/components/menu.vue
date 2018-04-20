@@ -35,7 +35,7 @@ export default {
         path: '/users'
       },{
         id:'3',
-        name: '女主播列表',
+        name: '主播管理',
         path: '/anchor'
       },]
     },{
@@ -45,11 +45,11 @@ export default {
       path: "/verify",
       children: [{
         id: '1',
-        name: '真人审核列表',
+        name: '主播审核',
         path: '/verify'
       },{
         id: '2',
-        name: '提现申请',
+        name: '提现审核',
         path: '/cash-apply'
       }]
     },{

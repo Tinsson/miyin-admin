@@ -1,6 +1,6 @@
 <template>
 <div id="anchor">
-  <title-bar title="用户管理" @refresh="refresh">
+  <title-bar title="主播管理" @refresh="refresh">
 
   </title-bar>
   <search-group :searchList="searchList" @search="search">

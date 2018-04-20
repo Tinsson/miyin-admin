@@ -18,11 +18,11 @@
             </div>
             <DatePicker type="daterange" placeholder="选择时间查找" :editable="false" style="width:200px" @on-change="input_search"></DatePicker>
           </div>
-          <new-table-card @change="changeCard" :columns="cardColumns" :data="cardData" container_style="padding:0 60px;justify-content:space-around;margin-top:20px;" card_style="width:30%"></new-table-card>
+          <new-table-card @change="changeCard" @changeKey="changeCardKey" :columns="cardColumns" :data="cardData" container_style="padding:0 60px;justify-content:space-around;margin-top:20px;" card_style="width:30%"></new-table-card>
         </div>
       </div>
       <table-container @on-change="pageChange" @on-page-size-change="pageSizeChange" :pageprops="pageprops" :page="cardType=='user-anchor-talk-log'||cardType=='user-anchor-withdraw'">
-        <Table v-if="cardType=='user-anchor-talk-log'||cardType=='user-anchor-withdraw'" :columns="cardType=='user-anchor-withdraw'?detailColumns2:detailColumns1" :data="detailData[cardType]" />
+        <Table v-if="cardType=='user-anchor-talk-log'||cardType=='user-anchor-withdraw'||cardType=='user-anchor-gift'" :columns="cardChildColumns" :data="tableData" />
         <div style="width:1133px;height:500px;" id="pie" v-else></div>
       </table-container>
     </div>
@@ -60,7 +60,7 @@ export default {
       align: 'center'
     }, {
       key: 'price',
-      title: '费用',
+      title: '收费标准',
       align: 'center'
     }, {
       key: 'certed_at',
@@ -92,6 +92,7 @@ export default {
       type: 'all'
     }],
     active_index: 0,
+    cardKey: 'talk_mins_times',
     cardColumns: [{
       title: '接听总时长/次数',
       key: 'talk_mins_times',
@@ -133,23 +134,34 @@ export default {
       key: 'talk_mins',
       align: 'center'
     }, {
-      title: '通话费用',
+      title: '通话收入',
       key: 'talk_sum',
       align: 'center'
     }, {
       title: '通话类型',
       key: 'talk_type',
-      align: 'center'
+      align: 'center',
+      render: (h, params)=>{
+        let text = '';
+        if(params.row.talk_type === 5){
+          text = '普通电话';
+        }else if(params.row.talk_type === 6){
+          text = '随机电话';
+        }else{
+          text = '未知'
+        }
+        return h('span', text);
+      }
     }, {
-      title: '偷听总人数',
+      title: '偷听人数',
       key: 'tap_users',
       align: 'center'
     }, {
-      title: '偷听总时长',
+      title: '偷听时长',
       key: 'tap_mins',
       align: 'center'
     }, {
-      title: '偷听总费用',
+      title: '偷听收入',
       key: 'tap_sum',
       align: 'center'
     }],
@@ -166,6 +178,23 @@ export default {
       key: 'updated_at',
       align: 'center'
     }],
+    giftColumns: [{
+      title: '礼物名称',
+      key: 'title',
+      align: 'center'
+    },{
+      title: '数量',
+      key: 'num',
+      align: 'center'
+    },{
+      title: '占比',
+      key: 'percent',
+      align: 'center'
+    },{
+      title: '新增时间',
+      key: 'created_at',
+      align: 'center'
+    }],
     fy: {
       page: 1,
       size: 10
@@ -180,6 +209,32 @@ export default {
       'user-anchor-withdraw': []
     }
   }),
+  computed: {
+    cardChildColumns(){
+      if(this.cardType=='user-anchor-withdraw'){
+        return this.detailColumns2;
+      }else if(this.cardType == 'user-anchor-gift'){
+        return this.giftColumns;
+      }else{
+        return this.detailColumns1;
+      }
+    },
+    tableData(){
+      let data = this.detailData[this.cardType];
+      if(this.cardKey === 'talk_mins_times' || this.cardKey === 'talk_sum'){
+        let newArr = [];
+        data.forEach(val=>{
+          if(val.talk_sum > 0){
+            newArr.push(val)
+          }
+        });
+        return newArr;
+      }else{
+        return data;
+      }
+
+    }
+  },
   methods: {
     modalChange(show) {
       if (!show) {
@@ -256,9 +311,14 @@ export default {
       })
     },
     changeCard(type) {
+      console.log(type);
       this.cardType = type
       this.fy.page = 1;
       this.getDetailData();
+    },
+    changeCardKey(key){
+      this.cardKey = key;
+      console.log(key);
     },
     pageChange(page) {
       this.fy.page = page;
@@ -282,7 +342,7 @@ export default {
           console.log(res);
           this.$set(this.detailData, this.cardType, res.data.log_list)
           this.pageprops.total = res.data.total
-          if (this.cardType == 'user-anchor-income' || this.cardType == 'user-anchor-gift') {
+          if (this.cardType == 'user-anchor-income') {
             this.initPie();
           }
         }

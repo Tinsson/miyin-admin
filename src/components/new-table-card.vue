@@ -40,12 +40,14 @@ export default {
   },
   data: () => ({
     choseIndex: 0,
-    choseType: ''
+    choseType: '',
+    choseKey: ''
   }),
   methods: {
     choseCard(index) {
       this.choseIndex = index;
-      this.choseType = this.columns[this.choseIndex].type
+      this.choseType = this.columns[this.choseIndex].type;
+      this.choseKey = this.columns[this.choseIndex].key
     }
   },
   watch: {
@@ -58,7 +60,10 @@ export default {
       this.choseType = this.columns[this.choseIndex].type;
     },
     choseType(cur) {
-      this.$emit('change',cur)
+      this.$emit('change', cur)
+    },
+    choseKey(cur){
+      this.$emit('changeKey', cur)
     }
   },
   mounted() {
