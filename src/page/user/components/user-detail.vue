@@ -274,11 +274,13 @@ export default {
         align:'center',
         render: (h,params)=>{
           console.log(params.row);
+
+          let sum = params.row.price;
           return h('span',{
             style:{
-              color: params.row.price[0]=='-'?'red':'green'
+              color: sum[0]=='-'?'red':'green'
             }
-          },params.row.price)
+          },sum[0]=='-'?sum:'+'+sum)
         }
       },{
         title: '时间',

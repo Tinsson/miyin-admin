@@ -121,7 +121,7 @@ export default {
     cardData: {},
     search_time: {},
     cardType: '',
-    detailColumns1: [{
+    card1Colmuns: [{
       title: '通话开始时间',
       key: 'start_time',
       align: 'center'
@@ -136,6 +136,42 @@ export default {
     }, {
       title: '通话收入',
       key: 'talk_sum',
+      align: 'center',
+      render: (h,params)=>{
+        let sum = params.row.talk_sum;
+        return h('span',{
+          style:{
+            color: sum[0]=='-'?'red':'green'
+          }
+        },sum[0]=='-'?sum:'+'+sum)
+      }
+    }, {
+      title: '通话类型',
+      key: 'talk_type',
+      align: 'center',
+      render: (h, params)=>{
+        let text = '';
+        if(params.row.talk_type === 5){
+          text = '普通电话';
+        }else if(params.row.talk_type === 6){
+          text = '随机电话';
+        }else{
+          text = '未知'
+        }
+        return h('span', text);
+      }
+    }],
+    detailColumns1: [{
+      title: '通话开始时间',
+      key: 'start_time',
+      align: 'center'
+    }, {
+      title: '通话结束时间',
+      key: 'end_time',
+      align: 'center'
+    }, {
+      title: '通话时长',
+      key: 'talk_mins',
       align: 'center'
     }, {
       title: '通话类型',
@@ -216,7 +252,12 @@ export default {
       }else if(this.cardType == 'user-anchor-gift'){
         return this.giftColumns;
       }else{
-        return this.detailColumns1;
+        if(this.cardKey == 'tap_sum'){
+          return this.detailColumns1;
+        }else{
+          return this.card1Colmuns;
+        }
+
       }
     },
     tableData(){

@@ -36,6 +36,10 @@ export default {
           key: 'price',
           align: 'center'
         }, {
+          title: '礼物数量',
+          key: 'num',
+          align: 'center'
+        },{
           title: '赠送时间',
           key: 'created_at',
           align: 'center'
