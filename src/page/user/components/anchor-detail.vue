@@ -93,11 +93,11 @@ export default {
     }],
     active_index: 0,
     cardColumns: [{
-      title: '通话总时长/次数',
+      title: '接听总时长/次数',
       key: 'talk_mins_times',
       type: 'user-anchor-talk-log',
     }, {
-      title: '通话总费用',
+      title: '通话总收入',
       key: 'talk_sum',
       type: 'user-anchor-talk-log',
     }, {
@@ -105,15 +105,15 @@ export default {
       key: 'tap_sum',
       type: 'user-anchor-talk-log',
     }, {
-      title: '秘币收入',
+      title: '秘币总收入',
       key: 'all_sum',
       type: 'user-anchor-income',
     }, {
-      title: '礼物收入',
+      title: '礼物总收入',
       key: 'gift_sum',
       type: 'user-anchor-gift',
     }, {
-      title: '提现金额',
+      title: '提现总金额',
       key: 'withdraw_sum',
       type: 'user-anchor-withdraw',
     }, ],
