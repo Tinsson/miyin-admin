@@ -35,7 +35,8 @@ const urlList = {
   'user-anchor-stats': '/user/anchor-stats', //获取女主播统计数据
   'user-anchor-talk-log': '/user/anchor-talk-log', //获取主播聊天记录
   'user-anchor-income': '/user/anchor-income', //获取主播收入
-  'user-anchor-gift': '/user/anchor-gift', //获取主播礼物收入
+  //'user-anchor-gift': '/user/anchor-gift', //获取主播礼物收入
+  'user-anchor-gift': '/product/search', //获取主播礼物收入
   'user-anchor-withdraw': '/user/anchor-withdraw', //获取主播提现记录
   'send-letter': '/user/send-letter', //发送站内信
   'send-msm': '/user/send-sms',    //发送短信

@@ -216,19 +216,23 @@ export default {
     }],
     giftColumns: [{
       title: '礼物名称',
-      key: 'title',
+      key: 'name',
       align: 'center'
     },{
       title: '数量',
       key: 'num',
       align: 'center'
     },{
-      title: '占比',
-      key: 'percent',
+      title: '礼物价值',
+      key: 'price',
       align: 'center'
     },{
-      title: '新增时间',
+      title: '赠送时间',
       key: 'created_at',
+      align: 'center'
+    }, {
+      title: '赠送人',
+      key: 'to_uuid',
       align: 'center'
     }],
     fy: {
@@ -381,8 +385,12 @@ export default {
       }).then(res => {
         if (res) {
           console.log(res);
-          this.$set(this.detailData, this.cardType, res.data.log_list)
-          this.pageprops.total = res.data.total
+          if(this.cardType == 'user-anchor-gift'){
+            this.$set(this.detailData, this.cardType, res.data.list);
+          }else{
+            this.$set(this.detailData, this.cardType, res.data.log_list)
+            this.pageprops.total = res.data.total
+          }
           if (this.cardType == 'user-anchor-income') {
             this.initPie();
           }
