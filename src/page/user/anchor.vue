@@ -91,9 +91,9 @@ export default {
       myData: [], //表格数据
 
       searchList: [{   //搜索列表配置
-        label: '用户账号',
+        label: '用户信息',
         type: 'input',
-        placeholder: '用户ID/账号',
+        placeholder: '用户ID/手机号',
         model: 'username'
       }, {
         label: '用户昵称',

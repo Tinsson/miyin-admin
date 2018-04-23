@@ -170,9 +170,9 @@ export default {
       tableLoading: false,
       searchList: [
         {
-          label: '用户账号',
+          label: '用户信息',
           type: 'input',
-          placeholder: '用户ID/账号',
+          placeholder: '用户ID/手机号',
           model: 'username'
         },{
           label: '用户昵称',

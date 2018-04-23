@@ -43,7 +43,7 @@ export default {
           title: '赠送时间',
           key: 'created_at',
           align: 'center'
-        }, {
+        },{
           title: '赠送人',
           key: 'to_uuid',
           align: 'center'
