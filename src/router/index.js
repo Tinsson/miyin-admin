@@ -203,7 +203,7 @@ const router = new Router({
           name: 'pushList',
           component: pushList
         },{
-          path: '/stat/task-stat',
+          path: '/money/task-stat',
           name: 'taskStat',
           component: taskStat
         },{

@@ -81,6 +81,10 @@ export default {
         id: '14',
         name: '收入明细',
         path: '/income-detail'
+      },{
+        id: '15',
+        name: '任务明细',
+        path: '/task-stat'
       }]
     },{
       id:'15',
@@ -116,10 +120,6 @@ export default {
       icon: "ios-list",
       path: '/stat',
       children: [{
-        id: '25',
-        name: '任务统计',
-        path: '/task-stat'
-      },{
         id: '27',
         name: '秘币消费',
         path: '/consume-stat'
