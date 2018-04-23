@@ -1,7 +1,7 @@
 <template>
   <div id="task-newcomer">
-    <title-bar title="新手任务" @refresh="refresh"></title-bar>
-    <table-container>
+    <title-bar title="任务配置" @refresh="refresh"></title-bar>
+    <table-container title="新手任务">
       <div slot="btn">
         <Button type="primary" @click="add_task">新增任务</Button>
       </div>
@@ -9,10 +9,14 @@
     </table-container>
 
     <add-task ref="add_task" :task_form="task_form" :type="1" @modal-close="modalClose"></add-task>
+
+    <taskDaily ref="task_daily"></taskDaily>
   </div>
 </template>
 <script>
 import addTask from './components/add-task.vue'
+import taskDaily from './task-daily'
+
 export default {
   name: "task-newcomer",
   data() {
@@ -125,6 +129,7 @@ export default {
 
     refresh() {
       this.getData();
+      this.$refs['task_daily'].refresh();
     },
     getData() {
       this.tableLoading = true;
@@ -137,7 +142,8 @@ export default {
     },
   },
   components: {
-    addTask
+    addTask,
+    taskDaily
   },
   mounted() {
     this.getData();

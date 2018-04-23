@@ -94,12 +94,8 @@ export default {
           path: '/global-config'
         },{
           id: '17',
-          name: '新手任务',
+          name: '任务配置',
           path: '/task-newcomer'
-        },{
-          id: '18',
-          name: '每日任务',
-          path: '/task-daily'
         },{
           id: '19',
           name: '头像配置',

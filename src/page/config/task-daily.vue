@@ -1,7 +1,6 @@
 <template>
   <div id="task-daily">
-    <title-bar title="每日任务" @refresh="refresh"></title-bar>
-    <table-container>
+    <table-container title="每日任务">
       <div slot="btn">
         <Button type="primary" @click="add_task">新增任务</Button>
       </div>
