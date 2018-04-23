@@ -1,7 +1,7 @@
 <template>
   <div id="task-newcomer">
-    <title-bar title="头像配置" @refresh="refresh"></title-bar>
-    <table-container>
+    <title-bar title="个人信息配置" @refresh="refresh"></title-bar>
+    <table-container title="头像配置">
       <div slot="btn">
         <Button type="primary" @click="add_avatar_btn">新增头像</Button>
       </div>
@@ -14,10 +14,17 @@
                 @editOver="edit_edit"
                 @subOver="avatar_over"
                 @modal-close="modalClose"></add-avatar>
+
+    <tag-config ref="tag_conf"></tag-config>
+    <nick-name ref="nick_name"></nick-name>
   </div>
 </template>
 <script>
 import addAvatar from './components/add-avatar.vue'
+import tagConfig from './tag-config'
+import nickName from './nick-name'
+import Tag from "iview/src/components/tag/tag";
+
 export default {
   name: "avatar-config",
   data() {
@@ -59,10 +66,6 @@ export default {
           render: (h,params)=>{
             return h('span',params.row.sex === 1?'男':'女')
           }
-        }, {
-          title: '创建时间',
-          key: 'created_at',
-          align: 'center'
         }, {
           title: '状态',
           key: 'status',
@@ -168,6 +171,8 @@ export default {
 
     refresh() {
       this.getData();
+      this.$refs['nick_name'].refresh();
+      this.$refs['tag_conf'].refresh();
     },
     getData() {
       this.tableLoading = true;
@@ -181,7 +186,10 @@ export default {
     },
   },
   components: {
-    addAvatar
+    Tag,
+    addAvatar,
+    tagConfig,
+    nickName
   },
   mounted() {
     this.getData();

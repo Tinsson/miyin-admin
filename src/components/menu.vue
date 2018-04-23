@@ -90,36 +90,24 @@ export default {
       children: [
         {
           id: '16',
-          name: '全局配置',
+          name: '运营数据配置',
           path: '/global-config'
         },{
           id: '17',
           name: '任务配置',
           path: '/task-newcomer'
         },{
-          id: '19',
-          name: '头像配置',
-          path: '/avatar-config'
-        }, {
-          id: '20',
-          name: '标签配置',
-          path: '/tag-config'
-        },{
           id: '21',
           name: '主播等级',
           path: '/anchor-level'
         },{
-          id:'22',
-          name:'充值配置',
-          path:'/recharge-ratio'
-        },{
-          id: '23',
-          name: '昵称配置',
-          path: '/nick-name'
-        },{
           id: '24',
           name: '礼物配置',
           path: '/gifts'
+        },{
+          id: '25',
+          name: '个人信息配置',
+          path: '/avatar-config'
         }
       ]
     },{

@@ -66,6 +66,27 @@ export default {
           placeholder: '绑定手机号',
           model: 'mobile'
         },{
+          label: '消费类型',
+          type: 'select',
+          placeholder: '请选择',
+          options: [{
+            label: '充值',
+            value: 1
+          },{
+            label: '提现',
+            value: 2
+          },{
+            label: '礼物支出',
+            value: 3
+          },{
+            label: '偷听扣款',
+            value: 4
+          },{
+            label: '普通电话扣款',
+            value: 5
+          }],
+          model: 'type'
+        },{
           label: '消费时间',
           type: 'daterange',
           placeholder: '请选择时间',

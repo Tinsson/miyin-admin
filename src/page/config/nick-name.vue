@@ -1,6 +1,5 @@
 <template>
   <div id="nick-name">
-    <title-bar title="昵称词库配置" @refresh="refresh"></title-bar>
     <table-container title="姓氏列表" @on-change="pageChangeFirst" @on-page-size-change="pageSizeChangeFirst" page :pageprops="pageprops_first">
       <div slot="btn">
         <Button type="primary" @click="add_tag(3)">新增姓氏</Button>

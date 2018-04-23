@@ -1,7 +1,6 @@
 <template>
   <div id="recharge-ratio">
-    <title-bar title="充值比例" @refresh="refresh"></title-bar>
-    <table-container>
+    <table-container title="充值比例">
       <div slot="btn">
         <Button type="primary" @click="add_refig_btn">新增充值选项</Button>
       </div>

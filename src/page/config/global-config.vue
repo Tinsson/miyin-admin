@@ -1,7 +1,7 @@
 <template>
   <div id="task-newcomer">
-    <title-bar title="全局配置" @refresh="refresh"></title-bar>
-    <table-container>
+    <title-bar title="运营数据配置" @refresh="refresh"></title-bar>
+    <table-container title="全局配置">
       <Table :columns="columns" :data="myData" border :loading="tableLoading"></Table>
     </table-container>
     <Modal v-model="edit_show" title="修改配置">
@@ -20,10 +20,14 @@
         <Button type="primary" @click="submit">提交</Button>
       </div>
     </Modal>
+
+    <recharge-ratio ref="recharge_ratio"></recharge-ratio>
   </div>
 </template>
 <script>
 import {copyObj} from '@/utils/common'
+import rechargeRatio from './recharge-ratio'
+
 export default {
   name: "task-newcomer",
   data() {
@@ -114,6 +118,7 @@ export default {
 
     refresh() {
       this.getData();
+      this.$refs['recharge_ratio'].refresh();
     },
     getData() {
       this.tableLoading = true
@@ -127,6 +132,9 @@ export default {
   },
   mounted() {
     this.getData();
+  },
+  components: {
+    rechargeRatio
   }
 }
 </script>

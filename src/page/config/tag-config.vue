@@ -1,12 +1,15 @@
 <template>
   <div id="tag-config">
-    <title-bar title="标签配置" @refresh="refresh">
-      <Button slot="btn" size="large" type="primary" @click="add_tag">新增标签</Button>
-    </title-bar>
     <table-container title="用户标签" @on-change="pageChange" @on-page-size-change="pageSizeChange" page :pageprops="pageprops">
+      <div slot="btn">
+        <Button slot="btn" type="primary" @click="add_tag(1)">新增标签</Button>
+      </div>
       <Table :columns="columns" :data="myData" border :loading="tableLoading"></Table>
     </table-container>
     <table-container title="系统标签" @on-change="pageChange2" @on-page-size-change="pageSizeChange2" page :pageprops="pageprops2">
+      <div slot="btn">
+        <Button slot="btn" type="primary" @click="add_tag(2)">新增标签</Button>
+      </div>
       <Table :columns="columns" :data="myData2" border :loading="tableLoading2"></Table>
     </table-container>
     <add-tag ref="add_tag"
@@ -134,9 +137,9 @@ export default {
     modalClose() {
 
     },
-    add_tag() {
+    add_tag(sign) {
       this.tag_edit = {
-        type: 1,
+        type: sign,
         name: '',
         id: ''
 
