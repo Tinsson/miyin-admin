@@ -142,6 +142,8 @@ const urlList = {
   'porn-log-del': '/porn-log/del', //删除涉黄项目
   'opinion-cates': '/user/opinion-cates', //意见反馈类别
   'opinion-list': '/user/opinion-list',   //意见反馈列表
+  'complain-cate': '/user/report-cate-list', //举报分类列表
+  'complain-list': '/user/report-list' //举报列表
 }
 
 export default urlList;

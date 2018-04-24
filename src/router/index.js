@@ -43,6 +43,7 @@ import circles from '@/page/content/circles' //动态管理
 import voiceVerify from '@/page/content/voice-verify' //录音审核
 import yellow from '@/page/content/yellow' //涉黄管理
 import opinion from '@/page/content/opinion' //意见反馈
+import complain from '@/page/content/complain' //投诉管理
 
 // 任务统计
 import taskStat from '@/page/stat/task-stat' //任务统计
@@ -134,6 +135,10 @@ const router = new Router({
           path: '/content/opinion',
           name: 'opinion',
           component: opinion
+        },{
+          path: '/content/complain',
+          name: 'complain',
+          component: complain
         },{
           path: '/config/gifts',
           name: 'gifts',

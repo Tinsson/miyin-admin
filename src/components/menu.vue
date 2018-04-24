@@ -173,6 +173,10 @@ export default {
         id: '49',
         name: '意见反馈',
         path: '/opinion'
+      },{
+        id: '50',
+        name: '投诉管理',
+        path: '/complain'
       }]
     }, {
       id: '42',
