@@ -48,7 +48,7 @@
             审核认证视频:
           </div>
           <div class="pic background-contain">
-            <audio class="pic" controls="controls" :src="verify_user.img_path"></audio>
+            <video class="pic" controls="controls" :src="verify_user.img_path"></video>
           </div>
         </div>
       </div>
