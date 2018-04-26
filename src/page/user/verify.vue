@@ -45,10 +45,10 @@
         </div>
         <div class="bottom">
           <div class="title">
-            审核照片:
+            审核认证视频:
           </div>
-          <div class="pic background-contain" :style="'background-image:url('+verify_user.img_path+')'">
-
+          <div class="pic background-contain">
+            <audio class="pic" controls="controls" :src="verify_user.img_path"></audio>
           </div>
         </div>
       </div>
