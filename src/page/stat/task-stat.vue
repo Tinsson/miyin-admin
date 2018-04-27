@@ -20,6 +20,10 @@ export default {
           key: 'nick_name',
           align: 'center'
         }, {
+          title: '手机号',
+          key: 'user_mobile',
+          align: 'center'
+        },{
           title: '任务名称',
           key: 'name',
           align: 'center'
