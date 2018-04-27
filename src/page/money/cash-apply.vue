@@ -35,44 +35,28 @@ export default {
       cardData: {},
 
       columns: [
-        {
-          title: 'id',
-          key: 'id',
+         {
+          title: '提现订单号',
+          key: 'uuid',
           align: 'center'
         },{
-          title: '昵称',
-          key: 'nick_name',
-          align: 'center'
-        }, {
           title: '姓名',
           key: 'name',
           align: 'center'
         }, {
-          title: '绑定手机号',
+          title: '手机号',
           key: 'user_mobile',
-          align: 'center'
-        }, {
-          title: '联系手机号',
-          key: 'mobile',
           align: 'center'
         }, {
           title: '支付宝账号',
           key: 'alipay',
           align: 'center'
         }, {
-          title: '提现订单号',
-          key: 'uuid',
-          align: 'center'
-        }, {
-          title: '提现金额（rmb）',
-          key: 'money',
+          title: '联系手机号',
+          key: 'mobile',
           align: 'center'
         },{
-          title: '申请时间',
-          key: 'created_at',
-          align: 'center'
-        },{
-          title: '订单状态',
+          title: '提现状态',
           key: 'status',
           align: 'center',
           render: (h,params)=>{
@@ -84,6 +68,14 @@ export default {
             }
             return h('span',status)
           }
+        }, {
+          title: '申请金额',
+          key: 'money',
+          align: 'center'
+        },{
+          title: '申请时间',
+          key: 'created_at',
+          align: 'center'
         },{
           title: '操作',
           key: 'operation',

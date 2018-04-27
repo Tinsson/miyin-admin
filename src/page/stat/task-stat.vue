@@ -14,23 +14,10 @@ export default {
   name: "task-stat",
   data() {
     return {
-      columns: [{
-          title: '序号',
-          align: 'center',
-          render: (h, params)=>{
-            return h('span', params.index+1);
-          }
-        },{
+      columns: [
+        {
           title: '昵称',
           key: 'nick_name',
-          align: 'center'
-        },{
-          title: '用户id',
-          key: 'uuid',
-          align: 'center'
-        }, {
-          title: '完成时间',
-          key: 'created_at',
           align: 'center'
         }, {
           title: '任务名称',
@@ -52,6 +39,10 @@ export default {
         }, {
           title: '奖励秘币',
           key: 'price',
+          align: 'center'
+        },{
+          title: '完成时间',
+          key: 'created_at',
           align: 'center'
         }
       ],

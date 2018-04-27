@@ -14,35 +14,23 @@ export default {
     return {
       columns: [
         {
-          title: 'id',
-          key: 'id',
+          title: '提现订单号',
+          key: 'uuid',
           align: 'center'
         },{
-          title: '昵称',
-          key: 'nick_name',
-          align: 'center'
-        }, {
           title: '姓名',
           key: 'name',
           align: 'center'
         }, {
-          title: '绑定手机号',
+          title: '手机号',
           key: 'user_mobile',
-          align: 'center'
-        }, {
-          title: '联系手机号',
-          key: 'mobile',
           align: 'center'
         }, {
           title: '支付宝账号',
           key: 'alipay',
           align: 'center'
         }, {
-          title: '提现订单号',
-          key: 'uuid',
-          align: 'center'
-        }, {
-          title: '提现金额（rmb）',
+          title: '提现金额',
           key: 'money',
           align: 'center'
         },{
@@ -50,7 +38,7 @@ export default {
           key: 'created_at',
           align: 'center'
         },{
-          title: '提现通过时间',
+          title: '通过时间',
           key: 'updated_at',
           align:'center'
         }

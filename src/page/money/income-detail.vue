@@ -18,15 +18,11 @@ export default {
       all_price: '',
       columns: [
         {
-          title: '用户昵称',
+          title: '昵称',
           key: 'nick_name',
           align: 'center'
         },{
-          title: '用户id',
-          key: 'uuid',
-          align: 'center'
-        }, {
-          title: '绑定手机号',
+          title: '手机号',
           key: 'mobile',
           align: 'center'
         }, {
@@ -34,16 +30,16 @@ export default {
           key: 'remark',
           align: 'center'
         }, {
-          title: '增加秘币',
+          title: '收入秘币',
           key: 'price',
-          align: 'center'
-        }, {
-          title: '增加时间',
-          key: 'created_at',
           align: 'center'
         }, {
           title: '秘币余额',
           key: 'balance',
+          align: 'center'
+        }, {
+          title: '收入时间',
+          key: 'created_at',
           align: 'center'
         }
       ],

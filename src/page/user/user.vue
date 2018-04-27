@@ -36,42 +36,13 @@ export default {
         width: 60,
         align: 'center'
         }, {
-          title: '用户ID',
-          key: 'uuid',
-          align: 'center'
-        }, {
-          title: '用户昵称',
+          title: '昵称',
           key: 'nick_name',
           align: 'center'
-        },{
-          title: '用户来源',
-          key: 'source',
-          align:'center',
-          render: (h,params)=>{
-            let ly;
-            switch(params.row.source) {
-              case 0:ly = '未知';break;
-              case 1:ly = '安卓';break;
-              case 2:ly = 'IOS';break;
-              case 3:ly = '后台';break;
-            }
-            return h('span',ly)
-          }
         }, {
-          title: '注册时间',
-          key: 'created_at',
-          align: 'center'
-        }, {
-          title: '绑定手机号',
+          title: '手机号',
           key: 'mobile',
           align: 'center'
-        }, {
-          title: '授权微信',
-          key: 'is_bind_wx',
-          align: 'center',
-          render: (h,params)=>{
-            return h('span',params.row.is_bind_wx==1?'是':'否')
-          }
         },{
           title: '性别',
           key: 'sex',
@@ -85,9 +56,27 @@ export default {
             }
             return h('span',sex)
           }
+        },{
+          title: '来源',
+          key: 'source',
+          align:'center',
+          render: (h,params)=>{
+            let ly;
+            switch(params.row.source) {
+              case 0:ly = '未知';break;
+              case 1:ly = '安卓';break;
+              case 2:ly = 'IOS';break;
+              case 3:ly = '后台';break;
+            }
+            return h('span',ly)
+          }
         }, {
           title: '秘币余额',
           key: 'balance',
+          align: 'center'
+        }, {
+          title: '注册时间',
+          key: 'created_at',
           align: 'center'
         }, {
           title: '操作',

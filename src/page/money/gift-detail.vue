@@ -16,16 +16,16 @@ export default {
     return {
       columns: [
         {
-          title: '用户昵称',
+          title: '昵称',
           key: 'nick_name',
           align: 'center'
-        },{
-          title: '用户id',
-          key: 'from_uuid',
-          align: 'center'
         }, {
-          title: '绑定手机号',
+          title: '手机号',
           key: 'user_mobile',
+          align: 'center'
+        },{
+          title: '赠送人手机号',
+          key: 'from_mobile',
           align: 'center'
         }, {
           title: '礼物名称',
@@ -40,20 +40,16 @@ export default {
           key: 'num',
           align: 'center'
         },{
-          title: '赠送时间',
-          key: 'created_at',
-          align: 'center'
-        },{
-          title: '赠送人',
-          key: 'to_uuid',
-          align: 'center'
-        },{
           title: '秘币变化',
           key: 'buy_price',
           align: 'center'
         },{
           title: '秘币余额',
           key: 'balance',
+          align: 'center'
+        },{
+          title: '赠送时间',
+          key: 'created_at',
           align: 'center'
         }
       ],

@@ -16,20 +16,16 @@ export default {
     return {
       columns: [
         {
-          title: '用户昵称',
+          title: '交易流水号',
+          key: 'flow_uuid',
+          align: 'center'
+        },{
+          title: '昵称',
           key: 'nick_name',
           align: 'center'
         },{
-          title: '用户id',
-          key: 'user_uuid',
-          align: 'center'
-        }, {
-          title: '绑定手机号',
+          title: '手机号',
           key: 'user_mobile',
-          align: 'center'
-        }, {
-          title: '交易流水号',
-          key: 'flow_uuid',
           align: 'center'
         }, {
           title: '充值金额',

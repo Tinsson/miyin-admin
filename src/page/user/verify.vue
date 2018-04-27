@@ -108,29 +108,14 @@ export default {
         type: 'selection',
         width: 60,
         align: 'center'
-        },{
-          title: '用户ID',
-          key: 'uuid',
-          align: 'center'
         }, {
-          title: '用户昵称',
+          title: '昵称',
           key: 'nick_name',
           align: 'center'
         }, {
-          title: '注册时间',
-          key: 'created_at',
-          align: 'center'
-        }, {
-          title: '绑定手机号',
+          title: '手机号',
           key: 'mobile',
           align: 'center'
-        }, {
-          title: '授权微信',
-          key: 'is_bind_wx',
-          align: 'center',
-          render: (h,params)=>{
-            return h('span',params.row.is_bind_wx==1?'是':'否')
-          }
         }, {
           title: '审核状态',
           key: 'is_auth',
@@ -145,6 +130,10 @@ export default {
             }
             return h('div',status)
           }
+        }, {
+          title: '注册时间',
+          key: 'created_at',
+          align: 'center'
         },{
           title: '操作',
           key: 'operation',
