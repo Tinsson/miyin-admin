@@ -55,6 +55,7 @@ export default {
         }, {
           title: '注册时间',
           key: 'created_at',
+          width: '100',
           align: 'center'
         }, {
           title: '操作',

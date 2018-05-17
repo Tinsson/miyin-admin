@@ -221,7 +221,7 @@ export default {
         if(res){
           let resList = res.data.tag_list;
           this.myData = resList;
-          this.pageprops = res.data.total;
+          this.pageprops.total = res.data.total;
         }
       });
     },
@@ -237,7 +237,7 @@ export default {
         if(res){
           let resList = res.data.tag_list;
           this.myData2 = resList;
-          this.pageprops2 = res.data.total;
+          this.pageprops2.total = res.data.total;
         }
       })
     }

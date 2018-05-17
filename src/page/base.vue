@@ -34,6 +34,7 @@ export default {
         }, {
           title: '注册时间',
           key: 'register_time',
+          width: '100',
           align: 'center'
         }, {
           title: '绑定手机号',

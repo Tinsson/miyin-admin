@@ -44,9 +44,25 @@ export default {
           key: 'name',
           align: 'center'
         }, {
-          title: '手机号',
+          title: '注册手机号',
           key: 'user_mobile',
-          align: 'center'
+          align: 'center',
+          render: (h, params)=>{
+            return h('span', {
+              style: {
+                cursor: 'pointer',
+                color: '#ff5722'
+              },
+              props: {
+                type: 'text'
+              },
+              on:{
+                click:()=>{
+                  this.$refs.userDetail.show(params.row.user_uuid);
+                }
+              }
+            }, params.row.user_mobile);
+          }
         }, {
           title: '支付宝账号',
           key: 'alipay',
@@ -69,13 +85,18 @@ export default {
             return h('span',status)
           }
         }, {
-          title: '申请金额',
+          title: '提现金额',
           key: 'money',
+          align: 'center'
+        },{
+          title: '申请秘币',
+          key: 'value',
           align: 'center'
         },{
           title: '申请时间',
           key: 'created_at',
-          align: 'center'
+          align: 'center',
+          width: '100'
         },{
           title: '操作',
           key: 'operation',
@@ -83,16 +104,6 @@ export default {
           width:250,
           render: (h, params) => {
             return h('div', [
-              h('Button', {
-                props: {
-                  type: 'text'
-                },
-                on:{
-                  click:()=>{
-                    this.$refs.userDetail.show(params.row.user_uuid);
-                  }
-                }
-              }, '查看信息'),
               h('Poptip', {
                 props:{
                   confirm: true,
